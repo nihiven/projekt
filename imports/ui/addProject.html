@@ -1,0 +1,38 @@
+<template name="addProject">
+  <form class="ui form">
+    <h4 class="ui dividing header">Create a Project</h4>
+    <div class="field">
+      <label>Project Info</label>
+      <div class="two fields">
+        <div class="field">
+          <input type="text" name="project" placeholder="Name">
+        </div>
+        <div class="field">
+          <input type="text" name="owner" placeholder="Business Owner">
+        </div>
+      </div>
+      <div class="field">
+        <textarea type="text" name="description" placeholder="Please enter a description of the project."></textarea>
+      </div>
+    </div>
+    <div class="field">
+      <label>Team Info</label>
+      <div class="two fields">
+        <div class="field">
+          <input type="text" name="pm" placeholder="Project Manager">
+        </div>
+        <div class="field">
+          <input type="text" name="dev" placeholder="Developers">
+        </div>
+      </div>
+      <div class="field">
+        <input type="text" name="tfs" placeholder="TFS Project">
+      </div>
+      <div class="ui toggle checkbox">
+        <input type="checkbox" name="regulatory" tabindex="0" class="hidden">
+        <label>Regulatory</label>
+      </div>
+    </div>
+    <div class="ui button" tabindex="0">Create Project</div>
+  </form>
+</template>
