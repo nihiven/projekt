@@ -5,9 +5,7 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 // import templates
 import '../../ui/mainLayout.html';
 import '../../ui/nav.js';
-import '../../ui/projectListing.js';
-import '../../ui/projectRow.js';
-import '../../ui/projectListCards.js';
+import '../../ui/projectList.js';
 
 
 // F L O W R O U T A
@@ -28,7 +26,7 @@ FlowRouter.route('/projects', {
     BlazeLayout.render(
     	"mainLayout", { 
     		nav: "nav",
-    		content: "projectListing"
+    		content: "projectList"
     	});
   }
 });
