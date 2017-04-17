@@ -3,4 +3,4 @@
 // import './register-api.js';
 
 // mongo list of projects
-import '/imports/api/projects.js';
+import '/imports/api/collections/projects.js';

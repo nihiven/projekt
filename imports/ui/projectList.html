@@ -3,9 +3,6 @@
 		{{#each listAllProjects}}
 			<div class="ui card">
 			  <a class="content">
-			  	{{#if isRegulatory}}
-			  		<a class="ui red right ribbon label">Regulatory</a>
-			  	{{/if}}
 			    <div class="header">{{name}}</div>
 			    <div class="meta">
 			      <span class="category">MIS</span>
@@ -16,6 +13,9 @@
 			      <p>Business Owner: {{business_owner}}</p>
 			      <p>Project Manager: {{project_manager}}</p>
 			    </div>
+					{{#if isRegulatory}}
+			  		<a class="ui red right ribbon label">Regulatory</a>
+			  	{{/if}}
 			  </a>
 			  <div class="extra content">
 					<div class="left floated favorite-icon">

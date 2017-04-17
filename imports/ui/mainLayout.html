@@ -1,8 +1,9 @@
 <template name="mainLayout">
 <div id="content">
+	{{> Template.dynamic template=nav}}
 	<div class="ui segment">
-  		{{> Template.dynamic template=nav}}
   		{{> Template.dynamic template=content}}
+  		{{> loginButtons}}
   	</div>
 </div>
   
