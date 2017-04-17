@@ -2,6 +2,13 @@ import { Template } from 'meteor/templating';
 
 import '../../imports/ui/userSettings.html';
 
+Template.userSettings.events({
+	'click form .submit'(event) {
+		console.log(event);
+	}
+});
+
+// form validation
 Template.userSettings.onRendered(function() {
 	$('.ui.form')
   .form({
