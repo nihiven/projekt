@@ -1,5 +1,5 @@
 <template name="nav">
-  <div class="ui secondary pointing menu">
+  <div class="ui pointing menu">
     <div class="header item">Projekt</div>
     <a class="item" href="/">Dashboard</a>
     <a class="item" href="/projects">Projects</a>
@@ -7,7 +7,28 @@
     <a class="item" href="/resources">Resources</a>
     <a class="item" href="/reports">Reports</a>
     <div class="right menu">
-      <a class="ui item">Logout</a>
+        {{#if currentUser}}
+          {{>loggedInMenu}}
+        {{else}}
+          {{>loggedOutMenu}}
+        {{/if}}
     </div>
   </div>
+</template>
+
+
+<template name="loggedInMenu">
+  <div class="ui dropdown text item">
+    {{currentUser.username}}
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item settings" href="/user/settings">Settings</a>
+      <a class="item logout" href="/user/logout">Logout</a>
+    </div>
+  </div>
+</template>
+
+<template name="loggedOutMenu">
+  <!-- TODO: login functions -->
+  <div class="ui item login">Login</div>
 </template>

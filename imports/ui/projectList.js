@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Projects } from '../../imports/api/projects.js';
+import { Projects } from '../../imports/api/collections/projects.js';
 
 import '../../imports/ui/stylesheets/projectList.less';
 import '../../imports/ui/projectList.html';
@@ -10,6 +10,7 @@ Template.projectList.events({
 	},
 	'click div .extra .heart'(event) {
 		console.log('clicked favorite icon');
+    
 	},
 	'click a.content'(event) {
 		console.log('clicked project card');
@@ -25,17 +26,10 @@ Template.projectList.helpers({
   },
   isFavorite() {
   	// TODO: implement
-  	return true;
+  	return false;
   },
   projectId() {
   	// TODO: remove
   	return this._id;
   }
 });
-
-// put in onCreated
-// this.state = new ReactiveDict();
-// this.state.setDefault({
-// editing: false,
-// editingTodo: false,
-// this.state.set('editing', false);

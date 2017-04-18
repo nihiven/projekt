@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import './nav.html';
+import '../../imports/ui/nav.html';
 
 Template.nav.onRendered(function() {
 	// make the current menu item active
@@ -15,4 +15,9 @@ Template.nav.events({
 		$('.menu a.active').removeClass('active');
 		$(event.target).addClass('active');
 	},
+});
+
+
+Template.loggedInMenu.onRendered(function() {
+	$('.ui.dropdown').dropdown();
 });
