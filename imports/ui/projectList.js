@@ -10,6 +10,7 @@ Template.projectList.events({
 	},
 	'click div .extra .heart'(event) {
 		console.log('clicked favorite icon');
+    
 	},
 	'click a.content'(event) {
 		console.log('clicked project card');

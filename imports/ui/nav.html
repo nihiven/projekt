@@ -18,10 +18,8 @@
 
 
 <template name="loggedInMenu">
-  <div class="ui dropdown item">
-    <div class="text">
-      {{currentUser.username}}
-    </div>
+  <div class="ui dropdown text item">
+    {{currentUser.username}}
     <i class="dropdown icon"></i>
     <div class="menu">
       <a class="item settings" href="/user/settings">Settings</a>
@@ -31,6 +29,6 @@
 </template>
 
 <template name="loggedOutMenu">
-  <!-- TODO: logout functions -->
+  <!-- TODO: login functions -->
   <div class="ui item login">Login</div>
 </template>

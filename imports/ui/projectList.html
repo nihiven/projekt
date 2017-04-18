@@ -18,6 +18,7 @@
 			  	{{/if}}
 			  </a>
 			  <div class="extra content">
+			  {{#if currentUser}}
 					<div class="left floated favorite-icon">
 						{{#if isFavorite}}
 							<i class="heart icon"></i>
@@ -28,6 +29,7 @@
 			    <div class="right floated settings-icon">
 	  					<i class="settings icon"></i>
 			    </div>
+        {{/if}}
 			  </div>
 			</div>
 		{{/each}}
