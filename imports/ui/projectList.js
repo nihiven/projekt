@@ -1,8 +1,16 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Projects } from '../../imports/api/collections/projects.js';
 
 import '../../imports/ui/stylesheets/projectList.less';
 import '../../imports/ui/projectList.html';
+
+
+Template.projectList.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('projects');
+  });
+});
 
 Template.projectList.events({
 	'click div .extra .settings'(event) {
@@ -18,7 +26,7 @@ Template.projectList.events({
 });
 
 Template.projectList.helpers({
-  listAllProjects() {
+  listAllProjects: function() {
     return Projects.find({});
   },
 	isRegulatory() {
