@@ -2,18 +2,20 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const Projects = new Mongo.Collection('projects');
-export { Projects as default };
+export const Favorites = new Mongo.Collection('favorites');
+export { Favorites as default };
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('projects', function() {
-    return Projects.find();
+  Meteor.publish('favorites', function(userId) {
+    check(userId, Number);
+
+    return Favorites.find({ owner: userId });
   });
 }
 
 Meteor.methods({
-  'projects.insert'(name) {
+  'favorites.insert'(name) {
     check(name, String);
 
     // user must be logged in
@@ -22,7 +24,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    Projects.insert({
+    Favorites.insert({
       name,
       creator: Meteor.userId(),
       createdAt: new Date(),

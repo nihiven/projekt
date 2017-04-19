@@ -1,43 +1,70 @@
+// core components
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { Projects } from '../../imports/api/collections/projects.js';
 
+// collections
+import { Projects } from '../../imports/api/collections/projects.js';
+import { Favorites } from '../../imports/api/collections/favorites.js';
+
+// templates
 import '../../imports/ui/stylesheets/projectList.less';
 import '../../imports/ui/projectList.html';
 
 
+// projectList
 Template.projectList.onCreated(function() {
   this.autorun(() => {
     this.subscribe('projects');
+    this.subscribe('favorites', Meteor.userId());
   });
 });
 
-Template.projectList.events({
-	'click div .extra .settings'(event) {
-		console.log('clicked settings icon');
-	},
-	'click div .extra .heart'(event) {
-		console.log('clicked favorite icon');
-    
-	},
-	'click a.content'(event) {
-		console.log('clicked project card');
-	},
-});
-
 Template.projectList.helpers({
-  listAllProjects: function() {
+  listAllProjects() {
     return Projects.find({});
   },
-	isRegulatory() {
-  	return (this.is_regulatory == 'Yes' ? true : false);
+});
+
+
+// projectCard
+Template.projectCard.onCreated(function() {
+  console.log(this);
+});
+
+Template.projectCard.events({
+  'click div .extra .settings'() {
+    console.log('clicked settings icon');
   },
-  isFavorite() {
-  	// TODO: implement
-  	return false;
+  'click div .extra .heart'() {
+    console.log('clicked favorite icon');
+    Favorites.insert(Meteor.userId(), this._id);
+    console.log(this);
   },
-  projectId() {
-  	// TODO: remove
-  	return this._id;
-  }
+  'click a.content'() {
+    console.log('clicked project card');
+  },
+});
+
+Template.projectCard.helpers({
+  isRegulatory() {
+    return (this.is_regulatory === 'Yes');
+  },
+  attributes() {
+ /*  count = function(projectId) {
+      return Favorites.find({projectId: projectId}).count();
+    }
+
+    result = "heart";
+    if (count(this._id) == 0) {
+      result = "empty heart";
+    }
+
+    return { class: result };
+    */
+    return {
+      name: 'myName',
+      class: 'myClass anotherClass',
+      value: 123,
+    };
+  },
 });
