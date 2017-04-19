@@ -10,24 +10,22 @@ if (Meteor.isServer) {
   Meteor.publish('favorites', function(userId) {
     check(userId, Number);
 
-    return Favorites.find({ owner: userId });
+    return Favorites.find({});
   });
 }
 
 Meteor.methods({
-  'favorites.insert'(name) {
-    check(name, String);
+  'favorites.insert'(projectId) {
+    check(projectId, Number);
 
     // user must be logged in
-    // TODO: user must be project admin
     if (!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
 
     Favorites.insert({
-      name,
-      creator: Meteor.userId(),
-      createdAt: new Date(),
+      projectId,
+      owner: Meteor.userId(),
     });
 
     console.log('created new project');

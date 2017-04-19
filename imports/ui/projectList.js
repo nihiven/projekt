@@ -37,7 +37,7 @@ Template.projectCard.events({
   },
   'click div .extra .heart'() {
     console.log('clicked favorite icon');
-    Favorites.insert(Meteor.userId(), this._id);
+    Favorites.insert(this._id);
     console.log(this);
   },
   'click a.content'() {
@@ -50,21 +50,17 @@ Template.projectCard.helpers({
     return (this.is_regulatory === 'Yes');
   },
   attributes() {
- /*  count = function(projectId) {
-      return Favorites.find({projectId: projectId}).count();
+    const count = function(projectId) {
+      return Favorites.find({ projectId }).count();
+    };
+
+    let result = 'heart icon';
+    if (count(this._id) === 0) {
+      result = 'empty heart icon';
     }
 
-    result = "heart";
-    if (count(this._id) == 0) {
-      result = "empty heart";
-    }
-
-    return { class: result };
-    */
     return {
-      name: 'myName',
-      class: 'myClass anotherClass',
-      value: 123,
+      class: result,
     };
   },
 });
