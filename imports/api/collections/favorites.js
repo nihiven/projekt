@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Match } from 'meteor/check';
 
 export const Favorites = new Mongo.Collection('favorites');
 export { Favorites as default };
@@ -8,15 +9,13 @@ export { Favorites as default };
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('favorites', function(userId) {
-    check(userId, Number);
-
     return Favorites.find({});
   });
 }
 
 Meteor.methods({
   'favorites.insert'(projectId) {
-    check(projectId, Number);
+    check(projectId, Match.Any); // TODO: use object match
 
     // user must be logged in
     if (!Meteor.userId()) {
@@ -27,7 +26,18 @@ Meteor.methods({
       projectId,
       owner: Meteor.userId(),
     });
+  },
+  'favorites.remove'(projectId) {
+    check(projectId, Match.Any); // TODO: use object match
 
-    console.log('created new project');
+    // user must be logged in
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Favorites.remove({
+      projectId,
+      owner: Meteor.userId(),
+    });
   },
 });

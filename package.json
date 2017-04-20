@@ -9,7 +9,6 @@
 	"eslintConfig": {
 		"extends": "@meteorjs/eslint-config-meteor",
 		"rules": {
-			"no-console":0,
 			"linebreak-style": ["error", "windows"]
 		}
 	},

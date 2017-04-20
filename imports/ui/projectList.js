@@ -28,7 +28,7 @@ Template.projectList.helpers({
 
 // projectCard
 Template.projectCard.onCreated(function() {
-  console.log(this);
+  // init semantic objects here
 });
 
 Template.projectCard.events({
@@ -36,9 +36,15 @@ Template.projectCard.events({
     console.log('clicked settings icon');
   },
   'click div .extra .heart'() {
-    console.log('clicked favorite icon');
-    Favorites.insert(this._id);
-    console.log(this);
+    const count = function(projectId) {
+      return Favorites.find({ projectId }).count();
+    };
+
+    if (count(this._id) === 0) {
+      Meteor.call('favorites.insert', this._id);
+    } else {
+      Meteor.call('favorites.remove', this._id);
+    }
   },
   'click a.content'() {
     console.log('clicked project card');
@@ -54,7 +60,7 @@ Template.projectCard.helpers({
       return Favorites.find({ projectId }).count();
     };
 
-    let result = 'heart icon';
+    let result = 'red heart icon';
     if (count(this._id) === 0) {
       result = 'empty heart icon';
     }
