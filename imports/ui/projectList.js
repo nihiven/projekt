@@ -23,6 +23,12 @@ Template.projectList.helpers({
   listAllProjects() {
     return Projects.find({});
   },
+  favoriteProjects() {
+    const favs = Favorites.find({ });
+    const projIds = favs.map(function(doc) { return doc.projectId; });
+    const projs = Projects.find({ _id: { $in: projIds } });
+    return projs;
+  },
 });
 
 
@@ -33,14 +39,15 @@ Template.projectCard.onCreated(function() {
 
 Template.projectCard.events({
   'click div .extra .settings'() {
-    console.log('clicked settings icon');
+    $(event.target).transition('pulse');
   },
-  'click div .extra .heart'() {
+  'click div .extra .heart'(event) {
     const count = function(projectId) {
       return Favorites.find({ projectId }).count();
     };
 
     if (count(this._id) === 0) {
+      $(event.target).transition('jiggle');
       Meteor.call('favorites.insert', this._id);
     } else {
       Meteor.call('favorites.remove', this._id);

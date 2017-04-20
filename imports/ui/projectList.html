@@ -1,8 +1,19 @@
 <template name="projectList">
-	<div class="ui four cards">
-		{{#each listAllProjects}}
-			{{>projectCard}}
-		{{/each}}
+	<div class="ui segment">
+		<div class="ui top attached big label">Projects</div>
+		<div class="ui four cards">
+			{{#each listAllProjects}}
+				{{>projectCard}}
+			{{/each}}
+		</div>
+	</div>
+	<div class="ui segment">
+		<div class="ui top attached big label">Your Favorite Projects</div>
+		<div class="ui four cards">
+			{{#each favoriteProjects}}
+				{{>projectCard}}
+			{{/each}}
+		</div>
 	</div>
 </template>
 
