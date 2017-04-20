@@ -11,60 +11,55 @@ import '../../ui/userSettings.js';
 
 // F L O W R O U T A
 FlowRouter.route('/', {
-  action: function() {
-  	name: "Home",
-    BlazeLayout.render(
-    	"mainLayout", { 
-    		nav: "nav",
-    		content: "dashboard"
-    	});
-  }
+  name: 'Home',
+  action() {
+    BlazeLayout.render('mainLayout', { nav: 'nav', content: 'dashboard' });
+  },
 });
 
 // P R O J E C T S
 FlowRouter.route('/projects', {
-  action: function() {
-  	name: "Project.dashboard",
+  name: 'Project.dashboard',
+  action() {
     BlazeLayout.render(
-    	"mainLayout", { 
-    		nav: "nav",
-    		content: "projectList"
-    	});
-  }
+      'mainLayout', {
+        nav: 'nav',
+        content: 'projectList',
+      });
+  },
 });
 
 FlowRouter.route('/projects/:_id', {
-  action: function() {
-    name: "Project.list",
+  name: 'Project.list',
+  action() {
     BlazeLayout.render(
-      "mainLayout", { 
-        nav: "nav",
-        content: "projectList"
+      'mainLayout', {
+        nav: 'nav',
+        content: 'projectList',
       });
-  }
+  },
 });
 
 
-// U S E R 
+// U S E R
 FlowRouter.route('/user/settings', {
-  action: function() {
-    name: "User.settings",
+  name: 'User.settings',
+  action() {
     BlazeLayout.render(
-      "mainLayout", { 
-        nav: "nav",
-        content: "userSettings"
+      'mainLayout', {
+        nav: 'nav',
+        content: 'userSettings',
       });
-  }
+  },
 });
-
 
 
 // not found
 FlowRouter.notFound = {
-  action: function() {
+  action() {
     BlazeLayout.render('mainLayout', {
-      nav: "nav",
-      content: "pageNotFound"
+      nav: 'nav',
+      content: 'pageNotFound',
     });
-  }
+  },
 };

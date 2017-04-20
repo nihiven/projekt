@@ -4,3 +4,4 @@
 
 // mongo list of projects
 import '/imports/api/collections/projects.js';
+import '/imports/api/collections/favorites.js';

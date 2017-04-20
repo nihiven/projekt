@@ -1,43 +1,72 @@
+// core components
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { Projects } from '../../imports/api/collections/projects.js';
 
+// collections
+import { Projects } from '../../imports/api/collections/projects.js';
+import { Favorites } from '../../imports/api/collections/favorites.js';
+
+// templates
 import '../../imports/ui/stylesheets/projectList.less';
 import '../../imports/ui/projectList.html';
 
 
+// projectList
 Template.projectList.onCreated(function() {
   this.autorun(() => {
     this.subscribe('projects');
+    this.subscribe('favorites', Meteor.userId());
   });
 });
 
-Template.projectList.events({
-	'click div .extra .settings'(event) {
-		console.log('clicked settings icon');
-	},
-	'click div .extra .heart'(event) {
-		console.log('clicked favorite icon');
-    
-	},
-	'click a.content'(event) {
-		console.log('clicked project card');
-	},
-});
-
 Template.projectList.helpers({
-  listAllProjects: function() {
+  listAllProjects() {
     return Projects.find({});
   },
-	isRegulatory() {
-  	return (this.is_regulatory == 'Yes' ? true : false);
+});
+
+
+// projectCard
+Template.projectCard.onCreated(function() {
+  // init semantic objects here
+});
+
+Template.projectCard.events({
+  'click div .extra .settings'() {
+    console.log('clicked settings icon');
   },
-  isFavorite() {
-  	// TODO: implement
-  	return false;
+  'click div .extra .heart'() {
+    const count = function(projectId) {
+      return Favorites.find({ projectId }).count();
+    };
+
+    if (count(this._id) === 0) {
+      Meteor.call('favorites.insert', this._id);
+    } else {
+      Meteor.call('favorites.remove', this._id);
+    }
   },
-  projectId() {
-  	// TODO: remove
-  	return this._id;
-  }
+  'click a.content'() {
+    console.log('clicked project card');
+  },
+});
+
+Template.projectCard.helpers({
+  isRegulatory() {
+    return (this.is_regulatory === 'Yes');
+  },
+  attributes() {
+    const count = function(projectId) {
+      return Favorites.find({ projectId }).count();
+    };
+
+    let result = 'red heart icon';
+    if (count(this._id) === 0) {
+      result = 'empty heart icon';
+    }
+
+    return {
+      class: result,
+    };
+  },
 });
