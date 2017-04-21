@@ -1,8 +1,7 @@
-/* eslint-env jquery */
-
 // core components
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { ReactiveDict } from 'meteor/reactive-dict';
 
 // collections
 import { Projects } from '../../imports/api/collections/projects.js';
@@ -14,18 +13,17 @@ import '../../imports/ui/projectList.html';
 
 
 // projectList
-Template.projectList.onCreated(function() {
+Template.projectFavorites.onCreated(function() {
   this.autorun(() => {
+    this.state = new ReactiveDict();
+
     this.subscribe('projects');
     this.subscribe('favorites', Meteor.userId());
   });
 });
 
-Template.projectList.helpers({
-  listAllProjects() {
-    return Projects.find({});
-  },
-  favoriteProjects() {
+Template.projectFavorites.helpers({
+  listFavoriteProjects() {
     const favs = Favorites.find({ });
     const projIds = favs.map(function(doc) { return doc.projectId; });
     const projs = Projects.find({ _id: { $in: projIds } });
@@ -35,32 +33,14 @@ Template.projectList.helpers({
 
 
 // projectCard
-Template.projectCard.onCreated(function() {
+Template.projectFavorites.onCreated(function() {
   // init semantic objects here
 });
 
-Template.projectCard.events({
-  'click div .extra .settings'() {
-    $(event.target).transition('pulse');
-  },
-  'click div .extra .heart'(event) {
-    const count = function(projectId) {
-      return Favorites.find({ projectId }).count();
-    };
-
-    if (count(this._id) === 0) {
-      $(event.target).transition('jiggle');
-      Meteor.call('favorites.insert', this._id);
-    } else {
-      Meteor.call('favorites.remove', this._id);
-    }
-  },
-  'click a.content'() {
-    console.log('clicked project card');
-  },
+Template.projectFavorites.events({
 });
 
-Template.projectCard.helpers({
+Template.projectFavoriteCard.helpers({
   isRegulatory() {
     return (this.is_regulatory === 'Yes');
   },

@@ -1,0 +1,12 @@
+{
+  "plugins": ["meteor"],
+  "extends": ["plugin:meteor/recommended"],
+  "rules": {
+    "linebreak-style": ["error", "windows"],
+    "scope-dom-lookups": 1
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}

@@ -5,28 +5,9 @@ import { check, Match } from 'meteor/check';
 export const Favorites = new Mongo.Collection('favorites');
 export { Favorites as default };
 
-if (Meteor.isServer) {
-  // This code only runs on the server
-
+if (Meteor.isServer) { // This code only runs on the server
   Meteor.publish('favorites', function() {
     return Favorites.find();
-  });
-
-  Meteor.publish('favoriteProjects', function(userId) { // eslint-disable-line
-    return Favorites.aggregate([{
-      $match: {
-        owner: userId,
-      },
-    },
-    {
-      $lookup: {
-        from: 'projects',
-        localField: 'projectId',
-        foreignField: '_id',
-        as: 'favorite_projects',
-      },
-    },
-    ]);
   });
 }
 
@@ -56,6 +37,9 @@ Meteor.methods({
       projectId,
       owner: Meteor.userId(),
     });
+  },
+  'favorites.reset'() {
+    Favorites.remove({});
   },
 });
 
