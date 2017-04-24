@@ -42,11 +42,11 @@ Template.loggedInMenu.events({
     FlowRouter.go('/user/settings');
   },
   'click .signout-icon'() {
-    $('.ui.basic.modal').modal('show');
+    $('.ui.small.modal').modal('show');
   },
 });
 Template.logoutModal.onRendered(function() {
-  $('.ui.modal').modal({
+  $('.modal').modal({
     onApprove : function() {
       Meteor.logout(function() {
         console.log('logged out');
