@@ -1,34 +1,61 @@
 <template name="nav">
-  <div class="ui pointing menu">
+  <div class="ui menu">
     <div class="header item">Projekt</div>
     <a class="item" href="/">Dashboard</a>
-    <a class="item" href="/projects">Projects</a>
+    <a class="projects item" href="/projects">
+      Projects
+      <i class="dropdown icon"></i>
+    </a>
     <a class="item" href="/tasks">Tasks</a>
     <a class="item" href="/resources">Resources</a>
     <a class="item" href="/reports">Reports</a>
+    <a class="item" href="/test/data">Test Data</a>
     <div class="right menu">
-        {{#if currentUser}}
-          {{>loggedInMenu}}
-        {{else}}
-          {{>loggedOutMenu}}
-        {{/if}}
+      {{#if currentUser}}
+        {{>loggedInMenu}}
+      {{else}}
+        {{>loggedOutMenu}}
+      {{/if}}
     </div>
   </div>
+  {{> logoutModal}}
 </template>
 
 
 <template name="loggedInMenu">
-  <div class="ui dropdown text item">
-    {{currentUser.username}}
-    <i class="dropdown icon"></i>
-    <div class="menu">
-      <a class="item settings" href="/user/settings">Settings</a>
-      <a class="item logout" href="/user/logout">Logout</a>
+  <div class="ui text item">
+    <i class="circular inbox icon inbox-icon"></i>
+    <i class="circular heart icon favorite-icon"></i>
+    <i class="circular settings icon settings-icon"></i>
+    <div class="login-button">
+      <i class="circular remove icon signout-icon" id="login-buttons-logout"></i>
     </div>
   </div>
 </template>
 
 <template name="loggedOutMenu">
   <!-- TODO: login functions -->
-  <div class="ui item login">Login</div>
+  <a class="ui item login" href="/user/login">Login</a>
+</template>
+
+<template name="logoutModal">
+<div class="ui small basic modal">
+  <div class="ui icon header">
+    <i class="sign out icon"></i>
+    Logout
+  </div>
+  <div class="content">
+    <p>Would you like to logout?</p>
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </div>
+  </div>
+</div>
 </template>

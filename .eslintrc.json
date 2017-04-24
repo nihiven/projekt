@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "plugins": ["meteor"],
+    "extends": ["plugin:meteor/recommended"],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            "error",
+            2
+        ],
+        "no-console": 1,
+        "eol-last": 2,
+        "comma-dangle": [
+          "error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "never",
+            "exports": "always-multiline",
+            "functions": "always-multiline"
+          }
+        ],
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}

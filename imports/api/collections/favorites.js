@@ -1,15 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
-import { Match } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 
 export const Favorites = new Mongo.Collection('favorites');
 export { Favorites as default };
 
-if (Meteor.isServer) {
-  // This code only runs on the server
-  Meteor.publish('favorites', function(userId) {
-    return Favorites.find({});
+if (Meteor.isServer) { // This code only runs on the server
+  Meteor.publish('favorites', function() {
+    return Favorites.find();
   });
 }
 
@@ -40,4 +38,8 @@ Meteor.methods({
       owner: Meteor.userId(),
     });
   },
+  'favorites.reset'() {
+    Favorites.remove({});
+  },
 });
+

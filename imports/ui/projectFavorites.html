@@ -1,17 +1,22 @@
-<template name="projectList">
-	<div class="ui big top attached label">
-		Projects
-	</div>
-	
-	<div class="ui three cards">
-		{{#each listAllProjects}}
-			{{>projectCard}}
-		{{/each}}
-	</div>
+<!--
+		<div class="ui top attached big label">Your Favorite Projects</div>
+		<div class="ui four cards">
+			{{#each favoriteProjects}}
+				{{>projectCard}}
+			{{/each}}
+		</div>
+	-->
+
+<template name="projectFavorites">
+		<div class="ui top attached big label">Your Favorite Projects</div>
+		<div class="ui three cards">
+			{{#each listFavoriteProjects}}
+				{{>projectCard}}
+			{{/each}}
+		</div>
 </template>
 
-<!-- TODO: fix alignment of card elements, story fixed height -->
-<template name="projectCard">
+<template name="projectFavoriteCard">
 	<div class="ui card">
 	  <a class="content">
 	    <div class="header">{{name}}</div>

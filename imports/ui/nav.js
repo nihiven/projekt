@@ -3,6 +3,8 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
+// templates
+import '../../imports/ui/stylesheets/nav.less';
 import '../../imports/ui/nav.html';
 
 Template.nav.onRendered(function() {
@@ -19,7 +21,36 @@ Template.nav.events({
   },
 });
 
-
 Template.loggedInMenu.onRendered(function() {
   $('.ui.dropdown').dropdown();
+});
+
+Template.loggedInMenu.events({
+  'click [class$="-icon"]'(event) {
+    $(event.target).transition({
+      animation: 'pulse',
+      duration: '250ms',
+    });
+  },
+  'click .inbox-icon'() {
+    FlowRouter.go('/messages/inbox');
+  },
+  'click .settings-icon'() {
+    FlowRouter.go('/project/favorites');
+  },
+  'click .settings-icon'() {
+    FlowRouter.go('/user/settings');
+  },
+  'click .signout-icon'() {
+    $('.ui.basic.modal').modal('show');
+  },
+});
+Template.logoutModal.onRendered(function() {
+  $('.ui.modal').modal({
+    onApprove : function() {
+      Meteor.logout(function() {
+        console.log('logged out');
+      });
+    },
+  });
 });
