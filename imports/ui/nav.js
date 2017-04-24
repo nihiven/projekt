@@ -16,7 +16,7 @@ Template.nav.onRendered(function() {
 Template.nav.events({
   'click .menu a.item'(event) {
     // highlight menu item when clicked
-    $(".menu a.active").removeClass('active');
+    $('.menu a.active').removeClass('active');
     $(event.target).addClass('active');
   },
 });
@@ -26,11 +26,31 @@ Template.loggedInMenu.onRendered(function() {
 });
 
 Template.loggedInMenu.events({
-  'click [name$="-icon"]'(event) {
-    console.log(event.target);
+  'click [class$="-icon"]'(event) {
     $(event.target).transition({
       animation: 'pulse',
       duration: '250ms',
     });
   },
+  'click .inbox-icon'() {
+    FlowRouter.go('/messages/inbox');
+  },
+  'click .settings-icon'() {
+    FlowRouter.go('/project/favorites');
+  },
+  'click .settings-icon'() {
+    FlowRouter.go('/user/settings');
+  },
+  'click .signout-icon'() {
+    $('.ui.basic.modal').modal('show');
+  },
+});
+Template.logoutModal.onRendered(function() {
+  $('.ui.modal').modal({
+    onApprove : function() {
+      Meteor.logout(function() {
+        console.log('logged out');
+      });
+    },
+  });
 });

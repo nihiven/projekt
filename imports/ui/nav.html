@@ -18,28 +18,44 @@
       {{/if}}
     </div>
   </div>
+  {{> logoutModal}}
 </template>
 
 
 <template name="loggedInMenu">
-  <!--<div class="ui dropdown text item">
-    {{currentUser.username}}
-    <i class="dropdown icon"></i>
-    <div class="menu">
-      TODO: fix size to match parent, dropdown too small
-      <a class="item settings" href="/user/settings">Settings</a>
-      <a class="item logout" href="/user/logout">Logout</a>
-    </div>
-  </div>-->
   <div class="ui text item">
-    <i class="inbox icon inbox-icon"></i>&nbsp;
-    <i class="heart icon favorite-icon"></i>&nbsp;
-    <i class="settings icon settings-icon"></i>&nbsp;
-    <i class="sign out icon signout-icon"></i>
+    <i class="circular inbox icon inbox-icon"></i>
+    <i class="circular heart icon favorite-icon"></i>
+    <i class="circular settings icon settings-icon"></i>
+    <div class="login-button">
+      <i class="circular remove icon signout-icon" id="login-buttons-logout"></i>
+    </div>
   </div>
 </template>
 
 <template name="loggedOutMenu">
   <!-- TODO: login functions -->
-  <div class="ui item login">Login</div>
+  <a class="ui item login" href="/user/login">Login</a>
+</template>
+
+<template name="logoutModal">
+<div class="ui small basic modal">
+  <div class="ui icon header">
+    <i class="sign out icon"></i>
+    Logout
+  </div>
+  <div class="content">
+    <p>Would you like to logout?</p>
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </div>
+  </div>
+</div>
 </template>
