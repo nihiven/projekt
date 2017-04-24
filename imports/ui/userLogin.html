@@ -1,0 +1,23 @@
+<template name="userLogin">
+  <div class="ui big top attached label">Login</div>
+  <div class="ui two column centered grid">
+    <div class="column">{{>loginForm}}</div>
+  </div>
+
+  {{> atForm state='signUp'}}
+</template>
+
+<template name="loginForm">
+	<form class="ui segment login form">
+    <div class="field">
+      <label>Username</label>
+      <input placeholder="Username" name="username" type="text">
+    </div>
+    <div class="field">
+			<label>Password</label>
+      <input class="ui fluid" placeholder="k@hj4UlD*9#h1k3kjlr" name="password" type="password">
+    </div>
+	  <div class="ui primary submit button">Login</div>
+	  <div class="ui error message"></div>
+	</form>
+</template>
