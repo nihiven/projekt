@@ -25,7 +25,6 @@ accounts-ui
 semantic:ui
 less
 jquery
-useraccounts:unstyled
-zimme:active-route
 useraccounts:flow-routing
 arillo:flow-router-helpers
+useraccounts:semantic-ui

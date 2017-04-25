@@ -1,4 +1,12 @@
 <template name="userSettings">
+	{{#if currentUser}}
+		{{> settingsForm }}
+	{{ else }}
+		You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.
+	{{/if}}
+</template>
+
+<template name="settingsForm">
 	<form class="ui form segment" action="/user/settings/update" method="POST">
 		<div class="fields">
 	    <div class="four wide field">

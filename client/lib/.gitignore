@@ -2,3 +2,4 @@ definitions
 site
 themes
 *.less
+.custom.semantic.json

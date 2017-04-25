@@ -1,12 +1,12 @@
 <template name="nav">
   <div class="ui menu">
     <div class="header item">Projekt</div>
-    <a class="{{isActiveRoute 'Root'}} item" href="{{pathFor '/'}}">Dashboard</a>
-    <a class="{{isActiveRoute 'Project.root'}} item" href="{{pathFor '/projects'}}">Projects</a>
-    <a class="{{isActiveRoute 'Project.tasks'}} item" href="{{pathFor '/tasks'}}">Tasks</a>
-    <a class="{{isActiveRoute 'Project.resources'}} item" href="{{pathFor '/resources'}}">Resources</a>
-    <a class="{{isActiveRoute 'Project.reports'}} item" href="{{pathFor '/reports'}}">Reports</a>
-    <a class="{{isActiveRoute 'Test.data'}} item" href="{{pathFor '/test/data'}}">Test Data</a>
+    <a class="item" href="{{pathFor '/'}}">Dashboard</a>
+    <a class="item" href="{{pathFor '/projects'}}">Projects</a>
+    <a class="item" href="{{pathFor '/tasks'}}">Tasks</a>
+    <a class="item" href="{{pathFor '/resources'}}">Resources</a>
+    <a class="item" href="{{pathFor '/reports'}}">Reports</a>
+    <a class="item" href="{{pathFor '/test/data'}}">Test Data</a>
     <div class="right menu">
       {{#if currentUser}}
         {{>loggedInMenu}}
@@ -33,7 +33,7 @@
 
 <template name="loggedOutMenu">
   <!-- TODO: login functions -->
-  <a class="ui item login" href="/user/login">Login</a>
+  <a class="ui item login" href="{{pathFor '/sign-in'}}">Sign In</a>
 </template>
 
 <template name="logoutModal">
