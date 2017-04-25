@@ -6,6 +6,7 @@ import '../../imports/ui/userSettings.html';
 
 Template.settingsForm.onRendered(function() {
   $('.ui.form').form({
+    // callbacks
     onSuccess(event) {
       // stop form from submitting
       event.preventDefault();
@@ -15,6 +16,10 @@ Template.settingsForm.onRendered(function() {
 
       // update user info, data validation is done in the method
     },
+
+    // form validation settings
+    inline: true,
+    on: 'blur',
     fields: {
       name: {
         identifier: 'display-name',
