@@ -1,5 +1,5 @@
 /* eslint-env jquery */
-import { projekt } from 'meteor/projekt';
+import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
 
 import '../../imports/ui/userSettings.html';
@@ -11,12 +11,13 @@ Template.settingsForm.onRendered(function() {
       // stop form from submitting
       event.preventDefault();
 
-      // show account updated message
-      $('.positive.message').transition(projekt.messageTransition);
-
       // update user info, data validation is done in the method
-    },
+    //  Meteor.users.update(userId, { $set: { mailingAddress: newMailingAddress } });
 
+      // show account updated message
+      // put this in a callback from the update method
+      $('.positive.message').transition(projekt.messageTransition);
+    },
     // form validation settings
     inline: true,
     on: 'blur',
@@ -56,6 +57,8 @@ Template.settingsForm.onRendered(function() {
 // close the account updated message
 Template.settingsForm.events({
   'click .positive.message'() {
+    // TODO: figure this out
+    console.log(projekt.getDefault(Meteor.user.settings.displayName,'displayName'));
     $('.positive.message').transition(projekt.messageTransition);
   },
 });
