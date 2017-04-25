@@ -1,15 +1,12 @@
 <template name="nav">
   <div class="ui menu">
     <div class="header item">Projekt</div>
-    <a class="item" href="/">Dashboard</a>
-    <a class="projects item" href="/projects">
-      Projects
-      <i class="dropdown icon"></i>
-    </a>
-    <a class="item" href="/tasks">Tasks</a>
-    <a class="item" href="/resources">Resources</a>
-    <a class="item" href="/reports">Reports</a>
-    <a class="item" href="/test/data">Test Data</a>
+    <a class="item" href="{{pathFor '/'}}">Dashboard</a>
+    <a class="item" href="{{pathFor '/projects'}}">Projects</a>
+    <a class="item" href="{{pathFor '/tasks'}}">Tasks</a>
+    <a class="item" href="{{pathFor '/resources'}}">Resources</a>
+    <a class="item" href="{{pathFor '/reports'}}">Reports</a>
+    <a class="item" href="{{pathFor '/test/data'}}">Test Data</a>
     <div class="right menu">
       {{#if currentUser}}
         {{>loggedInMenu}}
@@ -23,7 +20,8 @@
 
 
 <template name="loggedInMenu">
-  <div class="ui text item">
+  <!-- TODO: menu height is off because of these icons -->
+  <div class="ui item">
     <i class="circular inbox icon inbox-icon"></i>
     <i class="circular heart icon favorite-icon"></i>
     <i class="circular settings icon settings-icon"></i>
@@ -35,7 +33,7 @@
 
 <template name="loggedOutMenu">
   <!-- TODO: login functions -->
-  <a class="ui item login" href="/user/login">Login</a>
+  <a class="ui item login" href="{{pathFor '/sign-in'}}">Sign In</a>
 </template>
 
 <template name="logoutModal">
@@ -46,10 +44,7 @@
     </div>
     <div class="actions">
       <div class="ui negative button">No</div>
-      <div class="ui positive right labeled icon button">
-        Yes
-        <i class="checkmark icon"></i>
-      </div>
+      <div class="ui positive button">Yes</div>
     </div>
   </div>
 </template>

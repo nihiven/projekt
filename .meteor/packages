@@ -25,3 +25,7 @@ accounts-ui
 semantic:ui
 less
 jquery
+useraccounts:flow-routing
+arillo:flow-router-helpers
+useraccounts:semantic-ui
+projekt

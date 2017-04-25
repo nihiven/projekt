@@ -29,7 +29,7 @@ Template.loggedInMenu.events({
   'click [class$="-icon"]'(event) {
     $(event.target).transition({
       animation: 'pulse',
-      duration: '250ms',
+      duration: '200ms',
     });
   },
   'click .inbox-icon'() {
@@ -47,8 +47,10 @@ Template.loggedInMenu.events({
 });
 Template.logoutModal.onRendered(function() {
   $('.modal').modal({
-    onApprove : function() {
-      Meteor.logout(function() {
+    transition: 'fade',
+    duration: '100',
+    onApprove: function() {
+      Accounts.logout(function() {
         console.log('logged out');
       });
     },

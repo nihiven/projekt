@@ -10,6 +10,22 @@
         "sourceType": "module"
     },
     "rules": {
+        "spaced-comment": [
+          "error",
+          "always",
+          { "exceptions": ["-", "+"] }
+        ],
+        "no-multiple-empty-lines": [
+          "error",
+          {
+            "max": 2,
+            "maxBOF": 1
+          }
+        ],
+        "key-spacing": [
+          "error",
+          { "beforeColon": false }
+        ],
         "object-curly-newline": [
           "error",
           { "multiline": true }

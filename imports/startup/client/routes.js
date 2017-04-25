@@ -1,17 +1,18 @@
+
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
-
 
 // import templates
 import '../../ui/mainLayout.html';
 import '../../ui/nav.js';
 import '../../ui/projectList.js';
 import '../../ui/userSettings.js';
+import '../../ui/userLogin.js';
 import '../../ui/testData.js';
 
 // F L O W R O U T A
 FlowRouter.route('/', {
-  name: 'Home',
+  name: 'Root',
   action() {
     BlazeLayout.render('mainLayout', { nav: 'nav', content: 'dashboard' });
   },
@@ -19,7 +20,7 @@ FlowRouter.route('/', {
 
 // P R O J E C T S
 FlowRouter.route('/projects', {
-  name: 'Project.dashboard',
+  name: 'Project.root',
   action() {
     BlazeLayout.render(
       'mainLayout', {
@@ -63,6 +64,17 @@ FlowRouter.route('/user/settings', {
   },
 });
 
+FlowRouter.route('/user/login', {
+  name: 'User.login',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'userLogin',
+      });
+  },
+});
+
 // test
 FlowRouter.route('/test/data', {
   name: 'Test.data',
@@ -84,3 +96,9 @@ FlowRouter.notFound = {
     });
   },
 };
+
+AccountsTemplates.configureRoute('changePwd');
+AccountsTemplates.configureRoute('forgotPwd');
+AccountsTemplates.configureRoute('resetPwd');
+AccountsTemplates.configureRoute('signIn');
+AccountsTemplates.configureRoute('signUp');
