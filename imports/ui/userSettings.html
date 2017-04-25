@@ -7,7 +7,7 @@
 </template>
 
 <template name="settingsForm">
-	<form class="ui form segment" action="/user/settings/update" method="POST">
+	<form class="ui form">
 		<div class="fields">
 	    <div class="four wide field">
 	      <label>Display Name</label>
@@ -27,10 +27,14 @@
 	  <div class="fields">
 	  	<div class="six wide field">
 				<label>Office Location</label>
-	      <input placeholder="Heinz 57 Tower, Pittsburgh, Pa" name="office-location" type="text">
+	      <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="office-location" type="text">
 	    </div>
 	  </div>
 	  <div class="ui primary submit button">Update</div>
 	  <div class="ui error message"></div>
+		<div class="ui positive message transition hidden">
+			<i class="close icon"></i>
+			Account updated.
+		</div>
 	</form>
 </template>
