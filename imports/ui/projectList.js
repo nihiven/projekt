@@ -48,6 +48,8 @@ Template.projectCard.events({
       return Favorites.find({ projectId }).count();
     };
 
+    // TODO: does there need to be something more here?
+    // only checking for empty, maybe it's enough
     if (count(this._id) === 0) {
       $(event.target).transition('jiggle');
       Meteor.call('favorites.insert', this._id);
@@ -74,8 +76,6 @@ Template.projectCard.helpers({
       result = 'empty heart icon';
     }
 
-    return {
-      class: result,
-    };
+    return { class: result };
   },
 });

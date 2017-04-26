@@ -1,7 +1,5 @@
-// This defines all the collections, publications and methods that the application provides
-// as an API to the client.
-// import './register-api.js';
-
-// mongo list of projects
+// mongo collections
 import '/imports/api/collections/projects.js';
 import '/imports/api/collections/favorites.js';
+import '/imports/api/collections/users.js';
+import './accounts_config.js';

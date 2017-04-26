@@ -2,7 +2,15 @@
 import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
 
+
 import '../../imports/ui/userSettings.html';
+
+// subscribe to published user lists
+Template.settingsForm.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('user.settings');
+  });
+});
 
 Template.settingsForm.onRendered(function() {
   $('.ui.form').form({
@@ -19,8 +27,6 @@ Template.settingsForm.onRendered(function() {
       $('.positive.message').transition(projekt.messageTransition);
     },
     // form validation settings
-    inline: true,
-    on: 'blur',
     fields: {
       name: {
         identifier: 'display-name',
@@ -56,9 +62,18 @@ Template.settingsForm.onRendered(function() {
 
 // close the account updated message
 Template.settingsForm.events({
+  'click .form'() {
+    console.log(Meteor.users.find());
+
+    // console.log(user.getProp());
+  },
   'click .positive.message'() {
-    // TODO: figure this out
-    console.log(projekt.getDefault(Meteor.user.settings.displayName,'displayName'));
     $('.positive.message').transition(projekt.messageTransition);
+  },
+});
+
+Template.settingsForm.helpers({
+  userSettings() {
+    return Meteor.users.findOne({ _id: Meteor.userId });
   },
 });

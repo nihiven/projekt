@@ -1,34 +1,32 @@
 <template name="userSettings">
-	{{#if currentUser}}
-		{{> settingsForm }}
-	{{ else }}
-		You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.
-	{{/if}}
+	<div class="ui two column centered grid">
+		<div class="column">
+			{{#if currentUser}}
+				{{> settingsForm }}
+			{{ else }}
+				You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.
+			{{/if}}
+		</div>
+	</div>
 </template>
 
 <template name="settingsForm">
-	<form class="ui form">
-		<div class="fields">
-	    <div class="four wide field">
+	<form class="ui segment form">
+		<div class="field">
 	      <label>Display Name</label>
 	      <input placeholder="Display Name" name="display-name" type="text">
-	    </div>
 	  </div>
-	  <div class="fields">
-	    <div class="four wide field">
+	  <div class="field">
 				<label>Public Email</label>
 	      <input placeholder="user@ccbh.com" name="public-email" type="text">
-	    </div>
-			<div class="four wide field">
-				<label>Office Phone</label>
-	      <input placeholder="444-555-000" name="office-phone" type="text">
-	    </div>
-	  </div>
-	  <div class="fields">
-	  	<div class="six wide field">
-				<label>Office Location</label>
-	      <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="office-location" type="text">
-	    </div>
+		</div>
+		<div class="field">
+			<label>Office Phone</label>
+      <input placeholder="444-555-000" name="office-phone" type="text">
+    </div>
+	  <div class="field">
+			<label>Office Location</label>
+      <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="office-location" type="text">
 	  </div>
 	  <div class="ui primary submit button">Update</div>
 	  <div class="ui error message"></div>
