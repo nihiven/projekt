@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 
+// imports from npm package
 import SimpleSchema from 'simpl-schema';
 
 // exports
@@ -57,9 +58,8 @@ Profiles.schema = new SimpleSchema({
   },
 });
 
-// every time we call Lists.insert(), update(), upsert(),
-// our document will be automatically checked against the schema
-// TODO: function doesn't exist?
+// all calls to Profiles.insert(), update(), upsert(),
+// will be automatically be checked against the schema
 Profiles.attachSchema(Profiles.schema);
 
 // TODO: here is an exmaple of including a collection subset
@@ -84,3 +84,20 @@ Meteor.publish('user.settings',(userId)=> {
     { fields: { '_id': 1, 'displayName': 1, 'publicEmail': 1, 'officeLocation': 1, 'officePhone': 1 } });
 });
 */
+
+Meteor.methods({
+  'profiles.upsert'(userId, name, email, officeLocation, officePhone) {
+    check(profile, Match.Any);
+
+    // user must be logged in
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Favorites.upsert({
+      userId,
+      projectId,
+      lastLogin: Meteor.userId(),
+    });
+  },
+});

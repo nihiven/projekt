@@ -12,7 +12,7 @@ Template.settingsForm.onCreated(function() {
   });
 });
 
-Template.settingsForm.onRendered(function() {
+Template.settingsForm.onRendered(function(event, instance) {
   $('.ui.form').form({
     // callbacks
     onSuccess(event) {
@@ -20,7 +20,7 @@ Template.settingsForm.onRendered(function() {
       event.preventDefault();
 
       // update user info, data validation is done in the method
-    //  Meteor.users.update(userId, { $set: { mailingAddress: newMailingAddress } });
+      //  Meteor.users.update(userId, { $set: { mailingAddress: newMailingAddress } });
 
       // show account updated message
       // put this in a callback from the update method
