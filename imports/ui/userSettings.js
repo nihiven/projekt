@@ -1,9 +1,9 @@
-/* eslint-env jquery */
 import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 
 
-import '../../imports/ui/userSettings.html';
+import '/imports/ui/userSettings.html';
 
 // subscribe to published user lists
 Template.settingsForm.onCreated(function() {
@@ -18,13 +18,34 @@ Template.settingsForm.onRendered(function() {
     onSuccess(event) {
       // stop form from submitting
       event.preventDefault();
-
+      console.log(this);
+      console.log(event);
+      console.log(this.displayName.data);
       // update user info, data validation is done in the method
-      //  Meteor.users.update(userId, { $set: { mailingAddress: newMailingAddress } });
+      profileData = {
+        userId: Meteor.userId(),
+        displayName: this.displayName,
+        publicEmail: this.publicEmail,
+        officePhone: this.officePhone,
+        officeLocation: this.officeLocation,
+      };
 
-      // show account updated message
-      // put this in a callback from the update method
-      $('.positive.message').transition(projekt.messageTransition);
+      // call the server side upsert method
+      Meteor.call('profiles.upsert', profileData, (err, res) => {
+        if (err) {
+          console.log(err.message);
+          console.log(err.details);
+          $('.error.message').text(err.message);
+          $('.error.message').show();
+
+          return false;
+        } else {
+          $('.error.message').hide();
+          $('.positive.message').transition(projekt.messageTransition);
+
+          return true;
+        };
+      }); // call
     },
     // form validation settings
     fields: {
@@ -39,7 +60,7 @@ Template.settingsForm.onRendered(function() {
         identifier: 'public-email',
         rules: [{
           type: 'minLength[5]',
-          prompt: 'Your email must be at least {ruleValue} characters.',
+          prompt: 'Your email address must be at least {ruleValue} characters.',
         }],
       },
       phone: {
@@ -56,17 +77,12 @@ Template.settingsForm.onRendered(function() {
           prompt: 'Please enter your office location.',
         }],
       },
-    },
-  });
+    }, // fields
+  }); // $('.ui.form')
 });
 
 // close the account updated message
 Template.settingsForm.events({
-  'click .form'() {
-    console.log(Meteor.users.find());
-
-    // console.log(user.getProp());
-  },
   'click .positive.message'() {
     $('.positive.message').transition(projekt.messageTransition);
   },

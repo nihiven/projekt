@@ -1,6 +1,6 @@
 // TODO: maybe rename this file to user config
 import { projekt, defaults } from 'meteor/projekt';
-import { Profiles } from '../../api/collections/profiles.js';
+import { Profiles } from '/imports/api/collections/profiles.js';
 
 // modify the user object when a user registers
 Accounts.onCreateUser((options, user) => {

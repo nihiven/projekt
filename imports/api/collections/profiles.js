@@ -25,7 +25,6 @@ Profiles.schema = new SimpleSchema({
   // for type, use [String] to indicate an array
   userId: {
     type: String,
-    regEx: SimpleSchema.RegEx.Id,
     optional: false,
     label() { return 'User ID'; },
   },
@@ -50,12 +49,6 @@ Profiles.schema = new SimpleSchema({
     optional: true,
     label() { return 'Office Phone'; },
   },
-  lastLogin: {
-    type: Date,
-    blackbox: true, // allows us to validate this object without defining all of the objecs properties
-    optional: true,
-    label() { return 'Last Login'; },
-  },
 });
 
 // all calls to Profiles.insert(), update(), upsert(),
@@ -73,6 +66,8 @@ Profiles.helpers({
 
 Meteor.publish('profiles.user',(userId)=>{
   check(userId, Match.Any);
+  console.log('publish: profiles.user');
+
   return Profiles.find({ _id: userId });
 });
 
@@ -86,18 +81,30 @@ Meteor.publish('user.settings',(userId)=> {
 */
 
 Meteor.methods({
-  'profiles.upsert'(userId, name, email, officeLocation, officePhone) {
-    check(profile, Match.Any);
+  'profiles.upsert'(data) {
+    check(data, Match.Any);
 
+    console.log(data);
+    
     // user must be logged in
     if (!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
 
-    Favorites.upsert({
-      userId,
-      projectId,
-      lastLogin: Meteor.userId(),
-    });
+    // TODO: formatting??
+    Profiles.update(
+      { userId: Meteor.userId() },
+      {
+        $set: {
+          userId: Meteor.userId(),
+          name: data.name,
+          email: data.email,
+          officeLocation: data.officeLocation,
+          officePhone: data.officePhone,
+        },
+      },
+      { upsert: true, multi: false });
+
+    return true;
   },
 });
