@@ -256,7 +256,7 @@
     },
     "bcrypt": {
       "version": "1.0.2",
-      "from": "bcrypt@>=1.0.2 <2.0.0",
+      "from": "https://registry.npmjs.org/bcrypt/-/bcrypt-1.0.2.tgz",
       "resolved": "https://registry.npmjs.org/bcrypt/-/bcrypt-1.0.2.tgz"
     },
     "bcrypt-pbkdf": {
