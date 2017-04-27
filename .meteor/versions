@@ -1,5 +1,6 @@
 accounts-base@1.2.16
 accounts-password@1.3.5
+aldeed:collection2-core@2.0.0
 allow-deny@1.0.5
 arillo:flow-router-helpers@0.5.2
 autoupdate@1.3.12
@@ -61,6 +62,7 @@ observe-sequence@1.0.16
 ordered-dict@1.0.9
 projekt@0.0.2
 promise@0.8.8
+raix:eventemitter@0.1.3
 random@1.0.10
 rate-limit@1.0.8
 reactive-dict@1.1.8
@@ -82,6 +84,7 @@ templating@1.3.2
 templating-compiler@1.3.2
 templating-runtime@1.3.2
 templating-tools@1.1.2
+tmeasday:check-npm-versions@0.3.1
 tracker@1.1.2
 ui@1.0.13
 underscore@1.0.10

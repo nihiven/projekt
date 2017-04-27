@@ -10,19 +10,8 @@
     "autoprefixer": "^6.3.1",
     "babel-runtime": "^6.20.0",
     "bcrypt": "^1.0.2",
-    "meteor-node-stubs": "~0.2.4"
-  },
-  "devDependencies": {
-  "autoprefixer": "^6.3.1"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {
-        "browsers": [
-          "last 2 versions"
-        ]
-      }
-    }
+    "meteor-node-stubs": "~0.2.4",
+    "simpl-schema": "^0.2.3"
   },
   "devDependencies": {
     "@meteorjs/eslint-config-meteor": "^1.0.5",
@@ -35,5 +24,14 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-meteor": "^4.0.1",
     "eslint-plugin-react": "^6.10.3"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {
+        "browsers": [
+          "last 2 versions"
+        ]
+      }
+    }
   }
 }

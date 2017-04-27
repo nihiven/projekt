@@ -1,3 +1,5 @@
+// TODO: junk?
+
 // projekt meteor package
 import { check } from 'meteor/check';
 
@@ -22,6 +24,8 @@ export const defaults = {
 
 // user extended settings array
 // place a copy of these in projekt.default
+// TODO: I don't see the need for this any longer. why here?
+// move it to the file where it goes into a collection
 export let settings = {
   displayName: '',
   publicEmail: '',

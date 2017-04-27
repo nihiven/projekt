@@ -16,8 +16,6 @@ Template.testData.onCreated(function() {
   });
 });
 
-
-
 Template.testData.helpers({
   projectCount() {
     return Projects.find({}).count();
