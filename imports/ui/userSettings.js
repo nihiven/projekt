@@ -12,7 +12,7 @@ Template.settingsForm.onCreated(function() {
   });
 });
 
-Template.settingsForm.onRendered(function(event, instance) {
+Template.settingsForm.onRendered(function() {
   $('.ui.form').form({
     // callbacks
     onSuccess(event) {

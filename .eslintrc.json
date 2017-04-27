@@ -15,7 +15,7 @@
         "meteor/no-template-lifecycle-assignments": 2,
         "meteor/no-session": 2,
         "meteor/template-names": [2, "camel-case"],
-        "meteor/scope-dom-lookups": 1,
+        "meteor/scope-dom-lookups": 0,
         "meteor/audit-argument-checks": 1,
         "semi": [
           2,
