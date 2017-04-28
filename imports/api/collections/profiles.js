@@ -2,6 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
+import { projekt, errors } from 'meteor/projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
@@ -59,16 +60,14 @@ Profiles.attachSchema(Profiles.schema);
 /*
 Profiles.helpers({
   todos() {
-    return Todos.find({listId: this._id}, {sort: {createdAt: -1}});
+    return pro.find({listId: this._id}, {sort: {createdAt: -1}});
   }
 });
 */
 
-Meteor.publish('profiles.user',(userId)=>{
-  check(userId, Match.Any);
-  console.log('publish: profiles.user');
-
-  return Profiles.find({ _id: userId });
+Meteor.publish('profiles.user', (userId)=> {
+  check(userId, Match.String);
+  return Profiles.find( { _id: userId } );
 });
 
 /*
@@ -84,26 +83,35 @@ Meteor.methods({
   'profiles.upsert'(data) {
     check(data, Match.Any);
 
-    console.log(data);
-    
     // user must be logged in
     if (!Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error(errors.notLoggedIn.error, errors.notLoggedIn.message);
     }
 
-    // TODO: formatting??
+    // TODO: make sure this user owns the profile
+    // OR has elevated priviliges
+
+    // TODO: formatting :( ??
     Profiles.update(
       { userId: Meteor.userId() },
       {
         $set: {
           userId: Meteor.userId(),
-          name: data.name,
-          email: data.email,
+          name: data.displayName,
+          email: data.publicEmail,
           officeLocation: data.officeLocation,
           officePhone: data.officePhone,
         },
       },
       { upsert: true, multi: false });
+
+    return true;
+  },
+  'profiles.newUser'(userId) {
+    check(userId, String);
+
+    // TODO: don't need this as is
+    Profiles.insert({ userId: userId }, { multi: false });
 
     return true;
   },

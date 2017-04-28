@@ -15,19 +15,18 @@ Template.settingsForm.onCreated(function() {
 Template.settingsForm.onRendered(function() {
   $('.ui.form').form({
     // callbacks
-    onSuccess(event) {
+    onSuccess(event, instance) {
       // stop form from submitting
       event.preventDefault();
-      console.log(this);
-      console.log(event);
-      console.log(this.displayName.data);
+
       // update user info, data validation is done in the method
-      profileData = {
+      // setting this here to keep .call from getting to ugly
+      const profileData = {
         userId: Meteor.userId(),
-        displayName: this.displayName,
-        publicEmail: this.publicEmail,
-        officePhone: this.officePhone,
-        officeLocation: this.officeLocation,
+        displayName: event.target.displayName.value,
+        publicEmail: event.target.publicEmail.value,
+        officePhone: event.target.officePhone.value,
+        officeLocation: event.target.officeLocation.value,
       };
 
       // call the server side upsert method
@@ -50,28 +49,28 @@ Template.settingsForm.onRendered(function() {
     // form validation settings
     fields: {
       name: {
-        identifier: 'display-name',
+        identifier: 'displayName',
         rules: [{
           type: 'empty',
           prompt: 'Please enter your name.',
         }],
       },
       email: {
-        identifier: 'public-email',
+        identifier: 'publicEmail',
         rules: [{
           type: 'minLength[5]',
           prompt: 'Your email address must be at least {ruleValue} characters.',
         }],
       },
       phone: {
-        identifier: 'office-phone',
+        identifier: 'officePhone',
         rules: [{
           type: 'minLength[10]',
           prompt: 'Your telephone number must be at least {ruleValue} characters.',
         }],
       },
       location: {
-        identifier: 'office-location',
+        identifier: 'officeLocation',
         rules: [{
           type: 'empty',
           prompt: 'Please enter your office location.',
