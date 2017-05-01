@@ -6,8 +6,8 @@ import { $ } from 'meteor/jquery';
 import { Profiles } from '/imports/api/collections/profiles.js';
 import '/imports/ui/userSettings.html';
 
-// image handling
-import { FilesCollection } from 'meteor/ostrio:files';
+// this lets us save a timeoutId for closing our message box
+let timeoutId = undefined;
 
 // subscribe to published user lists
 Template.userSettings.onCreated(function() {
@@ -27,11 +27,11 @@ Template.userSettings.helpers({
 Template.settingsForm.events({
   // hide the account updated message
   'click .positive.message'() {
-    console.log('click hide');
-
     let msg = $('.positive.message');
-    console.log(msg.is(':visible'));
-    if (msg.is(':visible') === true) { msg.transition(projekt.messageTransition); }
+    if (msg.is(':visible') === true) {
+      Meteor.clearTimeout(timeoutId);
+      msg.transition(projekt.messageTransition);
+    }
   },
 });
 
@@ -68,13 +68,18 @@ Template.settingsForm.onRendered(function() {
           $('.error.message').hide();
 
           let msg = $('.positive.message');
+          msg.jb = 'test';
           if (msg.is(':visible') === false) {
             // show success message
             msg.transition(projekt.messageTransition);
 
-            // set message to hide in two seconds
-            setTimeout(() => {
+            // if a timer is already set, stop it
+            Meteor.clearTimeout(timeoutId);
+
+            // save the timer id so we can stop it later if needed
+            timeoutId = Meteor.setTimeout(() => {
               // TODO: clear any set timeouts
+              // set message to hide in two seconds
               if (msg.is(':visible') === true) { msg.transition(projekt.messageTransition); }
             }, 2000);
           }
