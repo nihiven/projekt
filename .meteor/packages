@@ -30,4 +30,4 @@ projekt
 aldeed:collection2-core@2.0.0
 ecmascript-runtime@0.4.0
 accounts-base@1.3.0
-duongthienduc:meteor-winston
+ostrio:files

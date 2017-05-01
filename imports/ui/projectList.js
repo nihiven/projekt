@@ -15,6 +15,7 @@ import '../../imports/ui/projectList.html';
 
 // projectList
 Template.projectList.onCreated(function() {
+  // using autorun automatically keeps track of subscription readiness
   this.autorun(() => {
     this.subscribe('projects');
     this.subscribe('favorites', Meteor.userId());

@@ -2,25 +2,48 @@ import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
-
+// local profile data
+import { Profiles } from '/imports/api/collections/profiles.js';
 import '/imports/ui/userSettings.html';
 
+// image handling
+import { FilesCollection } from 'meteor/ostrio:files';
+
 // subscribe to published user lists
-Template.settingsForm.onCreated(function() {
+Template.userSettings.onCreated(function() {
+  // using autorun automatically keeps track of subscription readiness
   this.autorun(() => {
-    this.subscribe('user.settings');
+    this.subscribe('profiles.user');
   });
+});
+
+Template.userSettings.helpers({
+  userProfile: function() {
+    // TODO: need to pass userId here, but can't get any results when i do
+    return Profiles.findOne({ });
+  },
+});
+
+Template.settingsForm.events({
+  // hide the account updated message
+  'click .positive.message'() {
+    console.log('click hide');
+
+    let msg = $('.positive.message');
+    console.log(msg.is(':visible'));
+    if (msg.is(':visible') === true) { msg.transition(projekt.messageTransition); }
+  },
 });
 
 Template.settingsForm.onRendered(function() {
   $('.ui.form').form({
     // callbacks
     onSuccess(event, instance) {
-      // stop form from submitting
+      // stop form's default submission action
       event.preventDefault();
 
       // update user info, data validation is done in the method
-      // setting this here to keep .call from getting to ugly
+      // setting this here to keep .call from getting too ugly
       const profileData = {
         userId: Meteor.userId(),
         displayName: event.target.displayName.value,
@@ -31,7 +54,9 @@ Template.settingsForm.onRendered(function() {
 
       // call the server side upsert method
       Meteor.call('profiles.upsert', profileData, (err, res) => {
+        // there was an error updating the database
         if (err) {
+          // handle displaying an error message
           console.log(err.message);
           console.log(err.details);
           $('.error.message').text(err.message);
@@ -39,11 +64,23 @@ Template.settingsForm.onRendered(function() {
 
           return false;
         } else {
+          // the database was successfully updated
           $('.error.message').hide();
-          $('.positive.message').transition(projekt.messageTransition);
+
+          let msg = $('.positive.message');
+          if (msg.is(':visible') === false) {
+            // show success message
+            msg.transition(projekt.messageTransition);
+
+            // set message to hide in two seconds
+            setTimeout(() => {
+              // TODO: clear any set timeouts
+              if (msg.is(':visible') === true) { msg.transition(projekt.messageTransition); }
+            }, 2000);
+          }
 
           return true;
-        };
+        }; // else
       }); // call
     },
     // form validation settings
@@ -78,17 +115,4 @@ Template.settingsForm.onRendered(function() {
       },
     }, // fields
   }); // $('.ui.form')
-});
-
-// close the account updated message
-Template.settingsForm.events({
-  'click .positive.message'() {
-    $('.positive.message').transition(projekt.messageTransition);
-  },
-});
-
-Template.settingsForm.helpers({
-  userSettings() {
-    return Meteor.users.findOne({ _id: Meteor.userId });
-  },
 });

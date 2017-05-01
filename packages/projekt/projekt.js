@@ -14,16 +14,16 @@ export const projekt = {
   debug: false, // show console
   logLevel: 0, // 0 = info/warn/error, 1 = warn, error, 2 = error, 3 = off
 
-  // functions
-  log(message, level = 1) {
-    // level: 1 = info, 2 = warning, 3 = error
-
-  },
   // settings for default message transition
   messageTransition: {
     animation: 'fade down',
     duration: 100,
   },
+};
+
+export const log = (message, level = 1) => {
+    // level: 1 = info, 2 = warning, 3 = error
+
 };
 
 // this is imported where needed

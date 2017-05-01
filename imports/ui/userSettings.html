@@ -1,32 +1,37 @@
 <template name="userSettings">
-	<div class="ui two column centered grid">
-		<div class="column">
-			{{#if currentUser}}
-				{{> settingsForm }}
-			{{ else }}
-				You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.
-			{{/if}}
-		</div>
-	</div>
+	{{#if currentUser}}
+		{{#if Template.subscriptionsReady}}
+			<div class="ui two column centered grid">
+				<div class="column">
+					{{> settingsForm userProfile}}
+				</div>
+			</div>
+		{{else}}
+			<div class="ui active centered inline loader"></div>
+		{{/if}}
+	{{else}}
+		You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.
+	{{/if}}
 </template>
 
 <template name="settingsForm">
+	{{#if Template.subscriptionsReady}}
 	<form class="ui segment form">
 		<div class="field">
 	      <label>Display Name</label>
-	      <input placeholder="Display Name" name="displayName" type="text">
+	      <input placeholder="Display Name" name="displayName" type="text" value="{{this.name}}">
 	  </div>
 	  <div class="field">
 				<label>Public Email</label>
-	      <input placeholder="user@ccbh.com" name="publicEmail" type="text">
+	      <input placeholder="user@ccbh.com" name="publicEmail" type="text" value="{{this.email}}">
 		</div>
 		<div class="field">
 			<label>Office Phone</label>
-      <input placeholder="444-555-000" name="officePhone" type="text">
+      <input placeholder="444-555-000" name="officePhone" type="text" value="{{this.officePhone}}">
     </div>
 	  <div class="field">
 			<label>Office Location</label>
-      <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="officeLocation" type="text">
+      <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="officeLocation" type="text" value="{{this.officeLocation}}">
 	  </div>
 	  <div class="ui primary submit button">Update</div>
 	  <div class="ui error message"></div>
@@ -35,4 +40,12 @@
 			Account updated.
 		</div>
 	</form>
+	{{else}}
+	<div class="ui segment">
+		<div class="ui active dimmer">
+				<div class="ui text loader">Loading user profile...</div>
+			</div>
+			<p></p>
+	</div>
+	{{/if}}
 </template>

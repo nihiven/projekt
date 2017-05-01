@@ -11,6 +11,15 @@ import SimpleSchema from 'simpl-schema';
 export const Profiles = new Mongo.Collection('profiles');
 export { Profiles as default };
 
+if (Meteor.isServer) {
+  // do not use arrow functions in meteor
+  Meteor.publish('profiles.user', function() {
+    return Profiles.find(
+      { userId: this.userId },
+      { fields: { '_id': 1, 'name': 1, 'email': 1, 'officeLocation': 1, 'officePhone': 1 } });
+  });
+}
+
 // Deny all client-side updates
 Profiles.deny({
   insert() { return true; },
@@ -64,11 +73,6 @@ Profiles.helpers({
   }
 });
 */
-
-Meteor.publish('profiles.user', (userId)=> {
-  check(userId, Match.String);
-  return Profiles.find( { _id: userId } );
-});
 
 /*
 Meteor.publish('user.settings',(userId)=> {

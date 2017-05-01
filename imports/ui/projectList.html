@@ -2,12 +2,15 @@
 	<div class="ui big top attached label">
 		Projects
 	</div>
-	
-	<div class="ui three cards">
-		{{#each listAllProjects}}
-			{{>projectCard}}
-		{{/each}}
-	</div>
+	{{#if Template.subscriptionsReady}}
+		<div class="ui three cards">
+			{{#each listAllProjects}}
+				{{>projectCard}}
+			{{/each}}
+		</div>
+	{{else}}
+		<div class="ui active centered inline loader"></div>
+	{{/if}}
 </template>
 
 <!-- TODO: fix alignment of card elements, story fixed height -->
