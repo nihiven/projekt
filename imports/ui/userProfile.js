@@ -26,8 +26,8 @@ Template.userProfile.helpers({
 
 Template.profileForm.events({
   // hide the account updated message
-  'click .positive.message'() {
-    let msg = $('.positive.message');
+  'click .message'() {
+    let msg = $('.success.message');
     if (msg.is(':visible') === true) {
       Meteor.clearTimeout(timeoutId);
       msg.transition(projekt.messageTransition);
@@ -66,7 +66,7 @@ Template.profileForm.onRendered(function() {
           // the database was successfully updated
           $('.error.message').hide();
 
-          let msg = $('.positive.message');
+          let msg = $('.success.message');
           if (msg.is(':visible') === false) {
             // show success message
             msg.transition(projekt.messageTransition);
