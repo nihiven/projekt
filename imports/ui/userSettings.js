@@ -61,14 +61,12 @@ Template.settingsForm.onRendered(function() {
           console.log(err.details);
           $('.error.message').text(err.message);
           $('.error.message').show();
-
           return false;
         } else {
           // the database was successfully updated
           $('.error.message').hide();
 
           let msg = $('.positive.message');
-          msg.jb = 'test';
           if (msg.is(':visible') === false) {
             // show success message
             msg.transition(projekt.messageTransition);
@@ -78,7 +76,6 @@ Template.settingsForm.onRendered(function() {
 
             // save the timer id so we can stop it later if needed
             timeoutId = Meteor.setTimeout(() => {
-              // TODO: clear any set timeouts
               // set message to hide in two seconds
               if (msg.is(':visible') === true) { msg.transition(projekt.messageTransition); }
             }, 2000);
