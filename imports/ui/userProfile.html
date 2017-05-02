@@ -13,42 +13,37 @@
 			<div class="ui active centered inline loader"></div>
 		{{/if}}
 	{{else}}
-		You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.
+		<p>You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.</p>
 	{{/if}}
 </template>
 
 <template name="profileForm">
 	{{#if Template.subscriptionsReady}}
 	<form class="ui segment form">
-		<div class="field">
+		<div class="required field">
 	      <label>Display Name</label>
 	      <input placeholder="Display Name" name="displayName" type="text" value="{{this.name}}">
 	  </div>
-	  <div class="field">
+	  <div class="required field">
 				<label>Public Email</label>
 	      <input placeholder="user@ccbh.com" name="publicEmail" type="text" value="{{this.email}}">
 		</div>
-		<div class="field">
+		<div class="required field">
 			<label>Office Phone</label>
       <input placeholder="444-555-000" name="officePhone" type="text" value="{{this.officePhone}}">
     </div>
-	  <div class="field">
+	  <div class="required field">
 			<label>Office Location</label>
       <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="officeLocation" type="text" value="{{this.officeLocation}}">
 	  </div>
 	  <div class="ui primary submit button">Update</div>
 	  <div class="ui error message"></div>
-		<div class="ui positive message transition hidden">
+		<div class="ui success message transition hidden">
 			<i class="close icon"></i>
 			Account updated.
 		</div>
 	</form>
 	{{else}}
-	<div class="ui segment">
-		<div class="ui active dimmer">
-				<div class="ui text loader">Loading user profile...</div>
-			</div>
-			<p></p>
-	</div>
+		<div class="ui active centered inline loader"></div>
 	{{/if}}
 </template>
