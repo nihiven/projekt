@@ -26,7 +26,8 @@ jquery
 useraccounts:flow-routing
 arillo:flow-router-helpers
 useraccounts:semantic-ui
-projekt
-aldeed:collection2-core@2.0.0
+projekt # home grown
+aldeed:collection2-core@2.0.0  # ?
 ecmascript-runtime@0.4.0
 accounts-base@1.3.0
+alanning:roles

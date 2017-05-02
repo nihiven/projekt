@@ -14,9 +14,15 @@ export { Profiles as default };
 if (Meteor.isServer) {
   // do not use arrow functions in meteor
   Meteor.publish('profiles.user', function() {
-    return Profiles.find(
-      { userId: this.userId },
-      { fields: { '_id': 1, 'name': 1, 'email': 1, 'officeLocation': 1, 'officePhone': 1 } });
+    return Profiles.find({ userId: this.userId }, {
+      fields: {
+        '_id': 1,
+        'name': 1,
+        'email': 1,
+        'officeLocation': 1,
+        'officePhone': 1 ,
+      },
+    });
   });
 }
 
@@ -74,15 +80,6 @@ Profiles.helpers({
 });
 */
 
-/*
-Meteor.publish('user.settings',(userId)=> {
-  check(userId, Match.Any);
-  return Profiles.find(
-    { _id: userId },
-    { fields: { '_id': 1, 'displayName': 1, 'publicEmail': 1, 'officeLocation': 1, 'officePhone': 1 } });
-});
-*/
-
 Meteor.methods({
   'profiles.upsert'(data) {
     check(data, Match.Any);
@@ -115,7 +112,7 @@ Meteor.methods({
     check(userId, String);
 
     // TODO: don't need this as is
-    Profiles.insert({ userId: userId }, { multi: false });
+    Profiles.insert({ userId: userId });
 
     return true;
   },

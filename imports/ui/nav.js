@@ -4,8 +4,8 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 // templates
-import '../../imports/ui/stylesheets/nav.less';
-import '../../imports/ui/nav.html';
+import '/imports/ui/stylesheets/nav.less';
+import '/imports/ui/nav.html';
 
 Template.nav.onRendered(function() {
   // make the current menu item active

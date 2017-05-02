@@ -5,12 +5,12 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 // collections
-import { Projects } from '../../imports/api/collections/projects.js';
-import { Favorites } from '../../imports/api/collections/favorites.js';
+import { Projects } from '/imports/api/collections/projects.js';
+import { Favorites } from '/imports/api/collections/favorites.js';
 
 // templates
-import '../../imports/ui/stylesheets/projectList.less';
-import '../../imports/ui/projectList.html';
+import '/imports/ui/stylesheets/projectList.less';
+import '/imports/ui/projectList.html';
 
 
 // projectList

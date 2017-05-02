@@ -4,10 +4,10 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 // collections
-import { Projects } from '../../imports/api/collections/projects.js';
+import { Projects } from '/imports/api/collections/projects.js';
 
 // templates
-import '../../imports/ui/testData.html';
+import '/imports/ui/testData.html';
 
 // projectList
 Template.testData.onCreated(function() {
