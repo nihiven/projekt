@@ -19,7 +19,11 @@
 
 <template name="profileForm">
 	{{#if Template.subscriptionsReady}}
-	<form class="ui segment form">
+	<h4 class="ui horizontal divider header">
+		<i class="user icon"></i>
+		User Info
+	</h4>
+	<form class="ui form">
 		<div class="required field">
 	      <label>Display Name</label>
 	      <input placeholder="Display Name" name="displayName" type="text" value="{{this.name}}">
@@ -36,6 +40,22 @@
 			<label>Office Location</label>
       <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="officeLocation" type="text" value="{{this.officeLocation}}">
 	  </div>
+		<h4 class="ui horizontal divider header">
+			<i class="lock icon"></i>
+			Role Information
+		</h4>
+		<div class="field">
+			<label>Office Location</label>
+			<input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="x" type="text" value="{{this.officeLocation}}">
+		</div>
+		<div class="field">
+			<label>Office Location</label>
+			<input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="x" type="text" value="{{this.officeLocation}}">
+		</div>
+		<div class="field">
+			<label>Office Location</label>
+			<input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="x" type="text" value="{{this.officeLocation}}">
+		</div>
 	  <div class="ui primary submit button">Update</div>
 	  <div class="ui error message"></div>
 		<div class="ui success message transition hidden">

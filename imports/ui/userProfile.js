@@ -18,6 +18,7 @@ Template.userProfile.onCreated(function() {
 });
 
 Template.userProfile.helpers({
+  // TODO: show user roles
   userProfile: function() {
     // TODO: need to pass userId here, but can't get any results when i do
     return Profiles.findOne({ });

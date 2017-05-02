@@ -18,20 +18,20 @@ Meteor.methods({
     check(projectId, Match.Any); // TODO: use object match
 
     // user must be logged in
-    if (!Meteor.userId()) {
+    if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
     Favorites.insert({
       projectId,
-      owner: Meteor.userId(),
+      owner: this.userId(),
     });
   },
   'favorites.remove'(projectId) {
     check(projectId, Match.Any); // TODO: use object match
 
     // user must be logged in
-    if (!Meteor.userId()) {
+    if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
@@ -41,6 +41,10 @@ Meteor.methods({
     });
   },
   'favorites.reset'() {
-    Favorites.remove({});
+    if (Roles.userIsInRole( this.userId, ['admin'])) {
+      Favorites.remove({});
+    } else {
+      throw new Meteor.Error(403, 'Not authorized to reset Favorite data.');
+    }
   },
 });

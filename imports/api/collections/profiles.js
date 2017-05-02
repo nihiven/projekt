@@ -116,4 +116,11 @@ Meteor.methods({
 
     return true;
   },
+  'profiles.reset'() {
+    if (Roles.userIsInRole(this.userId, ['admin'])) {
+      Profiles.remove({});
+    } else {
+      throw new Meteor.Error(403, 'Not authorized to reset Profile data.');
+    }
+  },
 });

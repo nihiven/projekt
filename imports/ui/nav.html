@@ -1,12 +1,14 @@
 <template name="nav">
-  <div class="ui menu">
+  <div class="ui menu {{#if isInRole 'admin'}}admin-glow{{/if}}">
     <div class="header item">Projekt</div>
     <a class="item" href="{{pathFor '/'}}">Dashboard</a>
     <a class="item" href="{{pathFor '/projects'}}">Projects</a>
     <a class="item" href="{{pathFor '/tasks'}}">Tasks</a>
     <a class="item" href="{{pathFor '/resources'}}">Resources</a>
     <a class="item" href="{{pathFor '/reports'}}">Reports</a>
-    <a class="item" href="{{pathFor '/test/data'}}">Test Data</a>
+    {{#if isInRole "admin"}}
+      <a class="item" href="{{pathFor '/test/data'}}">Test Data</a>
+    {{/if}}
     <div class="right menu">
       {{#if currentUser}}
         {{>loggedInMenu}}
@@ -24,6 +26,9 @@
   <div class="ui item">
     <i class="inbox icon inbox-icon"></i>
     <i class="heart icon favorite-icon"></i>
+    {{#if isInRole "admin"}}
+      <i class="world icon admin-icon"></i>
+    {{/if}}
     <i class="settings icon profile-icon"></i>
     <div class="login-button">
       <i class="remove icon signout-icon" id="login-buttons-logout"></i>
