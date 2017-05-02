@@ -35,11 +35,11 @@ Template.loggedInMenu.events({
   'click .inbox-icon'() {
     FlowRouter.go('/messages/inbox');
   },
-  'click .settings-icon'() {
+  'click .favorite-icon'() {
     FlowRouter.go('/project/favorites');
   },
-  'click .settings-icon'() {
-    FlowRouter.go('/user/settings');
+  'click .profile-icon'() {
+    FlowRouter.go('/user/profile');
   },
   'click .signout-icon'() {
     $('.ui.small.modal').modal('show');

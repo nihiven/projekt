@@ -1,9 +1,9 @@
-<template name="userSettings">
+<template name="userProfile">
 	{{#if currentUser}}
 		{{#if Template.subscriptionsReady}}
 			<div class="ui two column centered grid">
 				<div class="column">
-					{{> settingsForm userProfile}}
+					{{> profileForm userProfile}}
 				</div>
 			</div>
 		{{else}}
@@ -14,7 +14,7 @@
 	{{/if}}
 </template>
 
-<template name="settingsForm">
+<template name="profileForm">
 	{{#if Template.subscriptionsReady}}
 	<form class="ui segment form">
 		<div class="field">

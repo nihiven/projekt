@@ -4,27 +4,27 @@ import { $ } from 'meteor/jquery';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';
-import '/imports/ui/userSettings.html';
+import '/imports/ui/userProfile.html';
 
 // this lets us save a timeoutId for closing our message box
 let timeoutId = undefined;
 
 // subscribe to published user lists
-Template.userSettings.onCreated(function() {
+Template.userProfile.onCreated(function() {
   // using autorun automatically keeps track of subscription readiness
   this.autorun(() => {
     this.subscribe('profiles.user');
   });
 });
 
-Template.userSettings.helpers({
+Template.userProfile.helpers({
   userProfile: function() {
     // TODO: need to pass userId here, but can't get any results when i do
     return Profiles.findOne({ });
   },
 });
 
-Template.settingsForm.events({
+Template.profileForm.events({
   // hide the account updated message
   'click .positive.message'() {
     let msg = $('.positive.message');
@@ -35,7 +35,7 @@ Template.settingsForm.events({
   },
 });
 
-Template.settingsForm.onRendered(function() {
+Template.profileForm.onRendered(function() {
   $('.ui.form').form({
     // callbacks
     onSuccess(event, instance) {
@@ -85,7 +85,7 @@ Template.settingsForm.onRendered(function() {
         }; // else
       }); // call
     },
-    // form validation settings
+    // form validation profile
     fields: {
       name: {
         identifier: 'displayName',
