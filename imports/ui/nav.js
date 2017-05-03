@@ -1,7 +1,7 @@
-/* eslint-env jquery */
-
 import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+
 
 // templates
 import '/imports/ui/stylesheets/nav.less';
@@ -25,6 +25,7 @@ Template.loggedInMenu.onRendered(function() {
   $('.ui.dropdown').dropdown();
 });
 
+// TODO: user pathfor in the links below
 Template.loggedInMenu.events({
   'click [class$="-icon"]'(event) {
     $(event.target).transition({

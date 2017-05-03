@@ -6,9 +6,6 @@ import { $ } from 'meteor/jquery';
 import { Profiles } from '/imports/api/collections/profiles.js';
 import '/imports/ui/userProfile.html';
 
-// this lets us save a timeoutId for closing our message box
-let timeoutId = undefined;
-
 // subscribe to published user lists
 Template.userProfile.onCreated(function() {
   // using autorun automatically keeps track of subscription readiness
@@ -25,7 +22,7 @@ Template.userProfile.helpers({
   },
 });
 
-Template.profileForm.events({
+Template.formBody.events({
   // hide the account updated message
   'click .message'() {
     let msg = $('.success.message');
@@ -36,7 +33,27 @@ Template.profileForm.events({
   },
 });
 
-Template.profileForm.onRendered(function() {
+Template.adminFields.onRendered(function() {
+  $('#colorpicker').spectrum({
+    className: 'full-spectrum',
+    color: '#000000',
+    maxSelectionSize: 10,
+    preferredFormat: 'hex',
+    showInitial: true,
+    showInput: true,
+    showButtons: false,
+    showPalette: false,
+    showSelectionPalette: true,
+    change(color) {
+      console.log(color.toHexString());
+    },
+  });
+});
+
+// use below to save the timeoutId for closing our message box
+let timeoutId = undefined;
+
+Template.formBody.onRendered(function() {
   $('.ui.form').form({
     // callbacks
     onSuccess(event, instance) {
