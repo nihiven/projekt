@@ -18,9 +18,8 @@ Meteor.methods({
     check(name, String);
 
     // user must be logged in
-    // TODO: user must be project admin
-    if (!Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
+    if (!Roles.userIsInRole(this.userId, ['admin','project-mgr'])) {
+      throw new Meteor.Error(403, 'Not authorized to create projects.');
     }
 
     Projects.insert({
@@ -46,6 +45,10 @@ Meteor.methods({
     }
   },
 });
+
+const roleCheck = function(user, roles, callback) {
+  // TODO: end of day
+};
 
 const loadTestData = function() {
   Projects.insert({

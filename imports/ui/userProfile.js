@@ -1,6 +1,7 @@
 import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
+import { less } from 'meteor/less';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';
@@ -33,10 +34,11 @@ Template.formBody.events({
   },
 });
 
+// set parameters for the colorpicker
 Template.adminFields.onRendered(function() {
   $('#colorpicker').spectrum({
     className: 'full-spectrum',
-    color: '#000000',
+    color: Meteor.user.adminGlowColor,
     maxSelectionSize: 10,
     preferredFormat: 'hex',
     showInitial: true,
@@ -45,10 +47,17 @@ Template.adminFields.onRendered(function() {
     showPalette: false,
     showSelectionPalette: true,
     change(color) {
-      console.log(color.toHexString());
+      updateAdminGlow(color.toHexString());
     },
   });
 });
+
+const updateAdminGlow = (colorHex) => {
+  Meteor.user.adminGlowColor = colorHex;
+  if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
+    $('.global-menu').css({ background: colorHex });
+  }
+};
 
 // use below to save the timeoutId for closing our message box
 let timeoutId = undefined;
