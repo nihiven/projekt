@@ -1,12 +1,14 @@
 <template name="nav">
-  <div class="ui menu">
+  <div class="ui menu global-menu">
     <div class="header item">Projekt</div>
     <a class="item" href="{{pathFor '/'}}">Dashboard</a>
     <a class="item" href="{{pathFor '/projects'}}">Projects</a>
     <a class="item" href="{{pathFor '/tasks'}}">Tasks</a>
     <a class="item" href="{{pathFor '/resources'}}">Resources</a>
     <a class="item" href="{{pathFor '/reports'}}">Reports</a>
-    <a class="item" href="{{pathFor '/test/data'}}">Test Data</a>
+    {{#if isInRole "admin"}}
+      <a class="item" href="{{pathFor '/test/data'}}">Test Data</a>
+    {{/if}}
     <div class="right menu">
       {{#if currentUser}}
         {{>loggedInMenu}}
@@ -22,11 +24,14 @@
 <template name="loggedInMenu">
   <!-- TODO: menu height is off because of these icons -->
   <div class="ui item">
-    <i class="circular inbox icon inbox-icon"></i>
-    <i class="circular heart icon favorite-icon"></i>
-    <i class="circular settings icon profile-icon"></i>
+    <i class="inbox icon inbox-icon"></i>
+    <i class="heart icon favorite-icon"></i>
+    {{#if isInRole "admin"}}
+      <i class="world icon admin-icon"></i>
+    {{/if}}
+    <i class="settings icon profile-icon"></i>
     <div class="login-button">
-      <i class="circular remove icon signout-icon" id="login-buttons-logout"></i>
+      <i class="remove icon signout-icon" id="login-buttons-logout"></i>
     </div>
   </div>
 </template>

@@ -4,12 +4,12 @@ import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
 // collections
-import { Projects } from '../../imports/api/collections/projects.js';
-import { Favorites } from '../../imports/api/collections/favorites.js';
+import { Projects } from '/imports/api/collections/projects.js';
+import { Favorites } from '/imports/api/collections/favorites.js';
 
 // templates
-import '../../imports/ui/stylesheets/projectList.less';
-import '../../imports/ui/projectList.html';
+import '/imports/ui/stylesheets/projectList.less';
+import '/imports/ui/projectList.html';
 
 
 // projectList
@@ -37,8 +37,7 @@ Template.projectFavorites.onCreated(function() {
   // init semantic objects here
 });
 
-Template.projectFavorites.events({
-});
+Template.projectFavorites.events({ });
 
 Template.projectFavoriteCard.helpers({
   isRegulatory() {
@@ -54,8 +53,6 @@ Template.projectFavoriteCard.helpers({
       result = 'empty heart icon';
     }
 
-    return {
-      class: result,
-    };
+    return { class: result };
   },
 });

@@ -14,9 +14,17 @@ export { Profiles as default };
 if (Meteor.isServer) {
   // do not use arrow functions in meteor
   Meteor.publish('profiles.user', function() {
-    return Profiles.find(
-      { userId: this.userId },
-      { fields: { '_id': 1, 'name': 1, 'email': 1, 'officeLocation': 1, 'officePhone': 1 } });
+    return Profiles.find({ userId: this.userId }, {
+      fields: {
+        '_id': 1,
+        'name': 1,
+        'email': 1,
+        'officeLocation': 1,
+        'officePhone': 1 ,
+        'adminGlowOn': 1,
+        'adminGlowColor': 1,
+      },
+    });
   });
 }
 
@@ -59,6 +67,16 @@ Profiles.schema = new SimpleSchema({
     optional: true,
     label() { return 'Office Phone'; },
   },
+  adminGlowOn: {
+    type: Boolean,
+    optional: true,
+    label() { return 'Should the top menu glow if the user is an admin?'; },
+  },
+  adminGlowColor: {
+    type: String,
+    optional: true,
+    label() { return 'The color of the top menu glow when the user is an admin.'; },
+  },
 });
 
 // all calls to Profiles.insert(), update(), upsert(),
@@ -74,17 +92,17 @@ Profiles.helpers({
 });
 */
 
-/*
-Meteor.publish('user.settings',(userId)=> {
-  check(userId, Match.Any);
-  return Profiles.find(
-    { _id: userId },
-    { fields: { '_id': 1, 'displayName': 1, 'publicEmail': 1, 'officeLocation': 1, 'officePhone': 1 } });
-});
-*/
-
 Meteor.methods({
-  'profiles.upsert'(data) {
+  'profiles.admin': function() {
+    const admin = Profiles.findOne({ _id: this.userId }, {
+      fields: {
+        'adminGlowOn': 1,
+        'adminGlowColor': 1,
+      },
+    });
+    return admin;
+  },
+  'profiles.upsert': function(data) {
     check(data, Match.Any);
 
     // user must be logged in
@@ -97,10 +115,10 @@ Meteor.methods({
 
     // TODO: formatting :( ??
     Profiles.update(
-      { userId: Meteor.userId() },
+      { userId: this.userId },
       {
         $set: {
-          userId: Meteor.userId(),
+          userId: this.userId,
           name: data.displayName,
           email: data.publicEmail,
           officeLocation: data.officeLocation,
@@ -112,11 +130,20 @@ Meteor.methods({
     return true;
   },
   'profiles.newUser'(userId) {
-    check(userId, String);
-
-    // TODO: don't need this as is
-    Profiles.insert({ userId: userId }, { multi: false });
+    // insert default values
+    Profiles.insert({
+      userId,
+      adminGlowOn: true,
+      adminGlowColor: '#fbfed6',
+    });
 
     return true;
+  },
+  'profiles.reset'() {
+    if (Roles.userIsInRole(this.userId, ['admin'])) {
+      Profiles.remove({});
+    } else {
+      throw new Meteor.Error(403, 'Not authorized to reset Profile data.');
+    }
   },
 });

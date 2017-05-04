@@ -1,51 +1,98 @@
 <template name="userProfile">
+	<div class="ui big top attached label">
+		Profile
+	</div>
 	{{#if currentUser}}
 		{{#if Template.subscriptionsReady}}
-			<div class="ui two column centered grid">
-				<div class="column">
-					{{> profileForm userProfile}}
+			<div class="ui grid">
+				<div class="four wide column">
+					{{> verticalMenu}}
+				</div>
+				<div class="ten wide column">
+					{{> formBody userProfile}}
 				</div>
 			</div>
 		{{else}}
 			<div class="ui active centered inline loader"></div>
 		{{/if}}
 	{{else}}
-		You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.
+		<p>You must <a href="{{pathFor '/sign-in'}}">Sign In</a> to view this page.</p>
 	{{/if}}
 </template>
 
-<template name="profileForm">
-	{{#if Template.subscriptionsReady}}
-	<form class="ui segment form">
-		<div class="field">
-	      <label>Display Name</label>
-	      <input placeholder="Display Name" name="displayName" type="text" value="{{this.name}}">
+<template name="verticalMenu">
+	<div class="ui vertical menu">
+	  <div class="item">
+	    <div class="header">Profile</div>
+	    <div class="menu">
+	      <a class="item" href="/user/profile">Demographics</a>
+	      <a class="item">Misc</a>
+	    </div>
 	  </div>
-	  <div class="field">
-				<label>Public Email</label>
-	      <input placeholder="user@ccbh.com" name="publicEmail" type="text" value="{{this.email}}">
+		<div class="item">
+			<div class="header">Options</div>
+			<div class="menu">
+				{{#if isInRole 'admin'}}
+					<a class="item">Admin</a>
+				{{/if}}
+			</div>
 		</div>
-		<div class="field">
-			<label>Office Phone</label>
-      <input placeholder="444-555-000" name="officePhone" type="text" value="{{this.officePhone}}">
-    </div>
-	  <div class="field">
-			<label>Office Location</label>
-      <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="officeLocation" type="text" value="{{this.officeLocation}}">
-	  </div>
-	  <div class="ui primary submit button">Update</div>
-	  <div class="ui error message"></div>
-		<div class="ui positive message transition hidden">
+	</div>
+</template>
+
+<template name="formBody">
+	<form class="ui form">
+		{{> demoFields}}
+		{{#if isInRole "admin"}}
+			{{> adminFields}}
+		{{/if}}
+		<div class="ui primary submit button">Update</div>
+		<div class="ui error message"></div>
+		<div class="ui success message transition hidden">
 			<i class="close icon"></i>
 			Account updated.
 		</div>
 	</form>
-	{{else}}
-	<div class="ui segment">
-		<div class="ui active dimmer">
-				<div class="ui text loader">Loading user profile...</div>
-			</div>
-			<p></p>
+</template>
+
+<template name="demoFields">
+	{{#if Template.subscriptionsReady}}
+	<h4 class="ui horizontal divider header">
+		<i class="user icon"></i>
+		Demographics
+	</h4>
+	<div class="required field">
+      <label>Display Name</label>
+      <input placeholder="Display Name" name="displayName" type="text" value="{{this.name}}">
+  </div>
+  <div class="required field">
+			<label>Public Email</label>
+      <input placeholder="user@ccbh.com" name="publicEmail" type="text" value="{{this.email}}">
 	</div>
+	<div class="required field">
+		<label>Office Phone</label>
+    <input placeholder="444-555-000" name="officePhone" type="text" value="{{this.officePhone}}">
+  </div>
+  <div class="required field">
+		<label>Office Location</label>
+    <input placeholder="Heinz 57 Tower, Pittsburgh, PA" name="officeLocation" type="text" value="{{this.officeLocation}}">
+  </div>
+	{{else}}
+		<div class="ui active centered inline loader"></div>
+	{{/if}}
+</template>
+
+<template name="adminFields">
+	{{#if Template.subscriptionsReady}}
+	<h4 class="ui horizontal divider header">
+		<i class="lock icon"></i>
+		Admin
+	</h4>
+	<div class="field">
+		<label>Admin Glow</label>
+		<input type='color' name='color' id="colorpicker">
+	</div>
+	{{else}}
+		<div class="ui active centered inline loader"></div>
 	{{/if}}
 </template>

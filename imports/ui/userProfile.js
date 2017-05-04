@@ -1,13 +1,11 @@
 import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
+import { less } from 'meteor/less';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';
 import '/imports/ui/userProfile.html';
-
-// this lets us save a timeoutId for closing our message box
-let timeoutId = undefined;
 
 // subscribe to published user lists
 Template.userProfile.onCreated(function() {
@@ -18,16 +16,17 @@ Template.userProfile.onCreated(function() {
 });
 
 Template.userProfile.helpers({
+  // TODO: show user roles
   userProfile: function() {
     // TODO: need to pass userId here, but can't get any results when i do
     return Profiles.findOne({ });
   },
 });
 
-Template.profileForm.events({
+Template.formBody.events({
   // hide the account updated message
-  'click .positive.message'() {
-    let msg = $('.positive.message');
+  'click .message'() {
+    let msg = $('.success.message');
     if (msg.is(':visible') === true) {
       Meteor.clearTimeout(timeoutId);
       msg.transition(projekt.messageTransition);
@@ -35,7 +34,35 @@ Template.profileForm.events({
   },
 });
 
-Template.profileForm.onRendered(function() {
+// set parameters for the colorpicker
+Template.adminFields.onRendered(function() {
+  $('#colorpicker').spectrum({
+    className: 'full-spectrum',
+    color: Meteor.user.adminGlowColor,
+    maxSelectionSize: 10,
+    preferredFormat: 'hex',
+    showInitial: true,
+    showInput: true,
+    showButtons: false,
+    showPalette: false,
+    showSelectionPalette: true,
+    change(color) {
+      updateAdminGlow(color.toHexString());
+    },
+  });
+});
+
+const updateAdminGlow = (colorHex) => {
+  Meteor.user.adminGlowColor = colorHex;
+  if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
+    $('.global-menu').css({ background: colorHex });
+  }
+};
+
+// use below to save the timeoutId for closing our message box
+let timeoutId = undefined;
+
+Template.formBody.onRendered(function() {
   $('.ui.form').form({
     // callbacks
     onSuccess(event, instance) {
@@ -66,7 +93,7 @@ Template.profileForm.onRendered(function() {
           // the database was successfully updated
           $('.error.message').hide();
 
-          let msg = $('.positive.message');
+          let msg = $('.success.message');
           if (msg.is(':visible') === false) {
             // show success message
             msg.transition(projekt.messageTransition);

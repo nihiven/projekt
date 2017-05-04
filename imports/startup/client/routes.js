@@ -2,22 +2,25 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 // import templates
-import '../../ui/mainLayout.html';
-import '../../ui/nav.js';
-import '../../ui/projectList.js';
-import '../../ui/userProfile.js';
-import '../../ui/userLogin.js';
-import '../../ui/testData.js';
+import '/imports/ui/mainLayout.html';
+import '/imports/ui/dashboard.js';
+import '/imports/ui/nav.js';
+import '/imports/ui/projectList.js';
+import '/imports/ui/userProfile.js';
+import '/imports/ui/userLogin.js';
+import '/imports/ui/testData.js';
 
 // F L O W R O U T A
 FlowRouter.route('/', {
   name: 'Root',
   action() {
-    BlazeLayout.render('mainLayout', { nav: 'nav', content: 'dashboard' });
+    BlazeLayout.render('mainLayout', {
+      nav: 'nav',
+      content: 'dashboard',
+    });
   },
 });
 
-// P R O J E C T S
 FlowRouter.route('/projects', {
   name: 'Project.root',
   action() {

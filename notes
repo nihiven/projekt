@@ -1,0 +1,39 @@
+/* eslint-disable */
+
+File Load Order
+
+/Server/ {
+  Main.js {
+    /imports/startup/both/ {
+      index.js {
+        at_config.js
+      }
+    }
+    /imports/startup/server/ {
+      index.js {
+        create_user.js
+      }
+    }
+  }
+}
+
+/Client/ {
+  Main.js {
+    /imports/startup/both/ {
+      index.js {
+        at_config.js
+      }
+    }
+    /imports/startup/client/ {
+      index.js {
+        routes.js {
+          /import/ui/ js files
+        }
+      }
+    }
+  }
+}
+
+/Client/Lib/ {
+  custom.semantic.json
+}
