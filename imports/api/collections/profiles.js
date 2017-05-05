@@ -2,6 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import { projekt, errors } from 'meteor/projekt';
 
 // imports from npm package
@@ -15,15 +16,13 @@ if (Meteor.isServer) {
   // do not use arrow functions in meteor
   Meteor.publish('profiles.user', function() {
     return Profiles.find({ userId: this.userId }, {
-      fields: {
-        '_id': 1,
-        'name': 1,
-        'email': 1,
-        'officeLocation': 1,
-        'officePhone': 1 ,
-        'adminGlowOn': 1,
-        'adminGlowColor': 1,
-      },
+      '_id': 1,
+      'name': 1,
+      'email': 1,
+      'officeLocation': 1,
+      'officePhone': 1 ,
+      'adminGlowOn': 1,
+      'adminGlowColor': 1,
     });
   });
 }
@@ -83,23 +82,13 @@ Profiles.schema = new SimpleSchema({
 // will be automatically be checked against the schema
 Profiles.attachSchema(Profiles.schema);
 
-// TODO: here is an exmaple of including a collection subset
-/*
-Profiles.helpers({
-  todos() {
-    return pro.find({listId: this._id}, {sort: {createdAt: -1}});
-  }
-});
-*/
-
 Meteor.methods({
   'profiles.admin': function() {
-    const admin = Profiles.findOne({ _id: this.userId }, {
-      fields: {
-        'adminGlowOn': 1,
-        'adminGlowColor': 1,
-      },
-    });
+    if (!Meteor.userId()) {
+      throw new Meteor.Error(errors.notLoggedIn.error, errors.notLoggedIn.message);
+    }
+
+    const admin = Profiles.findOne({ userId: this.userId });
     return admin;
   },
   'profiles.upsert': function(data) {

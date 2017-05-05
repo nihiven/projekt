@@ -1,4 +1,5 @@
 // TODO: schema
+// TODO: role macros
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
@@ -6,8 +7,8 @@ import { check } from 'meteor/check';
 export const Projects = new Mongo.Collection('projects');
 export { Projects as default };
 
+// This code only runs on the server
 if (Meteor.isServer) {
-  // This code only runs on the server
   Meteor.publish('projects', function() {
     return Projects.find();
   });
@@ -18,52 +19,30 @@ Meteor.methods({
     check(name, String);
 
     // user must be logged in
-    if (!Roles.userIsInRole(this.userId, ['admin','project-mgr'])) {
-      throw new Meteor.Error(403, 'Not authorized to create projects.');
+    if (Roles.roleCheckPasses(this.userId, ['admin','project-mgr'], 'Create Projects entry.')) {
+      Projects.insert({
+        name,
+        creator: Meteor.userId(),
+        createdAt: new Date(),
+      });
     }
-
-    Projects.insert({
-      name,
-      creator: Meteor.userId(),
-      createdAt: new Date(),
-    });
-
-    console.log('created new project');
   },
   'projects.reset'() {
-    if (Roles.userIsInRole(this.userId, ['admin'])) {
+    if (Roles.adminCheckPasses(this.userId, 'Reset Project data.')) {
       Projects.remove({});
-    } else {
-      throw new Meteor.Error(403, 'Not authorized to reset Project data.');
     }
   },
   'projects.test'() {
-    if (Roles.userIsInRole(this.userId, ['admin'])) {
+    if (Roles.adminCheckPasses(this.userId, 'Load test Project data.')) {
       loadTestData();
-    } else {
-      throw new Meteor.Error(403, 'Not authorized to load test Project data.');
     }
   },
 });
 
-// returns ture if role check passes
-const roleCheckPasses= (userId, roles) => {
-  if (Roles.userIsInRole(userId, roles)) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-// return true if role check fails
-const roleCheckFails = (user, roles) => {
-  return !roleCheckPasses(user, roles);
-};
-
-const loadTestData = function() {
+const loadTestData = () => {
   Projects.insert({
     name: 'Fall of Troy',
-    description: 'The Trojan War was waged against the city of Troy by the Achaeans (Greeks) after Paris of Troy took Helen from her husband Menelaus, king of Sparta.',
+    description: 'The Trojan War was waged against the city of Troy by the Achaeans after Paris of Troy took Helen from her husband Menelaus, king of Sparta.',
     business_owner: 'Menelaus',
     developers: 'Paris',
     project_manager: 'Achilles',

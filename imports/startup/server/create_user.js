@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Roles } from 'meteor/alanning:roles';
 
 // modify the user object when a user registers
 Accounts.onCreateUser((options, user) => {
@@ -8,7 +7,7 @@ Accounts.onCreateUser((options, user) => {
   Meteor.call('profiles.newUser', user._id);
 
   // Roles
-  user.roles = ['admin'];
+  user.roles = ['normal-user', 'admin'];
   Roles.addUsersToRoles(user._id, user.roles);
 
   // return the modified user object

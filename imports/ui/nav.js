@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { $ } from 'meteor/jquery';
 import { Roles } from 'meteor/alanning:roles';
+import { $ } from 'meteor/jquery';
 
 // templates
 import '/imports/ui/stylesheets/nav.less';
@@ -21,12 +21,14 @@ Template.nav.onRendered(function() {
   $(`a[href="${path}"]`).addClass('active');
 
   // change glow color for admins
-  const admin = Meteor.call('profiles.admin');
+  const admin = Profiles.findOne({ userId: Meteor.userId() });;
+
   console.log(admin);
-  console.log(Roles.userIsInRole(Meteor.userId(), 'admin'));
-  // if (Roles.userIsInRole(Meteor.userId(), 'admin') && admin.adminGlowOn) {
-  $('.global-menu').css({ background: admin.adminGlowColor });
-  // };
+  if (admin !== undefined) {
+    console.log(admin);
+    $('.global-menu').css({ background: admin.adminGlowColor });
+  }
+
 });
 
 Template.nav.events({
