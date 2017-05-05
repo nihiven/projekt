@@ -46,8 +46,18 @@ Meteor.methods({
   },
 });
 
-const roleCheck = function(user, roles, callback) {
-  // TODO: end of day
+// returns ture if role check passes
+const roleCheckPasses= (userId, roles) => {
+  if (Roles.userIsInRole(userId, roles)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// return true if role check fails
+const roleCheckFails = (user, roles) => {
+  return !roleCheckPasses(user, roles);
 };
 
 const loadTestData = function() {
