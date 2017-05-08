@@ -43,15 +43,15 @@
 <template name="formBody">
 	<form class="ui form">
 		{{> demoFields}}
-		{{#if isInRole "admin"}}
-			{{> adminFields}}
-		{{/if}}
 		<div class="ui primary submit button">Update</div>
 		<div class="ui error message"></div>
 		<div class="ui success message transition hidden">
 			<i class="close icon"></i>
 			Account updated.
 		</div>
+		{{#if isInRole "admin"}}
+			{{> adminFields}}
+		{{/if}}
 	</form>
 </template>
 

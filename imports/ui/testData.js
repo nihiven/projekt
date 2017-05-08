@@ -41,7 +41,6 @@ const testData = function(mode = 'load') {
     if (mode === 'reset') {
       Meteor.call('projects.reset');
       Meteor.call('favorites.reset');
-      Meteor.call('profiles.reset');
     }
   } else {
     throw new Meteor.Error(403, 'Not authorized to change test data.');

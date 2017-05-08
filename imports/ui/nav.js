@@ -27,7 +27,7 @@ Template.loggedInMenu.onRendered(function() {
   setAdminGlow();
 });
 
-Template.loggedInMenu.onRendered(function() {
+Template.loggedOutMenu.onRendered(function() {
   setAdminGlow();
 });
 

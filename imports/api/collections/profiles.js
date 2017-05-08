@@ -87,7 +87,10 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error(errors.notLoggedIn.error, errors.notLoggedIn.message);
     }
-    return Profiles.find({ userId: this.userId });
+    return Profiles.find({ userId: this.userId }, {
+      adminGlowOn: 1,
+      adminGlowColor: 1,
+    });
   },
   'profiles.upsert': function(data) {
     check(data, Match.Any);
@@ -117,11 +120,13 @@ Meteor.methods({
     return true;
   },
   'profiles.newUser'(userId) {
+    check(userId, String);
+
     // insert default values
     Profiles.insert({
       userId,
       adminGlowOn: true,
-      adminGlowColor: '#fbfed6',
+      adminGlowColor: '#f7f9df',
     });
 
     return true;
