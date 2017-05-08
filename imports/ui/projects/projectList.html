@@ -13,31 +13,21 @@
 	{{/if}}
 </template>
 
-<!-- TODO: fix alignment of card elements, story fixed height -->
 <template name="projectCard">
-	<div class="ui card">
-	  <a class="content">
-	    <div class="header">{{name}}</div>
-	    <div class="meta">
-	      <span class="category">MIS</span>
-	    </div>
+	<div class="ui link card">
+		<div class="content project-body">
+    	<div class="header">{{name}}</div>
 	    <div class="description">
 	      <p>{{description}}</p>
-	      <p>Developer: {{developers}}</p>
-	      <p>Business Owner: {{business_owner}}</p>
-	      <p>Project Manager: {{project_manager}}</p>
 	    </div>
-			{{#if isRegulatory}}
-	  		<a class="ui red right ribbon label">Regulatory</a>
-	  	{{/if}}
-	  </a>
+	  </div>
 	  <div class="extra content">
 	  {{#if currentUser}}
 			<div class="left floated favorite-icon">
-					<i {{attributes}}></i>
+					<i {{attributes}}></i>Favorite
 	    </div>
-	    <div class="right floated settings-icon">
-					<i class="settings icon"></i>
+	    <div class="right floated">
+					{{#if isRegulatory}}Regulatory{{/if}}
 	    </div>
 	  {{/if}}
 	  </div>

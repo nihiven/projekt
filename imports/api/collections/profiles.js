@@ -13,9 +13,8 @@ export const Profiles = new Mongo.Collection('profiles');
 export { Profiles as default };
 
 if (Meteor.isServer) {
-  // do not use arrow functions in meteor
   Meteor.publish('profiles.user', function() {
-    return Profiles.find({ });
+    return Profiles.find({ userId: this.userId });
   });
 }
 

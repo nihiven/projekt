@@ -1,0 +1,18 @@
+<template name="projectInfo">
+  {{#if Template.subscriptionsReady}}
+    {{>projectDetails details}}
+  {{else}}
+    <div class="ui active centered inline loader"></div>
+  {{/if}}
+</template>
+
+<template name="projectDetails">
+  <div class="ui big top attached label">
+    <a href="">Projects</a> / <a href="/projects/{{_id}}">{{name}}</a>
+  </div>
+  <div class="ui grid">
+    <div class="fluid column">
+      {{description}}
+    </div>
+  </div>
+</template>
