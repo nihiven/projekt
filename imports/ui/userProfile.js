@@ -1,14 +1,12 @@
 import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
-import { less } from 'meteor/less';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';
 import '/imports/ui/userProfile.html';
 
 // subscribe to published user lists
-Template.userProfile.onCreated(function() {
+Template.formBody.onCreated(function() {
   // using autorun automatically keeps track of subscription readiness
   this.autorun(() => {
     this.subscribe('profiles.user');
@@ -36,24 +34,24 @@ Template.formBody.events({
 
 // set parameters for the colorpicker
 Template.adminFields.onRendered(function() {
+  const admin = Profiles.findOne({ userId: Meteor.userId() });
+
   $('#colorpicker').spectrum({
     className: 'full-spectrum',
-    color: Meteor.user.adminGlowColor,
+    color: admin.adminGlowColor,
     maxSelectionSize: 10,
     preferredFormat: 'hex',
     showInitial: true,
     showInput: true,
-    showButtons: false,
+    showButtons: true,
     showPalette: false,
     showSelectionPalette: true,
-    change(color) {
-      updateAdminGlow(color.toHexString());
-    },
+    change(color) { updateAdminGlow(color.toHexString()); },
   });
 });
 
 const updateAdminGlow = (colorHex) => {
-  Meteor.user.adminGlowColor = colorHex;
+  Meteor.call('profiles.save.adminGlowColor', colorHex);
   if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
     $('.global-menu').css({ background: colorHex });
   }

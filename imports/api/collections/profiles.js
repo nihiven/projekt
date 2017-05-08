@@ -15,15 +15,7 @@ export { Profiles as default };
 if (Meteor.isServer) {
   // do not use arrow functions in meteor
   Meteor.publish('profiles.user', function() {
-    return Profiles.find({ userId: this.userId }, {
-      '_id': 1,
-      'name': 1,
-      'email': 1,
-      'officeLocation': 1,
-      'officePhone': 1 ,
-      'adminGlowOn': 1,
-      'adminGlowColor': 1,
-    });
+    return Profiles.find({ });
   });
 }
 
@@ -83,13 +75,19 @@ Profiles.schema = new SimpleSchema({
 Profiles.attachSchema(Profiles.schema);
 
 Meteor.methods({
+  'profiles.save.adminGlowColor': function(colorHex) {
+    check(colorHex, String);
+
+    Profiles.update(
+      { userId: this.userId },
+      { $set: { userId: this.userId, adminGlowColor: colorHex } },
+      { upsert: true, multi: false });
+  },
   'profiles.admin': function() {
-    if (!Meteor.userId()) {
+    if (!this.userId) {
       throw new Meteor.Error(errors.notLoggedIn.error, errors.notLoggedIn.message);
     }
-
-    const admin = Profiles.findOne({ userId: this.userId });
-    return admin;
+    return Profiles.find({ userId: this.userId });
   },
   'profiles.upsert': function(data) {
     check(data, Match.Any);
