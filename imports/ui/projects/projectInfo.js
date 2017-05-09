@@ -24,3 +24,25 @@ Template.projectInfo.helpers({
     return Projects.findOne({ _id: FlowRouter.getParam('projectId') });
   },
 });
+
+Template.projectDetails.helpers({
+  'regulatory'() {
+    if (this.is_regulatory) {
+      return 'Yes';
+    } else {
+      return 'No';
+    }
+  },
+});
+
+Template.projectDetails.events({
+  'click [class~="pm-name"]'(event) {
+    console.log('open link to pm message?');
+  },
+  'click [class~="bo-name"]'(event) {
+    console.log('open link to bo message?');
+  },
+  'click [class~="dev-name"]'(event) {
+    console.log(`open link to dev message ${this._id}?`);
+  },
+});

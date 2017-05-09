@@ -39,11 +39,12 @@ Projects.schema = new SimpleSchema({
     optional: true,
     label() { return 'Business owner of the project.'; },
   },
-  developers: {
+  developers: { // define this as an array
     type: Array,
     optional: true,
     label() { return 'Developers assigned to the project.'; },
   },
+  'developers.$': { type: String }, // define the type of the array elements
   project_manager: {
     type: String,
     optional: true,
