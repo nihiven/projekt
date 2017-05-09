@@ -8,7 +8,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { Projects } from '/imports/api/collections/projects.js';
 
 // templates
-import '/imports/ui/testData.html';
+import './testData.html';
 
 // projectList
 Template.testData.onCreated(function() {

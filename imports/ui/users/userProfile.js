@@ -1,14 +1,12 @@
-import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
+import { projekt, settings } from 'meteor/projekt';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';
-import '/imports/ui/userProfile.html';
+import './userProfile.html';
 
-// subscribe to published user lists
 Template.formBody.onCreated(function() {
-  // using autorun automatically keeps track of subscription readiness
-  this.autorun(() => {
+  this.autorun(() => { // automatically tracks subscription readiness
     this.subscribe('profiles.user');
   });
 });
@@ -34,6 +32,7 @@ Template.formBody.events({
 
 // set parameters for the colorpicker
 Template.adminFields.onRendered(function() {
+  // don't pass user id
   const admin = Profiles.findOne({ userId: Meteor.userId() });
 
   $('#colorpicker').spectrum({

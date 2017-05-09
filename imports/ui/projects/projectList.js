@@ -40,7 +40,6 @@ Template.projectCard.events({
     Meteor.call('favorites.toggle', this._id);
   },
   'click [class~="project-body"]'() {
-    console.log('clicked project card');
     FlowRouter.go(`/projects/${this._id}`);
   },
 });
