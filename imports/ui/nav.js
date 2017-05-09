@@ -7,7 +7,7 @@ import { Profiles } from '/imports/api/collections/profiles.js';
 
 // templates
 import '/imports/ui/stylesheets/nav.less';
-import '/imports/ui/nav.html';
+import './nav.html';
 
 // subscribe to published user list
 Template.nav.onCreated(function() {

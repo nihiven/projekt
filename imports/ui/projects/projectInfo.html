@@ -1,0 +1,78 @@
+<template name="projectInfo">
+  {{#if Template.subscriptionsReady}}
+    {{>projectDetails details}}
+  {{else}}
+    <div class="ui active centered inline loader"></div>
+  {{/if}}
+</template>
+
+<template name="projectDetails">
+  <!--<div class="ui big top attached label">
+    {{name}}
+  </div>-->
+  <div class="ui grid">
+    {{#if currentUser}}
+      <div class="fluid four wide column">
+        {{> verticalProjectMenu}}
+      </div>
+    {{/if}}
+    <div class="fluid eight wide column">
+      <p class="ui header">{{name}}</p>
+      <p class="ui sub header">Project Description</p>
+      <p>{{description}}</p>
+    </div>
+    <div class="three three wide column">
+      <p class="ui sub header">Business Owner</p>
+      <p class="bo-name">{{business_owner}}</p>
+      <p class="ui sub header">Project Manager</p>
+      <p class="pm-name">{{project_manager}}</p>
+      <p class="ui sub header">Developers</p>
+      {{#each developers}}
+        <div class='dev-name'>{{this}}</div>
+      {{/each}}
+      <p class="ui sub header">Regulatory</p>
+      <p>{{regulatory}}</p>
+      <p class="ui sub header">Due Date</p>
+      <p>Yesterday</p>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+  <div class="ui grid">
+    <div class="fluid ten wide column">
+      <p class="ui sub header">Project Description</p>
+      <p>{{description}}</p>
+    </div>
+  </div>
+</template>
+
+<template name="verticalProjectMenu">
+  <div class="ui vertical menu">
+    <div class="item">
+      <div class="header">Information</div>
+      <div class="menu">
+        <a class="item">View Tasks</a>
+        <a class="item">View Assignments</a>
+        <a class="item">View Resources</a>
+        <a class="item">View Stats</a>
+      </div>
+    </div>
+    {{#if isInRole "admin,project-mgr"}}
+    <div class="item">
+      <div class="header">Project Management</div>
+      <div class="menu">
+        <a class="item">Edit Project</a>
+        <a class="item">Edit Assignments</a>
+        <a class="item">Post Announcement</a>
+      </div>
+    </div>
+    {{/if}}
+    {{#if isInRole "admin"}}
+      <div class="item">
+        <div class="header">Admin</div>
+        <div class="menu">
+          <a class="item">Ghost Project</a>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</template>
