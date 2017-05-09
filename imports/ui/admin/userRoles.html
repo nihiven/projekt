@@ -1,3 +1,17 @@
 <template name="userRoleMgmt">
-  Manage some roles.
+  {{#if Template.subscriptionsReady}}
+    {{#each userList}}
+      {{> userRoleView}}
+    {{/each}}
+  {{/if}}
+</template>
+
+<template name="userRoleView">
+  <div class="ui grid">
+    <div class="fluid two wide column">
+      <p class="ui header">{{display_name}}</p>
+      <p class="ui sub header">{{email}}</p>
+      <p>Some user stuff?</p>
+    </div>
+  </div>
 </template>
