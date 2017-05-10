@@ -16,6 +16,9 @@ if (Meteor.isServer) {
   Meteor.publish('profiles.user', function() {
     return Profiles.find({ userId: this.userId });
   });
+  Meteor.publish('profiles.roles', function() {
+    return Profiles.find({ }, { userId: 1, name: 1 });
+  });
 }
 
 // Deny all client-side updates
@@ -74,6 +77,12 @@ Profiles.schema = new SimpleSchema({
 Profiles.attachSchema(Profiles.schema);
 
 Meteor.methods({
+  'profiles.displayName'(userId) {
+    check(userId, String);
+    const data = Profiles.findOne({ userId });
+    console.log(data.name);
+    return data.name;
+  },
   'profiles.save.adminGlowColor': function(colorHex) {
     check(colorHex, String);
 

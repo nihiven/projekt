@@ -79,7 +79,7 @@ Meteor.methods({
       Projects.remove({});
     }
   },
-  'projects.test'() {
+  'projects.testData'() {
     if (Roles.adminCheckPasses(this.userId, 'Load test Project data.')) {
       loadTestData();
     }

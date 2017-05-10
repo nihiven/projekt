@@ -111,29 +111,28 @@ Template.formBody.onRendered(function() {
     },
     // form validation profile
     fields: {
-      name: {
-        identifier: 'displayName',
+      displayName: {
         rules: [{
           type: 'empty',
           prompt: 'Please enter your name.',
         }],
       },
-      email: {
-        identifier: 'publicEmail',
+      publicEmail: {
+        optional: true,
         rules: [{
           type: 'minLength[5]',
           prompt: 'Your email address must be at least {ruleValue} characters.',
         }],
       },
-      phone: {
-        identifier: 'officePhone',
+      officePhone: {
+        optional: true,
         rules: [{
           type: 'minLength[10]',
           prompt: 'Your telephone number must be at least {ruleValue} characters.',
         }],
       },
-      location: {
-        identifier: 'officeLocation',
+      officeLocation: {
+        optional: true,
         rules: [{
           type: 'empty',
           prompt: 'Please enter your office location.',

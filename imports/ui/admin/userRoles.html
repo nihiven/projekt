@@ -1,17 +1,41 @@
 <template name="userRoleMgmt">
   {{#if Template.subscriptionsReady}}
-    {{#each userList}}
-      {{> userRoleView}}
-    {{/each}}
+    {{> userRoleTable}}
   {{/if}}
 </template>
 
-<template name="userRoleView">
-  <div class="ui grid">
-    <div class="fluid two wide column">
-      <p class="ui header">{{display_name}}</p>
-      <p class="ui sub header">{{email}}</p>
-      <p>Some user stuff?</p>
-    </div>
-  </div>
+<template name="userRoleTable">
+  <table class="ui striped table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>View Only</th>
+        <th>Contributor</th>
+        <th>Project Manager</th>
+        <th>Admin</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each userList}}
+        {{> userRoleRow}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="userRoleRow">
+  <tr>
+    <td>{{displayName}}</td>
+    <td>
+      <div class="inline field">
+        <div class="ui toggle checkbox">
+          <input type="checkbox" tabindex="0" class="hidden viewOnly">
+          <label></label>
+        </div>
+      </div>
+    </td>
+    <td>{{isContributor}}</td>
+    <td>{{isProjectManager}}</td>
+    <td>{{isAdmin}}</td>
+  </tr>
 </template>
