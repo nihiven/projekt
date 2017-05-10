@@ -9,10 +9,9 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>View Only</th>
-        <th>Contributor</th>
-        <th>Project Manager</th>
-        <th>Admin</th>
+        {{#each columns}}
+          <th>{{name}}</th>
+        {{/each}}
       </tr>
     </thead>
     <tbody>

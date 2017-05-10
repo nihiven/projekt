@@ -21,6 +21,14 @@ Template.userRoleTable.helpers({
   'userList'() {
     return Meteor.users.find({}, { _id: 1, roles: 1 });
   },
+  'columns'() {
+    console.log(Roles.getAllRoles());
+    return Roles.getAllRoles();
+  },
+});
+
+Template.userRoleRow.onRendered(function() {
+  $('[class~="checkbox"]').checkbox();
 });
 
 Template.userRoleRow.helpers({
@@ -28,12 +36,10 @@ Template.userRoleRow.helpers({
     const data = Profiles.findOne({ userId: this._id });
     return data.name;
   },
-  ''() {
-
-  },
 });
+
 Template.userRoleRow.events({
-  'click [class~="viewOnly"]'(event) {
+  'click [class~="checkbox"]'(event) {
     console.log(event.target);
   },
 });
