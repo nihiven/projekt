@@ -17,6 +17,8 @@ Meteor.methods({
       },
       (error, docInserted) => {
         Profiles.insert({ userId: docInserted, name: 'Some Guy'});
+        const roles = ['normal-user'];
+        Roles.addUsersToRoles(docInserted, roles);
       });
     };
 
