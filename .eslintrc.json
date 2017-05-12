@@ -3,7 +3,10 @@
         "browser": true,
         "es6": true
     },
-    "plugins": ["meteor"],
+    "plugins": [
+      "meteor",
+      "html"
+    ],
     "extends": ["plugin:meteor/recommended"],
     "parserOptions": {
         "ecmaVersion": 6,

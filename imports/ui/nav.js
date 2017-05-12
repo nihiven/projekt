@@ -77,14 +77,16 @@ Template.logoutModal.onRendered(function() {
 });
 
 const setAdminGlow = () => {
-  if (Roles.adminCheckPasses(Meteor.userId())) {
-    const admin = Profiles.findOne({ userId: Meteor.userId() });
-
-    if (admin !== undefined) {
-      $('.global-menu').css({ background: admin.adminGlowColor });
-    }
-  } else {
+  if (!Meteor.userId()) {
     // TODO: find out how to get the background color from semantic theme
     $('.global-menu').css({ background: '#FFFFFF' });
+  } else {
+    if (Roles.adminCheckPasses(Meteor.userId())) {
+      const admin = Profiles.findOne({ userId: Meteor.userId() });
+
+      if (admin !== undefined) {
+        $('.global-menu').css({ background: admin.adminGlowColor });
+      }
+    }
   }
 };

@@ -1,8 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 // collections
 import { Profiles } from '/imports/api/collections/profiles.js';
@@ -18,13 +16,7 @@ Template.userRoleMgmt.onCreated(function() { // can't use => here
   });
 });
 
-// userRoleTable
-Template.userRoleTable.onCreated(function() {
-  this.autorun(() => { // keeps track of subscription readiness
-  });
-});
-
-Template.userRoleTable.helpers({
+Template.adminUserRoleTable.helpers({
   'userList'() {
     return Meteor.users.find({}, { _id: 1, roles: 1 });
   },
@@ -33,30 +25,35 @@ Template.userRoleTable.helpers({
   },
 });
 
-Template.userRoleRow.helpers({
+Template.adminUserRoleRow.helpers({
   'getAllRoles'() {
     return Roles.getAllRoles();
   },
 });
 
-// userRoleRow
-Template.userRoleRow.helpers({
+Template.adminUserRoleRow.helpers({
   'displayName'() {
     const data = Profiles.findOne({ userId: this._id });
-    return data.name;
+    return (data.name ? 't' : 'b' );
   },
   'isUserInRole'(userId, role) {
     return Roles.userIsInRole(userId, role);
   },
+  'isUserInRoleIcon'(userId, role, icon) {
+    if (Roles.userIsInRole(userId, role)) {
+      return icon;
+    } else {
+      return false;
+    }
+  },
 });
 
-Template.userRoleRow.events({
+Template.adminUserRoleRow.events({
   'click [class~="checkbox"]'(event) {
     const userId = $(event.target).attr('id');
     const role = [this.name]; // always needs to be an array
 
     // BUG: sometimes this.name is undefined
-    check(userId, String);
 
     if (Roles.userIsInRole(userId, role)) {
       if (!Meteor.call('roles.revoke', userId, role)) {

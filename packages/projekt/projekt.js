@@ -9,6 +9,7 @@ import { check } from 'meteor/check';
 
 // package name
 export const name = 'projekt';
+export const _p = projekt;
 
 // main projekt data container
 export const projekt = {

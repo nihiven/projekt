@@ -1,10 +1,13 @@
 <template name="userRoleMgmt">
-  {{#if Template.subscriptionsReady}}
-    {{> userRoleTable}}
+  {{#if isInRole "admin"}}
+    {{> adminUserRoleTable}}
+  {{else}}
+    {{> stdUserRoleTable}}
   {{/if}}
 </template>
 
-<template name="userRoleTable">
+<!-- ADMIN TABLE -->
+<template name="adminUserRoleTable">
   <table class="ui striped table">
     <thead>
       <tr>
@@ -16,15 +19,16 @@
     </thead>
     <tbody>
       {{#each userList}}
-        {{> userRoleRow}}
+        {{> adminUserRoleRow}}
       {{/each}}
     </tbody>
   </table>
 </template>
 
-<template name="userRoleRow">
+<template name="adminUserRoleRow">
   <tr>
     <td>{{displayName}}</td>
+    <!-- name is role -->
     {{#each getAllRoles}}
       <td>
         <div class="inline field">
@@ -35,5 +39,28 @@
         </div>
       </td>
     {{/each}}
+  </tr>
+</template>
+
+
+<!-- STANDARD TABLE -->
+<template name="stdUserRoleTable">
+  <table class="ui striped table">
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each userList}}
+        {{> stdUserRoleRow}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="stdUserRoleRow">
+  <tr>
+    <td>{{displayName}}</td>
   </tr>
 </template>
