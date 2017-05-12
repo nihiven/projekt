@@ -1,0 +1,39 @@
+<template name="userRoleMgmt">
+  {{#if Template.subscriptionsReady}}
+    {{> userRoleTable}}
+  {{/if}}
+</template>
+
+<template name="userRoleTable">
+  <table class="ui striped table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        {{#each getAllRoles}}
+          <th>{{name}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each userList}}
+        {{> userRoleRow}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="userRoleRow">
+  <tr>
+    <td>{{displayName}}</td>
+    {{#each getAllRoles}}
+      <td>
+        <div class="inline field">
+          <div class="ui checkbox">
+            <input type="checkbox" id="{{../_id}}" checked="{{isUserInRole ../_id name}}">
+            <label></label>
+          </div>
+        </div>
+      </td>
+    {{/each}}
+  </tr>
+</template>

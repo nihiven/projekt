@@ -27,11 +27,7 @@ Template.projectInfo.helpers({
 
 Template.projectDetails.helpers({
   'regulatory'() {
-    if (this.is_regulatory) {
-      return 'Yes';
-    } else {
-      return 'No';
-    }
+    return (this.is_regulatory ? 'Yes' : 'No');
   },
 });
 

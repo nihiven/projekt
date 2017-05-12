@@ -1,15 +1,18 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
-// import templates
+// site wide templates
 import '/imports/ui/mainLayout.html';
-import '/imports/ui/dashboard.js';
 import '/imports/ui/nav.js';
+
+// sub components
+import '/imports/ui/dashboard.js';
 import '/imports/ui/projects/projectList.js';
 import '/imports/ui/projects/projectInfo.js';
-import '/imports/ui/userProfile.js';
-import '/imports/ui/userLogin.js';
-import '/imports/ui/testData.js';
+import '/imports/ui/users/userProfile.js';
+import '/imports/ui/users/userLogin.js';
+import '/imports/ui/admin/testData.js';
+import '/imports/ui/admin/userRoles.js';
 
 // F L O W R O U T A
 FlowRouter.route('/', {
@@ -85,6 +88,17 @@ FlowRouter.route('/user/login', {
       'mainLayout', {
         nav: 'nav',
         content: 'userLogin',
+      });
+  },
+});
+
+FlowRouter.route('/users', {
+  name: 'Test.data',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'userRoleMgmt',
       });
   },
 });

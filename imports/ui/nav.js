@@ -6,7 +6,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { Profiles } from '/imports/api/collections/profiles.js';
 
 // templates
-import '/imports/ui/stylesheets/nav.less';
+import './nav.less';
 import './nav.html';
 
 // subscribe to published user list
