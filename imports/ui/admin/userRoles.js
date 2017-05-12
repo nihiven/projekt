@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -51,9 +52,20 @@ Template.userRoleRow.helpers({
 
 Template.userRoleRow.events({
   'click [class~="checkbox"]'(event) {
-    if (event.altKey) {
-      console.log($(event.target).attr('id'));
-      console.log(this);
+    const userId = $(event.target).attr('id');
+    const role = [this.name]; // always needs to be an array
+
+    // BUG: sometimes this.name is undefined
+    check(userId, String);
+
+    if (Roles.userIsInRole(userId, role)) {
+      if (!Meteor.call('roles.revoke', userId, role)) {
+        event.preventDefault();
+      }
+    } else {
+      if (!Meteor.call('roles.grant', userId, role)) {
+        event.preventDefault();
+      }
     }
   },
 });

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { projekt } from 'meteor/projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
@@ -66,22 +67,28 @@ Meteor.methods({
     check(name, String);
 
     // user must be logged in
-    if (Roles.roleCheckPasses(this.userId, ['admin','project-mgr'], 'Create Projects entry.')) {
+    if (Roles.roleCheckPasses(this.userId, ['admin','project-mgr'])) {
       Projects.insert({
         name,
         creator: Meteor.userId(),
         createdAt: new Date(),
       });
+    } else {
+      projekt.err('notAuthorized');
     }
   },
   'projects.reset'() {
-    if (Roles.adminCheckPasses(this.userId, 'Reset Project data.')) {
+    if (Roles.adminCheckPasses(this.userId)) {
       Projects.remove({});
+    } else {
+      projekt.err('notAdmin');
     }
   },
   'projects.testData'() {
-    if (Roles.adminCheckPasses(this.userId, 'Load test Project data.')) {
+    if (Roles.adminCheckPasses(this.userId)) {
       loadTestData();
+    } else {
+      projekt.err('notAdmin');
     }
   },
 });

@@ -1,3 +1,5 @@
+import { check } from 'meteor/check';
+
 // TODO: There are some things we need to do with this
 // 1: items in this package are meant to control the app and
 // this package contains the values. These should all be const.
@@ -19,6 +21,11 @@ export const projekt = {
     animation: 'fade down',
     duration: 100,
   },
+  err(errorType) {
+    check(errorType, String);
+    // TODO: checking for bad errorTypes
+    throw new Meteor.Error(errors[errorType].code, errors[errorType].message);
+  },
 };
 
 export const log = (message, level = 1) => {
@@ -29,12 +36,16 @@ export const log = (message, level = 1) => {
 // this is imported where needed
 export const errors = {
   notLoggedIn: {
-    error: 'not-logged-in',
+    code: 'not-logged-in',
     message: 'User must be logged in to make this change.',
   },
   notAuthorized: {
-    error: 'not-authorized',
-    message: 'User does not have the authority to make that change.',
+    code: 'not-authorized',
+    message: 'User does not have the authority to make this change.',
+  },
+  notAdmin: {
+    code: 'not-admin',
+    message: 'User must be an admin to make this change.',
   },
 };
 

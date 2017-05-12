@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt, errors } from 'meteor/projekt';
+import { projekt } from 'meteor/projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
@@ -77,12 +77,6 @@ Profiles.schema = new SimpleSchema({
 Profiles.attachSchema(Profiles.schema);
 
 Meteor.methods({
-  'profiles.displayName'(userId) {
-    check(userId, String);
-    const data = Profiles.findOne({ userId });
-    console.log(data.name);
-    return data.name;
-  },
   'profiles.save.adminGlowColor': function(colorHex) {
     check(colorHex, String);
 
@@ -91,21 +85,12 @@ Meteor.methods({
       { $set: { userId: this.userId, adminGlowColor: colorHex } },
       { upsert: true, multi: false });
   },
-  'profiles.admin': function() {
-    if (!this.userId) {
-      throw new Meteor.Error(errors.notLoggedIn.error, errors.notLoggedIn.message);
-    }
-    return Profiles.find({ userId: this.userId }, {
-      adminGlowOn: 1,
-      adminGlowColor: 1,
-    });
-  },
   'profiles.upsert': function(data) {
     check(data, Match.Any);
 
     // user must be logged in
     if (!Meteor.userId()) {
-      throw new Meteor.Error(errors.notLoggedIn.error, errors.notLoggedIn.message);
+      projekt.err('notLoggedIn');
     }
 
     // TODO: make sure this user owns the profile
@@ -143,7 +128,7 @@ Meteor.methods({
     if (Roles.userIsInRole(this.userId, ['admin'])) {
       Profiles.remove({});
     } else {
-      throw new Meteor.Error(403, 'Not authorized to reset Profile data.');
+      projekt.err('notAuthorized');
     }
   },
 });

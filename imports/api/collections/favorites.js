@@ -2,7 +2,8 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check, Match } from 'meteor/check';
+import { check } from 'meteor/check';
+import { projekt, errors } from 'meteor/projekt';
 
 export const Favorites = new Mongo.Collection('favorites');
 export { Favorites as default };
@@ -30,8 +31,10 @@ Meteor.methods({
 
     // user must be logged in
     if (!this.userId) {
-      throw new Meteor.Error('not-authorized');
+      project.err('notAuthorized');
     }
+
+    // TODO: user must be inserting this for themselves
 
     Favorites.insert({
       projectId,
@@ -43,8 +46,10 @@ Meteor.methods({
 
     // user must be logged in
     if (!this.userId) {
-      throw new Meteor.Error('not-authorized');
+      project.err('notAuthorized');
     }
+
+    // TODO: user must be removing this for themselves
 
     Favorites.remove({
       projectId,
@@ -55,7 +60,7 @@ Meteor.methods({
     if (Roles.adminCheckPasses(this.userId)) {
       Favorites.remove({});
     } else {
-      throw new Meteor.Error(403, 'Not authorized to reset Favorite data.');
+      project.err('notAuthorized');
     }
   },
 });
