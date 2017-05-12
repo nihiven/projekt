@@ -1,66 +1,45 @@
 <template name="userRoleMgmt">
-  {{#if isInRole "admin"}}
-    {{> adminUserRoleTable}}
-  {{else}}
-    {{> stdUserRoleTable}}
-  {{/if}}
+  {{> userRoleTable}}
 </template>
 
 <!-- ADMIN TABLE -->
-<template name="adminUserRoleTable">
+<template name="userRoleTable">
   <table class="ui striped table">
     <thead>
       <tr>
         <th>Name</th>
-        {{#each getAllRoles}}
-          <th>{{name}}</th>
-        {{/each}}
+        <th>E-Mail</th>
+        {{#if isInRole "admin"}}
+          {{#each getAllRoles}}
+            <th>{{name}}</th>
+          {{/each}}
+        {{/if}}
       </tr>
     </thead>
     <tbody>
       {{#each userList}}
-        {{> adminUserRoleRow}}
+        {{> userRoleRow}}
       {{/each}}
     </tbody>
   </table>
 </template>
 
-<template name="adminUserRoleRow">
+<template name="userRoleRow">
   <tr>
     <td>{{displayName}}</td>
-    <!-- name is role -->
-    {{#each getAllRoles}}
-      <td>
-        <div class="inline field">
-          <div class="ui checkbox">
-            <input type="checkbox" id="{{../_id}}" checked="{{isUserInRole ../_id name}}">
-            <label></label>
+    <td>{{email}}</td>
+    {{#if isInRole "admin"}}
+      <!-- name is role -->
+      {{#each getAllRoles}}
+        <td>
+          <div class="inline field">
+            <div class="ui checkbox">
+              <input type="checkbox" id="{{../_id}}" checked="{{isUserInRole ../_id name}}">
+              <label></label>
+            </div>
           </div>
-        </div>
-      </td>
-    {{/each}}
-  </tr>
-</template>
-
-
-<!-- STANDARD TABLE -->
-<template name="stdUserRoleTable">
-  <table class="ui striped table">
-    <thead>
-      <tr>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each userList}}
-        {{> stdUserRoleRow}}
+        </td>
       {{/each}}
-    </tbody>
-  </table>
-</template>
-
-<template name="stdUserRoleRow">
-  <tr>
-    <td>{{displayName}}</td>
+    {{/if}}
   </tr>
 </template>

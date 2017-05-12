@@ -16,7 +16,7 @@ Template.userRoleMgmt.onCreated(function() { // can't use => here
   });
 });
 
-Template.adminUserRoleTable.helpers({
+Template.userRoleTable.helpers({
   'userList'() {
     return Meteor.users.find({}, { _id: 1, roles: 1 });
   },
@@ -25,16 +25,16 @@ Template.adminUserRoleTable.helpers({
   },
 });
 
-Template.adminUserRoleRow.helpers({
+Template.userRoleRow.helpers({
   'getAllRoles'() {
     return Roles.getAllRoles();
   },
 });
 
-Template.adminUserRoleRow.helpers({
+Template.userRoleRow.helpers({
   'displayName'() {
     const data = Profiles.findOne({ userId: this._id });
-    return (data.name ? 't' : 'b' );
+    return (data.name ? data.name : '' );
   },
   'isUserInRole'(userId, role) {
     return Roles.userIsInRole(userId, role);
@@ -48,7 +48,7 @@ Template.adminUserRoleRow.helpers({
   },
 });
 
-Template.adminUserRoleRow.events({
+Template.userRoleRow.events({
   'click [class~="checkbox"]'(event) {
     const userId = $(event.target).attr('id');
     const role = [this.name]; // always needs to be an array
@@ -66,7 +66,3 @@ Template.adminUserRoleRow.events({
     }
   },
 });
-
-const toggleRole = (userId, role) => {
-
-};
