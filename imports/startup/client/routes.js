@@ -3,16 +3,16 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 // site wide templates
 import '/imports/ui/mainLayout.html';
-import '/imports/ui/nav.js';
+import '/imports/ui/nav/nav.js';
 
 // sub components
-import '/imports/ui/dashboard.js';
+import '/imports/ui/dashboard/dashboard.js';
 import '/imports/ui/projects/projectList.js';
 import '/imports/ui/projects/projectInfo.js';
 import '/imports/ui/users/userProfile.js';
 import '/imports/ui/users/userLogin.js';
+import '/imports/ui/users/userRoles.js';
 import '/imports/ui/admin/testData.js';
-import '/imports/ui/admin/userRoles.js';
 
 // F L O W R O U T A
 FlowRouter.route('/', {
