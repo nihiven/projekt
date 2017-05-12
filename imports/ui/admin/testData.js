@@ -1,4 +1,3 @@
-// test data
 // core components
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
@@ -8,7 +7,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { Projects } from '/imports/api/collections/projects.js';
 
 // templates
-import '/imports/ui/testData.html';
+import './testData.html';
 
 // projectList
 Template.testData.onCreated(function() {
@@ -30,17 +29,23 @@ Template.testData.events({
   'click .reset'() {
     testData('reset');
   },
+  'click [class~="usersData"]'() {
+    testData('usersData');
+  },
 });
 
 const testData = function(mode = 'load') {
   if (Roles.userIsInRole(Meteor.userId(), ['admin'])) {
     if (mode === 'load') {
-      Meteor.call('projects.test');
+      Meteor.call('projects.testData');
       // TODO: maybe add some users with different roles
     }
     if (mode === 'reset') {
       Meteor.call('projects.reset');
       Meteor.call('favorites.reset');
+    }
+    if (mode === 'usersData') {
+      Meteor.call('users.testData');
     }
   } else {
     throw new Meteor.Error(403, 'Not authorized to change test data.');

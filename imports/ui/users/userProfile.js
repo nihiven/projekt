@@ -1,23 +1,19 @@
-import { projekt, settings } from 'meteor/projekt';
 import { Template } from 'meteor/templating';
+import { projekt, settings } from 'meteor/projekt';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';
-import '/imports/ui/userProfile.html';
+import './userProfile.html';
 
-// subscribe to published user lists
 Template.formBody.onCreated(function() {
-  // using autorun automatically keeps track of subscription readiness
-  this.autorun(() => {
+  this.autorun(() => { // automatically tracks subscription readiness
     this.subscribe('profiles.user');
   });
 });
 
 Template.userProfile.helpers({
-  // TODO: show user roles
   userProfile: function() {
-    // TODO: need to pass userId here, but can't get any results when i do
-    return Profiles.findOne({ });
+    return Profiles.findOne({ userId: Meteor.userId() });
   },
 });
 
@@ -34,6 +30,7 @@ Template.formBody.events({
 
 // set parameters for the colorpicker
 Template.adminFields.onRendered(function() {
+  // don't pass user id
   const admin = Profiles.findOne({ userId: Meteor.userId() });
 
   $('#colorpicker').spectrum({
@@ -112,29 +109,28 @@ Template.formBody.onRendered(function() {
     },
     // form validation profile
     fields: {
-      name: {
-        identifier: 'displayName',
+      displayName: {
         rules: [{
           type: 'empty',
           prompt: 'Please enter your name.',
         }],
       },
-      email: {
-        identifier: 'publicEmail',
+      publicEmail: {
+        optional: true,
         rules: [{
           type: 'minLength[5]',
           prompt: 'Your email address must be at least {ruleValue} characters.',
         }],
       },
-      phone: {
-        identifier: 'officePhone',
+      officePhone: {
+        optional: true,
         rules: [{
           type: 'minLength[10]',
           prompt: 'Your telephone number must be at least {ruleValue} characters.',
         }],
       },
-      location: {
-        identifier: 'officeLocation',
+      officeLocation: {
+        optional: true,
         rules: [{
           type: 'empty',
           prompt: 'Please enter your office location.',
