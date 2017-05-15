@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 Accounts.onCreateUser((options, user) => {
   // TODO: use this for any default profile info
   // like a default picture or something
-  Meteor.call('profiles.newUser', user._id);
+  Meteor.call('profiles.newUser', user);
 
   // Roles
   user.roles = ['normal-user', 'admin'];

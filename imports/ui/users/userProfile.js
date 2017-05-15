@@ -1,3 +1,5 @@
+// TODO: make admin glow a less variable for reactivity
+
 import { Template } from 'meteor/templating';
 import { projekt, settings } from 'meteor/projekt';
 

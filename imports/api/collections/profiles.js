@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt } from 'meteor/projekt';
+import { projekt, defaults } from 'meteor/projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
@@ -13,11 +13,11 @@ export const Profiles = new Mongo.Collection('profiles');
 export { Profiles as default };
 
 if (Meteor.isServer) {
-  Meteor.publish('profiles.user', function() {
+  Meteor.publish('profiles.user', function() { // data for self consumption
     return Profiles.find({ userId: this.userId });
   });
-  Meteor.publish('profiles.roles', function() {
-    return Profiles.find({ }, { userId: 1, name: 1 });
+  Meteor.publish('profiles.public', function() { // data for public consumption
+    return Profiles.find({ }, { userId: 1, name: 1, email: 1 });
   });
 }
 
@@ -112,14 +112,16 @@ Meteor.methods({
 
     return true;
   },
-  'profiles.newUser'(userId) {
-    check(userId, String);
+  'profiles.newUser'(user) {
+    check(user, Object);
 
     // insert default values
     Profiles.insert({
-      userId,
-      adminGlowOn: true,
-      adminGlowColor: '#f7f9df',
+      userId: user._id,
+      name: user.emails[0].address, // NOTE: there will only be one here, so assume [0]
+      email: user.emails[0].address,
+      adminGlowOn: defaults.adminGlowOn,
+      adminGlowColor: defaults.adminGlowColor,
     });
 
     return true;

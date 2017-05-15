@@ -27,14 +27,14 @@
 <template name="userRoleRow">
   <tr>
     <td>{{displayName}}</td>
-    <td>{{email}}</td>
+    <td>{{displayEmail}}</td>
     {{#if isInRole "admin"}}
       <!-- name is role -->
       {{#each getAllRoles}}
         <td>
           <div class="inline field">
             <div class="ui checkbox">
-              <input type="checkbox" id="{{../_id}}" checked="{{isUserInRole ../_id name}}">
+              <input type="checkbox" id="{{../_id}}" checked={{isUserInRole ../_id name}}>
               <label></label>
             </div>
           </div>

@@ -11,30 +11,39 @@ import './userRoles.html';
 Template.userRoleMgmt.onCreated(function() { // can't use => here
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('users.roles');
-    this.subscribe('profiles.roles');
+    this.subscribe('profiles.public');
     this.subscribe('roles.all');
   });
 });
 
 Template.userRoleTable.helpers({
   'userList'() {
-    return Meteor.users.find({}, { _id: 1, roles: 1 });
+    return Meteor.users.find({}, { $orderby: { _id: -1 }}, { _id: 1, roles: 1 });
   },
   'getAllRoles'() {
     return Roles.getAllRoles();
   },
 });
 
-Template.userRoleRow.helpers({
-  'getAllRoles'() {
-    return Roles.getAllRoles();
-  },
+Template.userRoleRow.onCreated(function() {
+  const instance = this;
+  instance.displayName = new ReactiveVar();
+  instance.displayEmail = new ReactiveVar();
+
+  const data = Profiles.findOne({ userId: this.data._id });
+
+  instance.displayName.set(data.name);
+  instance.displayEmail.set(data.email);
 });
 
 Template.userRoleRow.helpers({
   'displayName'() {
-    const data = Profiles.findOne({ userId: this._id });
-    return (data.name ? data.name : '' );
+    const instance = Template.instance();
+    return instance.displayName.get();
+  },
+  'displayEmail'() {
+    const instance = Template.instance();
+    return instance.displayEmail.get();
   },
   'isUserInRole'(userId, role) {
     return Roles.userIsInRole(userId, role);
