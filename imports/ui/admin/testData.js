@@ -2,6 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
+import { projekt } from 'meteor/projekt';
 
 // collections
 import { Projects } from '/imports/api/collections/projects.js';
@@ -48,6 +49,6 @@ const testData = function(mode = 'load') {
       Meteor.call('users.testData');
     }
   } else {
-    throw new Meteor.Error(403, 'Not authorized to change test data.');
+    projekt.err('notAuthorized');
   };
 };
