@@ -2,20 +2,9 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Roles } from 'meteor/alanning:roles';
 
-// collections
-import { Profiles } from '/imports/api/collections/profiles.js';
-
 // templates
 import './nav.less';
 import './nav.html';
-
-// subscribe to published user list
-Template.nav.onCreated(function() {
-  // using autorun automatically keeps track of subscription readiness
-  this.autorun(() => {
-    this.subscribe('profiles.user');
-  });
-});
 
 Template.nav.onRendered(function() {
   // make the current menu item active
@@ -36,7 +25,6 @@ Template.nav.helpers({
     return (Roles.adminCheckPasses(Meteor.userId()) ? 'admin-glow' : '');
   },
 });
-
 
 Template.loggedInMenu.onRendered(function() {
   $('.ui.dropdown').dropdown();

@@ -64,6 +64,11 @@ Template.userRoleRow.events({
     const role = [this.name]; // always needs to be an array
 
     // BUG: sometimes this.name is undefined
+    if (!role) {
+      console.log('userRoles.js: caught null bug');
+      event.preventDefault();
+      return;
+    }
 
     if (Roles.userIsInRole(userId, role)) {
       if (!Meteor.call('roles.revoke', userId, role)) {

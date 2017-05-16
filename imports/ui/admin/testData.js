@@ -2,24 +2,29 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { projekt } from 'meteor/projekt';
-
-// collections
-import { Projects } from '/imports/api/collections/projects.js';
 
 // templates
 import './testData.html';
 
 // projectList
 Template.testData.onCreated(function() {
+  this.projectCount = new ReactiveVar();
   this.autorun(() => {
     this.subscribe('projects');
+
+    // set instance variables w/ reactivity
+    Meteor.call('projects.count', (error, result) => {
+      this.projectCount.set(result);
+    });
   });
 });
 
 Template.testData.helpers({
   projectCount() {
-    return Projects.find({}).count();
+    const instance = Template.instance();
+    return instance.projectCount.get();
   },
 });
 

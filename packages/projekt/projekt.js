@@ -48,6 +48,10 @@ export const errors = {
     code: 'not-admin',
     message: 'User must be an admin to make this change.',
   },
+  cantDemoteSelf: {
+    code: 'cant-demote-self',
+    message: 'You cannot remove elevated privileges from yourself.',
+  },
 };
 
 export const defaults = {
