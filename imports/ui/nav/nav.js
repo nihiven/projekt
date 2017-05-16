@@ -13,7 +13,7 @@ import './nav.html';
 Template.nav.onCreated(function() {
   // using autorun automatically keeps track of subscription readiness
   this.autorun(() => {
-    this.subscribe('profiles.user', function() { setAdminGlow(); });
+    this.subscribe('profiles.user');
   });
 });
 
@@ -23,14 +23,6 @@ Template.nav.onRendered(function() {
   $(`a[href="${path}"]`).addClass('active');
 });
 
-Template.loggedInMenu.onRendered(function() {
-  setAdminGlow();
-});
-
-Template.loggedOutMenu.onRendered(function() {
-  setAdminGlow();
-});
-
 Template.nav.events({
   'click .menu a.item'(event) {
     // highlight menu item when clicked
@@ -38,6 +30,13 @@ Template.nav.events({
     $(event.target).addClass('active');
   },
 });
+
+Template.nav.helpers({
+  'isAdmin'() {
+    return (Roles.adminCheckPasses(Meteor.userId()) ? 'admin-glow' : '');
+  },
+});
+
 
 Template.loggedInMenu.onRendered(function() {
   $('.ui.dropdown').dropdown();
@@ -75,18 +74,3 @@ Template.logoutModal.onRendered(function() {
     },
   });
 });
-
-const setAdminGlow = () => {
-  if (!Meteor.userId()) {
-    // TODO: find out how to get the background color from semantic theme
-    $('.global-menu').css({ background: '#FFFFFF' });
-  } else {
-    if (Roles.adminCheckPasses(Meteor.userId())) {
-      const admin = Profiles.findOne({ userId: Meteor.userId() });
-
-      if (admin !== undefined) {
-        $('.global-menu').css({ background: admin.adminGlowColor });
-      }
-    }
-  }
-};

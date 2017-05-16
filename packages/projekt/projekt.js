@@ -55,6 +55,4 @@ export const defaults = {
   publicEmail: 'email@internet.com',
   officeLocation: 'Heinz 57 Tower, Pittsburgh, PA',
   officePhone: '444-555-000',
-  adminGlowOn: true,
-  adminGlowColor: '#f7f9df',
 };
