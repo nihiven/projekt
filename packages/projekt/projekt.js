@@ -1,3 +1,4 @@
+import { Template } from 'meteor/templating';
 import { check } from 'meteor/check';
 
 // TODO: There are some things we need to do with this
@@ -22,8 +23,9 @@ export const projekt = {
     animation: 'fade down',
     duration: 100,
   },
-  err(errorType) {
+  err(errorType, param1='', param2='') { // TODO: add params
     check(errorType, String);
+
     // TODO: checking for bad errorTypes
     throw new Meteor.Error(errors[errorType].code, errors[errorType].message);
   },
@@ -48,9 +50,17 @@ export const errors = {
     code: 'not-admin',
     message: 'User must be an admin to make this change.',
   },
+  notAdminView: {
+    code: 'not-admin-view',
+    message: 'User must be an admin to view this page.',
+  },
   cantDemoteSelf: {
     code: 'cant-demote-self',
     message: 'You cannot remove elevated privileges from yourself.',
+  },
+  badParameter: {
+    code: 'bad-parameter',
+    message: 'Invalid parameter passed: {$1}',
   },
 };
 

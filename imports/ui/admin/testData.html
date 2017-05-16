@@ -10,6 +10,6 @@
 			<p>Test User Data</p>
 			<button class="ui button usersData">Load Users</button>
 		{{ else }}
-			<p>You are not authorized to view this page.</p>
+			<p>{{errMessage "notAdminView"}}</p>
 		{{/if}}
 </template>

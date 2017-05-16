@@ -63,8 +63,16 @@ Projects.schema = new SimpleSchema({
 Projects.attachSchema(Projects.schema);
 
 Meteor.methods({
-  'projects.count'() {
-    return Projects.find().count();
+  'projects.all'(userId) {
+    check(userId, String); // TODO: eventually restrict based on role
+    return Projects.find({ });
+  },
+  'projects.info'(projectId) {
+    check(projectId, String);
+    return Projects.findOne({ _id: projectId });
+  },
+  projectsCount() {
+    return Projects.find({}).count();
   },
   'projects.insert'(name) {
     check(name, String);

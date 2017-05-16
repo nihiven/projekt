@@ -1,7 +1,7 @@
-// core components
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 // collections
 import { Projects } from '/imports/api/collections/projects.js';
@@ -17,18 +17,15 @@ Template.projectList.onCreated(function() {
   this.autorun(() => {
     this.subscribe('projects');
     this.subscribe('favorites.user');
+    this.projectList = new ReactiveVar();
   });
 });
 
 Template.projectList.helpers({
-  listAllProjects() {
-    return Projects.find({});
-  },
-  favoriteProjects() {
-    const favs = Favorites.find({ userId: Meteor.userId() });
-    const projIds = favs.map(function(doc) { return doc.projectId; });
-    const projs = Projects.find({ _id: { $in: projIds } });
-    return projs;
+  'listAllProjects'() {
+    const instance = Template.instance();
+    instance.projectList.set(Projects.find({ }));
+    return instance.projectList.get();
   },
 });
 
