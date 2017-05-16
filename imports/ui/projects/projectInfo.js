@@ -3,6 +3,9 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
+// collections
+import { Projects } from '/imports/api/collections/projects.js';
+
 // templates
 import './projects.less';
 import './projectInfo.html';
@@ -12,17 +15,15 @@ Template.projectInfo.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('projects');
     this.subscribe('favorites.user');
-
     this.projectInfo = new ReactiveVar();
-    Meteor.call('projects.info', FlowRouter.getParam('projectId'), (error, result) => {
-      this.projectInfo.set(result);
-    });
   });
 });
 
 Template.projectInfo.helpers({
   'details'() {
     const instance = Template.instance();
+    const projectId = FlowRouter.getParam('projectId');
+    instance.projectInfo.set(Projects.findOne({ _id: projectId }));
     return instance.projectInfo.get();
   },
 });

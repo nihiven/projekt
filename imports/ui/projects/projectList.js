@@ -45,11 +45,11 @@ Template.projectCard.helpers({
   isRegulatory() {
     return this.is_regulatory;
   },
-  attributes() {
-    let result = 'red heart icon';
+  isFavorite() {
     if (Favorites.find({ projectId: this._id }).count() === 0) {
-      result = 'empty heart icon';
+      return true;
+    } else {
+      return false;
     }
-    return { class: result };
   },
 });

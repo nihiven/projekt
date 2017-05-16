@@ -1,7 +1,7 @@
 <template name="nav">
-  <div class="ui menu global-menu {{isAdmin}}">
+  <div class="ui menu global-menu {{isAdmin "admin-glow"}}">
     <div class="header item">Projekt</div>
-    <a class="item" href="{{pathFor '/'}}">Dashboard</a>
+    <a class="item {{isActive '/'}}" href="{{pathFor '/'}}">Dashboard</a>
     <a class="item" href="{{pathFor '/projects'}}">Projects</a>
     <a class="item" href="{{pathFor '/tasks'}}">Tasks</a>
     <a class="item" href="{{pathFor '/users'}}">Users</a>

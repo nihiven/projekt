@@ -1,33 +1,44 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { Roles } from 'meteor/alanning:roles';
 
 // templates
 import './nav.less';
 import './nav.html';
 
+Template.nav.onCreated(function() {
+  this.autorun(() => { // keeps track of subscription readiness
+    this.currentNav = new ReactiveVar();
+  });
+});
+
+
 Template.nav.onRendered(function() {
   // make the current menu item active
-  const path = FlowRouter.current().path;
-  $(`a[href="${path}"]`).addClass('active');
+  // const path = FlowRouter.current().path;
+  // $(`a[href="${path}"]`).addClass('active');
 });
 
 Template.nav.events({
   'click .menu a.item'(event) {
     // highlight menu item when clicked
-    $('.menu a.active').removeClass('active');
-    $(event.target).addClass('active');
+    // $('.menu a.active').removeClass('active');
+    // $(event.target).addClass('active');
   },
 });
 
 Template.nav.helpers({
-  'isAdmin'() {
-    return (Roles.adminCheckPasses(Meteor.userId()) ? 'admin-glow' : '');
+  'isActive'(path) {
+    console.log(path);
+    console.log(FlowRouter.current().path);
+    const instance = Template.instance();
+    if (FlowRouter.current().path === path) {
+      return 'active';
+    } else {
+      return '';
+    }
   },
-});
-
-Template.loggedInMenu.onRendered(function() {
-  $('.ui.dropdown').dropdown();
 });
 
 // TODO: user pathfor in the links below
