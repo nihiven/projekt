@@ -12,6 +12,8 @@ import '/imports/ui/projects/projectInfo.js';
 import '/imports/ui/users/userProfile.js';
 import '/imports/ui/users/userLogin.js';
 import '/imports/ui/users/userRoles.js';
+import '/imports/ui/reports/reportsList.js';
+import '/imports/ui/tasks/tasksList.js';
 
 // dev only
 import '/imports/ui/admin/testData.js';
