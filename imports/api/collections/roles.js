@@ -59,6 +59,12 @@ Meteor.methods({
       return false;
     }
 
+    // can't demote yourself
+    if (role.indexOf('admin') >= 0 && userId === this.userId) {
+      projekt.err('cantDemoteSelf');
+      return false;
+    }
+
     Roles.removeUsersFromRoles(userId, role);
     return true;
   },

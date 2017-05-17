@@ -1,5 +1,3 @@
-// TODO: make admin glow a less variable for reactivity
-
 import { Template } from 'meteor/templating';
 import { projekt, settings } from 'meteor/projekt';
 
@@ -29,32 +27,6 @@ Template.formBody.events({
     }
   },
 });
-
-// set parameters for the colorpicker
-Template.adminFields.onRendered(function() {
-  // don't pass user id
-  const admin = Profiles.findOne({ userId: Meteor.userId() });
-
-  $('#colorpicker').spectrum({
-    className: 'full-spectrum',
-    color: admin.adminGlowColor,
-    maxSelectionSize: 10,
-    preferredFormat: 'hex',
-    showInitial: true,
-    showInput: true,
-    showButtons: true,
-    showPalette: false,
-    showSelectionPalette: true,
-    change(color) { updateAdminGlow(color.toHexString()); },
-  });
-});
-
-const updateAdminGlow = (colorHex) => {
-  Meteor.call('profiles.save.adminGlowColor', colorHex);
-  if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
-    $('.global-menu').css({ background: colorHex });
-  }
-};
 
 // use below to save the timeoutId for closing our message box
 let timeoutId = undefined;

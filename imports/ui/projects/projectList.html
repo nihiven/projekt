@@ -5,7 +5,7 @@
 	{{#if Template.subscriptionsReady}}
 		<div class="ui three cards">
 			{{#each listAllProjects}}
-				{{>projectCard}}
+				{{> projectCard}}
 			{{/each}}
 		</div>
 	{{else}}
@@ -24,7 +24,7 @@
 	  <div class="extra content">
 	  {{#if currentUser}}
 			<div class="left floated favorite-icon">
-					<i {{attributes}}></i>Favorite
+					<i class="{{#if isFavorite}}red heart icon{{else}}empty heart icon{{/if}}"></i>Favorite
 	    </div>
 	    <div class="right floated">
 					{{#if isRegulatory}}Regulatory{{/if}}

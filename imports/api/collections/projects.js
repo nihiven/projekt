@@ -12,7 +12,7 @@ export { Projects as default };
 
 if (Meteor.isServer) {
   Meteor.publish('projects', function() {
-    return Projects.find({ });
+    return Projects.find();
   });
 }
 
@@ -63,10 +63,21 @@ Projects.schema = new SimpleSchema({
 Projects.attachSchema(Projects.schema);
 
 Meteor.methods({
+  'projects.all'(userId) {
+    check(userId, String); // TODO: eventually restrict based on role
+    return Projects.find({ });
+  },
+  'projects.info'(projectId) {
+    check(projectId, String);
+    return Projects.findOne({ _id: projectId });
+  },
+  projectsCount() {
+    return Projects.find({}).count();
+  },
   'projects.insert'(name) {
     check(name, String);
 
-    // user must be logged in
+    // TODO: do something with hard coded roles
     if (Roles.roleCheckPasses(this.userId, ['admin','project-mgr'])) {
       Projects.insert({
         name,

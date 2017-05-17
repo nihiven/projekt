@@ -8,15 +8,45 @@ import { projekt, errors } from 'meteor/projekt';
 export const Favorites = new Mongo.Collection('favorites');
 export { Favorites as default };
 
+// imports from npm package
+import SimpleSchema from 'simpl-schema';
+
 if (Meteor.isServer) { // This code only runs on the server
   Meteor.publish('favorites.user', function() {
     return Favorites.find({ userId: this.userId });
   });
 }
 
+// Deny all client-side updates
+Favorites.deny({
+  insert() { return true; },
+  update() { return true; },
+  remove() { return true; },
+});
+
+// schema config
+Favorites.schema = new SimpleSchema({
+  userId: {
+    type: String,
+    optional: false,
+    label() { return 'User ID'; },
+  },
+  projectId: {
+    type: String,
+    optional: false,
+    label() { return 'Project ID'; },
+  },
+});
+Favorites.attachSchema(Favorites.schema);
+
 Meteor.methods({
   'favorites.toggle'(projectId) {
     check(projectId, String);
+
+    // user must be logged in
+    if (!this.userId) {
+      project.err('notAuthorized');
+    }
 
     // TODO: does there need to be something more here?
     // only checking for empty, maybe it's enough
@@ -34,8 +64,6 @@ Meteor.methods({
       project.err('notAuthorized');
     }
 
-    // TODO: user must be inserting this for themselves
-
     Favorites.insert({
       projectId,
       userId: this.userId,
@@ -48,8 +76,6 @@ Meteor.methods({
     if (!this.userId) {
       project.err('notAuthorized');
     }
-
-    // TODO: user must be removing this for themselves
 
     Favorites.remove({
       projectId,

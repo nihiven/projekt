@@ -1,24 +1,22 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
-
-// collections
-import { Profiles } from '/imports/api/collections/profiles.js';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { ReactiveDict } from 'meteor/reactive-dict';
 
 // templates
 import './userRoles.html';
 
 Template.userRoleMgmt.onCreated(function() { // can't use => here
   this.autorun(() => { // keeps track of subscription readiness
-    this.subscribe('users.roles');
-    this.subscribe('profiles.public');
+    this.subscribe('users.public');
     this.subscribe('roles.all');
   });
 });
 
 Template.userRoleTable.helpers({
   'userList'() {
-    return Meteor.users.find({}, { $orderby: { _id: -1 }}, { _id: 1, roles: 1 });
+    return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1, roles: 1 });
   },
   'getAllRoles'() {
     return Roles.getAllRoles();
@@ -26,24 +24,27 @@ Template.userRoleTable.helpers({
 });
 
 Template.userRoleRow.onCreated(function() {
-  const instance = this;
-  instance.displayName = new ReactiveVar();
-  instance.displayEmail = new ReactiveVar();
+  this.display = new ReactiveDict();
+  this.display['name'] = new ReactiveVar();
+  this.display['email'] = new ReactiveVar();
 
-  const data = Profiles.findOne({ userId: this.data._id });
-
-  instance.displayName.set(data.name);
-  instance.displayEmail.set(data.email);
+  this.autorun(() => {
+    this.subscribe('profiles.public');
+  });
 });
 
 Template.userRoleRow.helpers({
-  'displayName'() {
-    const instance = Template.instance();
-    return instance.displayName.get();
+  'getAllRoles'() {
+    return Roles.getAllRoles();
   },
-  'displayEmail'() {
+});
+Template.userRoleRow.helpers({
+  'profileField'(field) {
     const instance = Template.instance();
-    return instance.displayEmail.get();
+    Meteor.call('profiles.public', this._id, (error, result) => {
+      instance.display[field].set(result[field]);
+    });
+    return instance.display[field].get();
   },
   'isUserInRole'(userId, role) {
     return Roles.userIsInRole(userId, role);
@@ -63,6 +64,11 @@ Template.userRoleRow.events({
     const role = [this.name]; // always needs to be an array
 
     // BUG: sometimes this.name is undefined
+    if (!role) {
+      console.log('userRoles.js: caught null bug');
+      event.preventDefault();
+      return;
+    }
 
     if (Roles.userIsInRole(userId, role)) {
       if (!Meteor.call('roles.revoke', userId, role)) {

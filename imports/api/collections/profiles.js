@@ -60,16 +60,6 @@ Profiles.schema = new SimpleSchema({
     optional: true,
     label() { return 'Office Phone'; },
   },
-  adminGlowOn: {
-    type: Boolean,
-    optional: true,
-    label() { return 'Should the top menu glow if the user is an admin?'; },
-  },
-  adminGlowColor: {
-    type: String,
-    optional: true,
-    label() { return 'The color of the top menu glow when the user is an admin.'; },
-  },
 });
 
 // all calls to Profiles.insert(), update(), upsert(),
@@ -77,13 +67,11 @@ Profiles.schema = new SimpleSchema({
 Profiles.attachSchema(Profiles.schema);
 
 Meteor.methods({
-  'profiles.save.adminGlowColor': function(colorHex) {
-    check(colorHex, String);
+  'profiles.public'(userId) {
+    check(userId, String);
 
-    Profiles.update(
-      { userId: this.userId },
-      { $set: { userId: this.userId, adminGlowColor: colorHex } },
-      { upsert: true, multi: false });
+    const data = Profiles.findOne({ userId }, { userId: 1, name: 1, email: 1 });
+    return data;
   },
   'profiles.upsert': function(data) {
     check(data, Match.Any);
@@ -120,8 +108,6 @@ Meteor.methods({
       userId: user._id,
       name: user.emails[0].address, // NOTE: there will only be one here, so assume [0]
       email: user.emails[0].address,
-      adminGlowOn: defaults.adminGlowOn,
-      adminGlowColor: defaults.adminGlowColor,
     });
 
     return true;

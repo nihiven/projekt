@@ -1,47 +1,11 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { Roles } from 'meteor/alanning:roles';
-
-// collections
-import { Profiles } from '/imports/api/collections/profiles.js';
 
 // templates
 import './nav.less';
 import './nav.html';
-
-// subscribe to published user list
-Template.nav.onCreated(function() {
-  // using autorun automatically keeps track of subscription readiness
-  this.autorun(() => {
-    this.subscribe('profiles.user', function() { setAdminGlow(); });
-  });
-});
-
-Template.nav.onRendered(function() {
-  // make the current menu item active
-  const path = FlowRouter.current().path;
-  $(`a[href="${path}"]`).addClass('active');
-});
-
-Template.loggedInMenu.onRendered(function() {
-  setAdminGlow();
-});
-
-Template.loggedOutMenu.onRendered(function() {
-  setAdminGlow();
-});
-
-Template.nav.events({
-  'click .menu a.item'(event) {
-    // highlight menu item when clicked
-    $('.menu a.active').removeClass('active');
-    $(event.target).addClass('active');
-  },
-});
-
-Template.loggedInMenu.onRendered(function() {
-  $('.ui.dropdown').dropdown();
-});
 
 // TODO: user pathfor in the links below
 Template.loggedInMenu.events({
@@ -70,23 +34,8 @@ Template.logoutModal.onRendered(function() {
     duration: '100',
     onApprove: function() {
       Accounts.logout(function() {
-        FlowRouter.go('/');
+        FlowRouter.redirect('/');
       });
     },
   });
 });
-
-const setAdminGlow = () => {
-  if (!Meteor.userId()) {
-    // TODO: find out how to get the background color from semantic theme
-    $('.global-menu').css({ background: '#FFFFFF' });
-  } else {
-    if (Roles.adminCheckPasses(Meteor.userId())) {
-      const admin = Profiles.findOne({ userId: Meteor.userId() });
-
-      if (admin !== undefined) {
-        $('.global-menu').css({ background: admin.adminGlowColor });
-      }
-    }
-  }
-};
