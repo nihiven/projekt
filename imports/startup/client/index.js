@@ -1,2 +1,2 @@
-import './helpers.js';
+import './globalTemplateHelpers.js';
 import './routes.js';

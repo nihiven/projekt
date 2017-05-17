@@ -1,13 +1,13 @@
 <template name="nav">
   <div class="ui menu global-menu {{isAdmin "admin-glow"}}">
     <div class="header item">Projekt</div>
-    <a class="item {{isActive '/'}}" href="{{pathFor '/'}}">Dashboard</a>
-    <a class="item" href="{{pathFor '/projects'}}">Projects</a>
+    <a class="item {{isActiveRoute 'root'}}" href="{{pathFor '/'}}">Dashboard</a>
+    <a class="item {{isActiveRoute 'projects'}}" href="{{pathFor '/projects'}}">Projects</a>
     <a class="item" href="{{pathFor '/tasks'}}">Tasks</a>
-    <a class="item" href="{{pathFor '/users'}}">Users</a>
+    <a class="item {{isActiveRoute 'users'}}" href="{{pathFor '/users'}}">Users</a>
     <a class="item" href="{{pathFor '/reports'}}">Reports</a>
     {{#if isInRole "admin"}}
-      <a class="item" href="{{pathFor '/test/data'}}">Test Data</a>
+      <a class="item {{isActiveRoute 'test'}}" href="{{pathFor '/test/data'}}">Test Data</a>
     {{/if}}
     <div class="right menu">
       {{#if currentUser}}

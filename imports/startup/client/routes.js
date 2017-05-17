@@ -12,11 +12,13 @@ import '/imports/ui/projects/projectInfo.js';
 import '/imports/ui/users/userProfile.js';
 import '/imports/ui/users/userLogin.js';
 import '/imports/ui/users/userRoles.js';
+
+// dev only
 import '/imports/ui/admin/testData.js';
 
 // F L O W R O U T A
 FlowRouter.route('/', {
-  name: 'Root',
+  name: 'root',
   action() {
     BlazeLayout.render('mainLayout', {
       nav: 'nav',
@@ -26,7 +28,7 @@ FlowRouter.route('/', {
 });
 
 FlowRouter.route('/projects', {
-  name: 'Project.root',
+  name: 'projects',
   action() {
     BlazeLayout.render(
       'mainLayout', {
@@ -37,7 +39,7 @@ FlowRouter.route('/projects', {
 });
 
 FlowRouter.route('/projects/:projectId', {
-  name: 'Project.info',
+  name: 'projects',
   action(params) {
     BlazeLayout.render(
       'mainLayout', {
@@ -48,7 +50,7 @@ FlowRouter.route('/projects/:projectId', {
 });
 
 FlowRouter.route('/projects/favorites', {
-  name: 'Project.favorites',
+  name: 'projects',
   action() {
     BlazeLayout.render(
       'mainLayout', {
@@ -59,7 +61,7 @@ FlowRouter.route('/projects/favorites', {
 });
 
 FlowRouter.route('/projects/:_id', {
-  name: 'Project.list',
+  name: 'projects',
   action() {
     BlazeLayout.render(
       'mainLayout', {
@@ -71,7 +73,7 @@ FlowRouter.route('/projects/:_id', {
 
 // U S E R
 FlowRouter.route('/user/profile', {
-  name: 'User.profile',
+  name: 'user',
   action() {
     BlazeLayout.render(
       'mainLayout', {
@@ -82,7 +84,7 @@ FlowRouter.route('/user/profile', {
 });
 
 FlowRouter.route('/user/login', {
-  name: 'User.login',
+  name: 'user',
   action() {
     BlazeLayout.render(
       'mainLayout', {
@@ -93,7 +95,7 @@ FlowRouter.route('/user/login', {
 });
 
 FlowRouter.route('/users', {
-  name: 'Test.data',
+  name: 'users',
   action() {
     BlazeLayout.render(
       'mainLayout', {
@@ -103,9 +105,33 @@ FlowRouter.route('/users', {
   },
 });
 
+// reports
+FlowRouter.route('/reports', {
+  name: 'reports',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'reportsList',
+      });
+  },
+});
+
+// tasks
+FlowRouter.route('/tasks', {
+  name: 'tasks',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'tasksList',
+      });
+  },
+});
+
 // test
 FlowRouter.route('/test/data', {
-  name: 'Test.data',
+  name: 'test',
   action() {
     BlazeLayout.render(
       'mainLayout', {

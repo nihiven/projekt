@@ -47,9 +47,9 @@ Template.projectCard.helpers({
   },
   isFavorite() {
     if (Favorites.find({ projectId: this._id }).count() === 0) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   },
 });
