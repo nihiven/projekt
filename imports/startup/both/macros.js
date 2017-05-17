@@ -4,7 +4,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { check } from 'meteor/check';
-import { projekt, errors } from 'meteor/projekt';
+import { projekt, errors } from 'meteor/nihiven:projekt';
 
 // role macros
 // returns ture if role check passes

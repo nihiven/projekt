@@ -16,7 +16,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt } from 'meteor/projekt';
+import { projekt } from 'meteor/nihiven:projekt';
 
 // exposing roles for admin functions
 Meteor.publish('roles.all', () => {

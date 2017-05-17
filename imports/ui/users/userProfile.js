@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { projekt, settings } from 'meteor/projekt';
+import { projekt, settings } from 'meteor/nihiven:projekt';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';

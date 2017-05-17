@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt } from 'meteor/projekt';
+import { projekt } from 'meteor/nihiven:projekt';
 
 // templates
 import './testData.html';

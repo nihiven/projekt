@@ -3,7 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { projekt, errors } from 'meteor/projekt';
+import { project, errors } from 'meteor/nihiven:projekt';
 
 export const Favorites = new Mongo.Collection('favorites');
 export { Favorites as default };

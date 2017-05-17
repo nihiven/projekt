@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { projekt } from 'meteor/projekt';
+import { projekt } from 'meteor/nihiven:projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
