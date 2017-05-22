@@ -13,7 +13,7 @@ import './projectInfo.html';
 // projectList
 Template.projectInfo.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
-    this.subscribe('projects');
+    this.subscribe('projects.public');
     this.subscribe('favorites.user');
     this.projectInfo = new ReactiveVar();
   });

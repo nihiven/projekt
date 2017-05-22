@@ -7,8 +7,8 @@ import { Projects } from '/imports/api/collections/projects.js';
 import { Favorites } from '/imports/api/collections/favorites.js';
 
 // templates
-import '/imports/ui/stylesheets/projectList.less';
-import '/imports/ui/projectList.html';
+import './projects.less';
+import './projectList.html';
 
 
 // projectList
@@ -16,8 +16,8 @@ Template.projectFavorites.onCreated(function() {
   this.autorun(() => {
     this.state = new ReactiveDict();
 
-    this.subscribe('projects');
-    this.subscribe('favorites', Meteor.userId());
+    this.subscribe('projects.public');
+    this.subscribe('favorites.user');
   });
 });
 

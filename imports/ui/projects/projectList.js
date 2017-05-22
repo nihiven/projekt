@@ -15,7 +15,7 @@ import './projectList.html';
 Template.projectList.onCreated(function() {
   // using autorun automatically keeps track of subscription readiness
   this.autorun(() => {
-    this.subscribe('projects');
+    this.subscribe('projects.public');
     this.subscribe('favorites.user');
     this.projectList = new ReactiveVar();
   });

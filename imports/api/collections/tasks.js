@@ -3,16 +3,21 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt, defaults } from 'meteor/nihiven:projekt';
+import { projekt } from 'meteor/nihiven:projekt';
+
+// collections
+import { Projects } from './projects.js';
+import { Profiles } from './profiles.js';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
+import moment from 'moment';
 
 // exports
 export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
-  Meteor.publish('tasks', function() { // data for self consumption
+  Meteor.publish('tasks.public', function() { // data for self consumption
     return Tasks.find({ });
   });
 }
@@ -74,6 +79,21 @@ Tasks.schema = new SimpleSchema({
   'assignments.$': { type: String },
 });
 
+Tasks.helpers({
+  project() {
+    return Projects.findOne({ _id: this.projectId });
+  },
+  createdBy() {
+    return Profiles.findOne({ userId: this.createdId });
+  },
+  updatedBy() {
+    return Profiles.findOne({ userId: this.updatedId });
+  },
+  aLongLongTimeAgo() {
+    return moment(this.createdTime).fromNow();
+  },
+});
+
 // all calls to Profiles.insert(), update(), upsert(),
 // will be automatically be checked against the schema
 Tasks.attachSchema(Tasks.schema);
@@ -112,13 +132,13 @@ Meteor.methods({
     Tasks.insert({
       projectId: 'project19',
       createdId: this.userId,
-      createdTime: Date.Now(),
+      createdTime: moment(),
       updatedId: this.userId,
-      updatedTime: Date.Now(),
+      updatedTime: moment(),
       title: 'Just a Task',
       description: 'This is how we keep track of things.',
-      dueDate: Date.Now(),
-      assignments: ['S2fA4yHdD4PGdoHFcl'],
+      dueDate: moment(),
+      assignments: [this.userId],
     });
 
     return true;
@@ -129,5 +149,40 @@ Meteor.methods({
     } else {
       projekt.err('notAuthorized');
     }
+  },
+  'tasks.testData'() {
+    Tasks.insert({
+      projectId: 'project19',
+      createdId: this.userId,
+      createdTime: moment(),
+      updatedId: this.userId,
+      updatedTime: moment(),
+      title: 'Just a Task',
+      description: 'This is how we keep track of things.',
+      dueDate: moment(),
+      assignments: [this.userId],
+    });
+    Tasks.insert({
+      projectId: 'project19',
+      createdId: this.userId,
+      createdTime: moment(),
+      updatedId: this.userId,
+      updatedTime: moment(),
+      title: 'THIS IS Just a Task',
+      description: 'This is how we keep track of things.',
+      dueDate: moment(),
+      assignments: [this.userId],
+    });
+    Tasks.insert({
+      projectId: 'project22',
+      createdId: this.userId,
+      createdTime: moment(),
+      updatedId: this.userId,
+      updatedTime: moment(),
+      title: 'Against the LAW',
+      description: 'This is how we keep track of things.',
+      dueDate: moment(),
+      assignments: [this.userId],
+    });
   },
 });

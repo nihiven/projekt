@@ -7,28 +7,35 @@ import { projekt } from 'meteor/nihiven:projekt';
 import './testData.html';
 
 Template.testData.events({
-  'click .project'() {
-    testData('load');
+  'click [class~="projectData"]'() {
+    testData('projects');
   },
-  'click .reset'() {
+  'click [class~="reset"]'() {
     testData('reset');
   },
-  'click [class~="usersData"]'() {
-    testData('usersData');
+  'click [class~="taskData"]'() {
+    testData('tasks');
+  },
+  'click [class~="userData"]'() {
+    testData('users');
   },
 });
 
 const testData = function(mode = 'load') {
   if (Roles.adminCheckPasses(Meteor.userId())) {
-    if (mode === 'load') {
+    if (mode === 'projects') {
       Meteor.call('projects.testData');
     }
     if (mode === 'reset') {
       Meteor.call('projects.reset');
       Meteor.call('favorites.reset');
+      Meteor.call('tasks.reset');
     }
-    if (mode === 'usersData') {
+    if (mode === 'users') {
       Meteor.call('users.testData');
+    }
+    if (mode === 'tasks') {
+      Meteor.call('tasks.testData');
     }
   } else {
     projekt.err('notAdmin');

@@ -1,6 +1,35 @@
 <template name="tasksList">
   <div class="ui big top attached label">
-    Dashboard
+    Tasks
   </div>
-  <p>And then there were tasks!</p>
+  <div class="ui segment">
+    <div class="ui divided items">
+      {{#each tasks}}
+        {{> taskDetail}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="taskDetail">
+  <div class="item">
+    <div class="content">
+      <a class="header">{{title}}</a>
+      <div class="meta">
+        {{#if creatorProfile}}
+          <span class="taskSubHeader">{{creatorProfile.name}} created this task {{aLongLongTimeAgo}}.</span>
+        {{else}}
+          <span class="taskSubHeader">This task was created {{aLongLongTimeAgo}}.</span>
+        {{/if}}
+      </div>
+      <div class="description">
+        <p></p>
+      </div>
+      <div class="extra">
+        {{#if project}}
+          <div class="ui label"><i class="world icon"></i> {{project.name}}</div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
 </template>

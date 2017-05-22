@@ -11,7 +11,7 @@ export const Projects = new Mongo.Collection('projects');
 export { Projects as default };
 
 if (Meteor.isServer) {
-  Meteor.publish('projects', function() {
+  Meteor.publish('projects.public', function() {
     return Projects.find();
   });
 }

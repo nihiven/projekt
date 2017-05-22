@@ -31,3 +31,4 @@ ecmascript@0.8.0-beta.19
 audit-argument-checks
 zimme:active-route
 nihiven:projekt
+dburles:collection-helpers
