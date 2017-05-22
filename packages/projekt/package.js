@@ -1,8 +1,8 @@
 Package.describe({
-  name: 'projekt',
-  version: '0.1.0',
+  name: 'nihiven:projekt',
+  version: '0.2.0',
   // Brief, one-line summary of the package.
-  summary: 'The central package for Projekt development.',
+  summary: 'The core Projekt package.',
   // URL to the Git repository containing the source code for this package.
   git: 'https://github.com/nihiven/projekt/',
   // By default, Meteor will default to using README.md for documentation.
@@ -11,7 +11,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.4.4.1');
+  api.versionsFrom('1.4.4.2');
   api.use('ecmascript');
   api.mainModule('projekt.js');
 });
@@ -19,6 +19,6 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
-  api.use('projekt');
+  api.use('nihiven:projekt');
   api.mainModule('projekt-tests.js');
 });

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { errors } from 'meteor/projekt';
+import { errors } from 'meteor/nihiven:projekt';
 
 // global helper for template errors
 Template.registerHelper('errMessage', (errorType) => {

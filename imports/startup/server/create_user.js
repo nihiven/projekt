@@ -7,7 +7,7 @@ Accounts.onCreateUser((options, user) => {
   Meteor.call('profiles.newUser', user);
 
   // Roles
-  user.roles = ['normal-user', 'admin'];
+  user.roles = ['view', 'admin', 'resource'];
   Roles.addUsersToRoles(user._id, user.roles);
 
   // return the modified user object

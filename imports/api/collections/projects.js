@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { projekt } from 'meteor/projekt';
+import { projekt } from 'meteor/nihiven:projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
@@ -106,6 +106,7 @@ Meteor.methods({
 
 const loadTestData = () => {
   Projects.insert({
+    _id: 'project19',
     name: 'Fall of Troy',
     description: 'The Trojan War was waged against the city of Troy by the Achaeans after Paris of Troy took Helen from her husband Menelaus, king of Sparta.',
     business_owner: 'Menelaus',

@@ -9,71 +9,77 @@ import { projekt, defaults } from 'meteor/nihiven:projekt';
 import SimpleSchema from 'simpl-schema';
 
 // exports
-export const Profiles = new Mongo.Collection('profiles');
-export { Profiles as default };
+export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
-  Meteor.publish('profiles.user', function() { // data for self consumption
-    return Profiles.find({ userId: this.userId });
-  });
-  Meteor.publish('profiles.public', function() { // data for public consumption
-    return Profiles.find({ }, { userId: 1, name: 1, email: 1 });
+  Meteor.publish('tasks', function() { // data for self consumption
+    return Tasks.find({ });
   });
 }
 
 // Deny all client-side updates
-Profiles.deny({
+Tasks.deny({
   insert() { return true; },
   update() { return true; },
   remove() { return true; },
 });
 
-// define schema for user profile
-// validate like this:
-// Profiles.schema.validate(yourObject)
-// a ValidationError is thrown if validate() fails
-Profiles.schema = new SimpleSchema({
+Tasks.schema = new SimpleSchema({
   // for type, use [String] to indicate an array
-  userId: {
+  projectId: {
     type: String,
     optional: false,
-    label() { return 'User ID'; },
+    label() { return 'Linked Project ID'; },
   },
-  name: {
+  createdId: {
     type: String,
     optional: true,
-    label() { return 'Display Name'; },
+    label() { return 'User that created the task.'; },
   },
-  email: {
-    type: String,
-    regEx: SimpleSchema.RegEx.Email,
+  createdTime: {
+    type: Date,
     optional: true,
-    label() { return 'E-Mail Address'; },
+    label() { return 'Time the task was created.'; },
   },
-  officeLocation: {
+  updatedId: {
     type: String,
+    optional: true,
+    label() { return 'Last user to update the task.'; },
+  },
+  updatedTime: {
+    type: Date,
+    optional: true,
+    label() { return 'Last time the task was updated.'; },
+  },
+  title: {
+    type: String,
+    optional: true,
+    label() { return 'Task Title'; },
+  },
+  description: {
+    type: String,
+    optional: true,
+    label() { return 'Task Description'; },
+  },
+  dueDate: {
+    type: Date,
     optional: true,
     label() { return 'Office Location'; },
   },
-  officePhone: {
-    type: String,
+  assignments: { // define this as an array
+    type: Array,
     optional: true,
-    label() { return 'Office Phone'; },
+    label() { return 'Users assigned to the task.'; },
   },
+  'assignments.$': { type: String },
 });
 
 // all calls to Profiles.insert(), update(), upsert(),
 // will be automatically be checked against the schema
-Profiles.attachSchema(Profiles.schema);
+Tasks.attachSchema(Tasks.schema);
 
 Meteor.methods({
-  'profiles.public'(userId) {
-    check(userId, String);
-
-    const data = Profiles.findOne({ userId }, { userId: 1, name: 1, email: 1 });
-    return data;
-  },
-  'profiles.upsert': function(data) {
+  'tasks.upsert': function(data) {
     check(data, Match.Any);
 
     // user must be logged in
@@ -84,12 +90,11 @@ Meteor.methods({
     // TODO: make sure this user owns the profile
     // OR has elevated priviliges
 
-    // TODO: formatting :( ??
-    Profiles.update(
-      { userId: this.userId },
+    Tasks.update(
+      { _id: data._id },
       {
         $set: {
-          userId: this.userId,
+          updatedBy: this.userId,
           name: data.displayName,
           email: data.publicEmail,
           officeLocation: data.officeLocation,
@@ -100,21 +105,27 @@ Meteor.methods({
 
     return true;
   },
-  'profiles.newUser'(user) {
+  'tasks.newTask'(user) {
     check(user, Object);
 
     // insert default values
-    Profiles.insert({
-      userId: user._id,
-      name: user.emails[0].address, // NOTE: there will only be one here, so assume [0]
-      email: user.emails[0].address,
+    Tasks.insert({
+      projectId: 'project19',
+      createdId: this.userId,
+      createdTime: Date.Now(),
+      updatedId: this.userId,
+      updatedTime: Date.Now(),
+      title: 'Just a Task',
+      description: 'This is how we keep track of things.',
+      dueDate: Date.Now(),
+      assignments: ['S2fA4yHdD4PGdoHFcl'],
     });
 
     return true;
   },
-  'profiles.reset'() {
+  'tasks.reset'() {
     if (Roles.userIsInRole(this.userId, ['admin'])) {
-      Profiles.remove({});
+      Tasks.remove({});
     } else {
       projekt.err('notAuthorized');
     }

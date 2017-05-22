@@ -2,7 +2,7 @@
 import { Tinytest } from 'meteor/tinytest';
 
 // Import and rename a variable exported by projekt.js.
-import { name as packageName } from 'meteor/projekt';
+import { name as packageName } from 'meteor/nihiven:projekt';
 
 // Write your tests here!
 // Here is an example.
