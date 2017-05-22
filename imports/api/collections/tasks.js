@@ -42,7 +42,8 @@ Tasks.schema = new SimpleSchema({
     label() { return 'User that created the task.'; },
   },
   createdTime: {
-    type: Date,
+    blackbox: true,
+    type: Object,
     optional: true,
     label() { return 'Time the task was created.'; },
   },
@@ -52,7 +53,8 @@ Tasks.schema = new SimpleSchema({
     label() { return 'Last user to update the task.'; },
   },
   updatedTime: {
-    type: Date,
+    blackbox: true,
+    type: Object,
     optional: true,
     label() { return 'Last time the task was updated.'; },
   },
@@ -67,7 +69,8 @@ Tasks.schema = new SimpleSchema({
     label() { return 'Task Description'; },
   },
   dueDate: {
-    type: Date,
+    blackbox: true,
+    type: Object,
     optional: true,
     label() { return 'Office Location'; },
   },
@@ -159,7 +162,7 @@ Meteor.methods({
       updatedTime: moment(),
       title: 'Just a Task',
       description: 'This is how we keep track of things.',
-      dueDate: moment(),
+      dueDate: moment('20170518'),
       assignments: [this.userId],
     });
     Tasks.insert({
