@@ -90,7 +90,6 @@ Meteor.methods({
     // TODO: make sure this user owns the profile
     // OR has elevated priviliges
 
-    // TODO: formatting :( ??
     Tasks.update(
       { _id: data._id },
       {
@@ -119,7 +118,7 @@ Meteor.methods({
       title: 'Just a Task',
       description: 'This is how we keep track of things.',
       dueDate: Date.Now(),
-      assignments: ['S2fA4yHdD4PGdoHFc'],
+      assignments: ['S2fA4yHdD4PGdoHFcl'],
     });
 
     return true;
