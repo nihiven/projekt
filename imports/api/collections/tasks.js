@@ -42,8 +42,7 @@ Tasks.schema = new SimpleSchema({
     label() { return 'User that created the task.'; },
   },
   createdTime: {
-    blackbox: true,
-    type: Object,
+    type: Date,
     optional: true,
     label() { return 'Time the task was created.'; },
   },
@@ -53,8 +52,7 @@ Tasks.schema = new SimpleSchema({
     label() { return 'Last user to update the task.'; },
   },
   updatedTime: {
-    blackbox: true,
-    type: Object,
+    type: Date,
     optional: true,
     label() { return 'Last time the task was updated.'; },
   },
@@ -69,10 +67,9 @@ Tasks.schema = new SimpleSchema({
     label() { return 'Task Description'; },
   },
   dueDate: {
-    blackbox: true,
-    type: Object,
+    type: String,
     optional: true,
-    label() { return 'Office Location'; },
+    label() { return 'Date the project is due.'; },
   },
   assignments: { // define this as an array
     type: Array,
@@ -81,6 +78,10 @@ Tasks.schema = new SimpleSchema({
   },
   'assignments.$': { type: String },
 });
+
+// all calls to Profiles.insert(), update(), upsert(),
+// will be automatically be checked against the schema
+Tasks.attachSchema(Tasks.schema);
 
 Tasks.helpers({
   project() {
@@ -92,14 +93,26 @@ Tasks.helpers({
   updatedBy() {
     return Profiles.findOne({ userId: this.updatedId });
   },
+  assignedTo() {
+    var users = [];
+    users.push('test');
+    return users;
+  },
+  dueDateString() {
+    if (this.dueDate !== undefined) {
+      return moment(this.dueDate).format(projekt.dateFormat);
+    } else {
+      return '';
+    }
+  },
   aLongLongTimeAgo() {
-    return moment(this.createdTime).fromNow();
+    if (this.createdTime !== undefined) {
+      return moment(this.createdTime).fromNow();
+    } else {
+      return '';
+    }
   },
 });
-
-// all calls to Profiles.insert(), update(), upsert(),
-// will be automatically be checked against the schema
-Tasks.attachSchema(Tasks.schema);
 
 Meteor.methods({
   'tasks.upsert': function(data) {
@@ -135,12 +148,12 @@ Meteor.methods({
     Tasks.insert({
       projectId: 'project19',
       createdId: this.userId,
-      createdTime: moment(),
+      createdTime: Date.now(),
       updatedId: this.userId,
-      updatedTime: moment(),
+      updatedTime: Date.now(),
       title: 'Just a Task',
       description: 'This is how we keep track of things.',
-      dueDate: moment(),
+      dueDate: '20151231',
       assignments: [this.userId],
     });
 
@@ -157,34 +170,34 @@ Meteor.methods({
     Tasks.insert({
       projectId: 'project19',
       createdId: this.userId,
-      createdTime: moment(),
+      createdTime: Date.now(),
       updatedId: this.userId,
-      updatedTime: moment(),
+      updatedTime: Date.now(),
       title: 'Just a Task',
       description: 'This is how we keep track of things.',
-      dueDate: moment('20170518'),
+      dueDate: '20170518',
       assignments: [this.userId],
     });
     Tasks.insert({
       projectId: 'project19',
       createdId: this.userId,
-      createdTime: moment(),
+      createdTime: Date.now(),
       updatedId: this.userId,
-      updatedTime: moment(),
+      updatedTime: Date.now(),
       title: 'THIS IS Just a Task',
       description: 'This is how we keep track of things.',
-      dueDate: moment(),
+      dueDate: '20170807',
       assignments: [this.userId],
     });
     Tasks.insert({
       projectId: 'project22',
       createdId: this.userId,
-      createdTime: moment(),
+      createdTime: Date.now(),
       updatedId: this.userId,
-      updatedTime: moment(),
+      updatedTime: Date.now(),
       title: 'Against the LAW',
       description: 'This is how we keep track of things.',
-      dueDate: moment(),
+      dueDate: '20180101',
       assignments: [this.userId],
     });
   },

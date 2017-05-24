@@ -1,5 +1,40 @@
 <template name="userRoleMgmt">
-  {{> userRoleTable}}
+  <!-- {{> userRoleTable}} -->
+  {{> newGrid}}
+</template>
+
+<template name="newGrid">
+  <div class="ui padded grid container">
+    <!-- HEADER -->
+    <div class="blue row">
+      <div class="eight wide column">
+        <div class="ui small buttons">
+          <button class="ui button">Users</button>
+          <div class="or"></div>
+          <button class="ui button">Roles</button>
+        </div>
+      </div>
+      <div class="right aligned eight wide column">
+        <button class="ui small button">Add</button>
+        <button class="ui small button">Delete</button>
+      </div>
+    </div>
+    <!-- MAIN -->
+    <div class="row">
+      <div class="green eleven wide column">
+        main content
+      </div>
+      <div class="red five wide column">
+        side menu
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <div class="row">
+      <div class="purple column">
+        footer
+      </div>
+    </div>
+  </div>
 </template>
 
 <!-- ADMIN TABLE -->

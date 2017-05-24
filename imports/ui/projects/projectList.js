@@ -29,6 +29,13 @@ Template.projectList.helpers({
   },
 });
 
+Template.projectCard.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('tasks.public', () => { console.log('subbed'); });
+  });
+});
+
+
 Template.projectCard.events({
   'click [class~="empty heart"]'(event) {
     $(event.target).transition('jiggle');

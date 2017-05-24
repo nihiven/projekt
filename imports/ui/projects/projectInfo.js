@@ -5,6 +5,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 // collections
 import { Projects } from '/imports/api/collections/projects.js';
+import { Profiles } from '/imports/api/collections/profiles.js';
+import { Tasks } from '/imports/api/collections/tasks.js';
 
 // templates
 import './projects.less';
@@ -28,9 +30,47 @@ Template.projectInfo.helpers({
   },
 });
 
+Template.taskDetailCompact.onCreated(function() {
+  this.autorun(() => { // keeps track of subscription readiness
+    this.subscribe('profiles.public');
+  });
+});
+
+Template.taskDetailCompact.helpers({
+  creatorProfile() {
+    return Profiles.findOne({ userId: this.createdId });
+  },
+  updaterProfile() {
+    return Profiles.findOne({ userId: this.updatedId });
+  },
+  project() {
+    return this.project();
+  },
+  assignedTo() {
+    return this.assignedTo();
+  },
+});
+
+// project details
+Template.projectDetails.onCreated(function() {
+  this.autorun(() => { // keeps track of subscription readiness
+    this.subscribe('tasks.public');
+    this.projectId = new ReactiveVar();
+    this.projectId.set(FlowRouter.getParam('projectId'));
+  });
+});
+
 Template.projectDetails.helpers({
   'regulatory'() {
     return (this.is_regulatory ? 'Yes' : 'No');
+  },
+  tasks() {
+    const instance = Template.instance();
+    const projectId = instance.projectId.get();
+    return Tasks.find({ projectId });
+  },
+  projectFeed() {
+
   },
 });
 

@@ -17,7 +17,7 @@ export const projekt = {
   // settings
   debug: false, // show console
   logLevel: 0, // 0 = info/warn/error, 1 = warn, error, 2 = error, 3 = off
-
+  dateFormat: 'MMM Mo, YYYY',
   // settings for default message transition
   messageTransition: {
     animation: 'fade down',

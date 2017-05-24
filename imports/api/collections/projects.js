@@ -3,6 +3,9 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { projekt } from 'meteor/nihiven:projekt';
 
+// collections
+import { Tasks } from './tasks.js';
+
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
 
@@ -61,6 +64,15 @@ Projects.schema = new SimpleSchema({
 // all calls to .insert(), update(), upsert(),
 // will automatically be checked against the schema
 Projects.attachSchema(Projects.schema);
+
+Projects.helpers({
+  tasks() {
+    return Tasks.find({ projectId: this._id });
+  },
+  taskCount() {
+    return Tasks.find({ projectId: this._id }).count();
+  },
+});
 
 Meteor.methods({
   'projects.all'(userId) {

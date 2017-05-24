@@ -16,6 +16,11 @@
 <template name="projectCard">
 	<div class="ui link card">
 		<div class="content project-body">
+			{{#if isRegulatory}}
+				<a class="ui red right corner label">
+		 			<i class="warning icon"></i>
+	 			</a>
+			{{/if}}
     	<div class="header">{{name}}</div>
 	    <div class="description">
 	      <p>{{description}}</p>
@@ -27,7 +32,7 @@
 					<i class="{{#if isFavorite}}red heart icon{{else}}empty heart icon{{/if}}"></i>Favorite
 	    </div>
 	    <div class="right floated">
-					{{#if isRegulatory}}Regulatory{{/if}}
+				Tasks: {{taskCount}}
 	    </div>
 	  {{/if}}
 	  </div>
