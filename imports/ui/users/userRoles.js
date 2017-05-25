@@ -2,49 +2,73 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { ReactiveDict } from 'meteor/reactive-dict';
+
+import { Profiles } from '/imports/api/collections/profiles.js';
 
 // templates
 import './userRoles.html';
 
-Template.userRoleMgmt.onCreated(function() { // can't use => here
+// ////////// USERS /////////// //
+Template.userTable.onCreated(function() { // can't use => here
+  this.autorun(() => { // keeps track of subscription readiness
+    this.subscribe('users.public');
+    this.subscribe('profiles.public');
+  });
+});
+
+Template.userTable.helpers({
+  userList() {
+    return Meteor.users.find({ });
+  },
+});
+
+Template.userRow.onCreated(function() {
+  this.autorun(() => { // keeps track of subscription readiness
+    this.subscribe('profiles.public');
+  });
+});
+
+Template.userRow.helpers({
+  profile() {
+    return Profiles.findOne({ userId: this._id });
+  },
+});
+
+Template.userRow.events({
+  'click .userTable'(event) {
+    console.log(Template.profileTable.instance());
+  },
+});
+
+// ////////// PROFILES /////////// //
+Template.profileTable.onCreated(function() {
+  this.autorun(() => { // keeps track of subscription readiness
+    this.justin = new ReactiveVar();
+    this.justin.set('jb');
+  });
+});
+
+Template.profileTable.helpers({
+  justin() {
+    const instance = Template.instance();
+    return instance.justin.get();
+  },
+});
+
+// ////////// ROLES /////////// //
+Template.roleTable.onCreated(function() { // can't use => here
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('users.public');
     this.subscribe('roles.all');
   });
 });
 
-Template.userRoleTable.helpers({
+Template.roleTable.helpers({
   'userList'() {
-    return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1, roles: 1 });
+    return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1 });
   },
   'getAllRoles'() {
     return Roles.getAllRoles();
-  },
-});
-
-Template.userRoleRow.onCreated(function() {
-  this.display = new ReactiveDict();
-  this.display['name'] = new ReactiveVar();
-  this.display['email'] = new ReactiveVar();
-
-  this.autorun(() => {
-    this.subscribe('profiles.public');
-  });
-});
-
-Template.userRoleRow.helpers({
-  'getAllRoles'() {
-    return Roles.getAllRoles();
-  },
-});
-Template.userRoleRow.helpers({
-  'profileField'(field) {
-    const instance = Template.instance();
-    Meteor.call('profiles.public', this._id, (error, result) => {
-      instance.display[field].set(result[field]);
-    });
-    return instance.display[field].get();
   },
   'isUserInRole'(userId, role) {
     return Roles.userIsInRole(userId, role);
@@ -58,7 +82,7 @@ Template.userRoleRow.helpers({
   },
 });
 
-Template.userRoleRow.events({
+Template.roleTable.events({
   'click [class~="checkbox"]'(event) {
     const userId = $(event.target).attr('id');
     const role = [this.name]; // always needs to be an array

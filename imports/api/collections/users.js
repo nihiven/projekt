@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import { Profiles } from '/imports/api/collections/profiles.js';
+import { Profiles } from './profiles.js';
 
 Meteor.publish('users.public', function () { // not required
-  return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1, roles: 1 });
+  return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1 });
 });
 
 Meteor.methods({

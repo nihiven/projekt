@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { check } from 'meteor/check';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 // TODO: There are some things we need to do with this
 // 1: items in this package are meant to control the app and
@@ -10,12 +11,11 @@ import { check } from 'meteor/check';
 
 // package name
 export const name = 'projekt';
-export const _p = projekt;
 
 // main projekt data container
 export const projekt = {
   // settings
-  debug: false, // show console
+  debugColors: new ReactiveVar(true), // show debug properties
   logLevel: 0, // 0 = info/warn/error, 1 = warn, error, 2 = error, 3 = off
   dateFormat: 'MMM Mo, YYYY',
   // settings for default message transition

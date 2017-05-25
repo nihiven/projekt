@@ -1,80 +1,107 @@
 <template name="userRoleMgmt">
-  <!-- {{> userRoleTable}} -->
   {{> newGrid}}
 </template>
 
 <template name="newGrid">
   <div class="ui padded grid container">
-    <!-- HEADER -->
-    <div class="blue row">
-      <div class="eight wide column">
-        <div class="ui small buttons">
-          <button class="ui button">Users</button>
-          <div class="or"></div>
-          <button class="ui button">Roles</button>
+    {{#if isInRole "admin"}}
+      <!-- HEADER -->
+      <div class="{{isDebugColors 'blue'}} row">
+        <div class="eight wide column">
+          <div class="ui small buttons">
+            <button class="ui button">Users</button>
+            <div class="or"></div>
+            <button class="ui button">Roles</button>
+          </div>
+        </div>
+        <div class="right aligned eight wide column">
+          <button class="ui small button">Add</button>
+          <button class="ui small button">Delete</button>
         </div>
       </div>
-      <div class="right aligned eight wide column">
-        <button class="ui small button">Add</button>
-        <button class="ui small button">Delete</button>
-      </div>
-    </div>
+    {{/if}}
     <!-- MAIN -->
     <div class="row">
-      <div class="green eleven wide column">
-        main content
+      <div class="{{isDebugColors 'green'}} {{#if isInRole "admin"}} eleven {{else}} sixteen {{/if}} wide column">
+        {{> userTable}}
       </div>
-      <div class="red five wide column">
-        side menu
-      </div>
-    </div>
-    <!-- FOOTER -->
-    <div class="row">
-      <div class="purple column">
-        footer
-      </div>
+      {{#if isInRole "admin"}}
+        <div class="{{isDebugColors 'red'}} five wide column">
+          {{> profileTable}}
+          {{> roleTable}}
+        </div>
+      {{/if}}
     </div>
   </div>
 </template>
 
-<!-- ADMIN TABLE -->
-<template name="userRoleTable">
-  <table class="ui striped table">
+<template name="userTable">
+  <table class="ui blue selectable table">
     <thead>
       <tr>
         <th>Name</th>
         <th>E-Mail</th>
-        {{#if isInRole "admin"}}
-          {{#each getAllRoles}}
-            <th>{{name}}</th>
-          {{/each}}
-        {{/if}}
       </tr>
     </thead>
     <tbody>
       {{#each userList}}
-        {{> userRoleRow}}
+        {{> userRow}}
       {{/each}}
     </tbody>
   </table>
 </template>
 
-<template name="userRoleRow">
-  <tr>
-    <td>{{profileField "name"}}</td>
-    <td>{{profileField "email"}}</td>
-    {{#if isInRole "admin"}}
-      <!-- name is role -->
-      {{#each getAllRoles}}
-        <td>
-          <div class="inline field">
-            <div class="ui checkbox">
-              <input type="checkbox" id="{{../_id}}" checked={{isUserInRole ../_id name}}>
-              <label></label>
-            </div>
-          </div>
-        </td>
-      {{/each}}
-    {{/if}}
+<template name="userRow">
+  <tr class="userTable">
+    <td class="collapsing">
+      {{profile.name}}
+    </td>
+    <td>
+      {{profile.email}}
+    </td>
   </tr>
+</template>
+
+<!-- Profile Table -->
+<template name="profileTable">
+  <table class="ui table">
+    <thead>
+      <tr>
+        <th colspan="2">User Profile {{justin}} a</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>Justin Behanna</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>behannaje@upmc.com</td>
+      </tr>
+    </tbody>
+  </table>
+</template>
+
+
+<template name="roleTable">
+  <table class="ui table">
+    <thead>
+      <tr>
+          <th>Roles</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getAllRoles}}
+        <tr>
+          <td>
+            <div class="ui toggle checkbox">
+              <input type="checkbox" tabindex="0" class="hidden debugColors" checked={{isUserInRole ../_id name}}>
+              <label>{{name}}</label>
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </template>

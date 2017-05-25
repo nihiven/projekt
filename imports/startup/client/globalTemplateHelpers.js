@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { errors } from 'meteor/nihiven:projekt';
+import { projekt, errors } from 'meteor/nihiven:projekt';
 
 // global helper for template errors
 Template.registerHelper('errMessage', (errorType) => {
@@ -13,4 +13,20 @@ Template.registerHelper('isAdmin', (trueProperty = '', falseProperty = '') => {
   } else {
     return '';
   }
+});
+
+Template.registerHelper('isDebugColors', (trueProperty = '', falseProperty = '') => {
+  if (projekt.debugColors.get()) {
+    return trueProperty;
+  } else {
+    return '';
+  }
+});
+
+// TODO: this isn't right, fix and use later
+Template.registerHelper('userProfileField', (userId, field) => {
+  Meteor.call('profiles.public', userId, (error, result) => {
+    instance.display[field].set(result[field]);
+  });
+  return instance.display[field].get();
 });

@@ -14,6 +14,7 @@ import '/imports/ui/users/userLogin.js';
 import '/imports/ui/users/userRoles.js';
 import '/imports/ui/reports/reportsList.js';
 import '/imports/ui/tasks/tasksList.js';
+import '/imports/ui/admin/adminSettings.js';
 
 // dev only
 import '/imports/ui/admin/testData.js';
@@ -139,6 +140,17 @@ FlowRouter.route('/test/data', {
       'mainLayout', {
         nav: 'nav',
         content: 'testData',
+      });
+  },
+});
+
+FlowRouter.route('/admin/settings', {
+  name: 'admin',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'adminSettings',
       });
   },
 });

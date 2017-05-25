@@ -24,16 +24,19 @@ Template.loggedInMenu.events({
   'click .profile-icon'() {
     FlowRouter.go('/user/profile');
   },
+  'click .admin-icon'() {
+    FlowRouter.go('/admin/settings');
+  },
   'click .signout-icon'() {
     $('.ui.small.modal').modal('show');
   },
 });
-Template.logoutModal.onRendered(function() {
+Template.logoutModal.onRendered(() => {
   $('.modal').modal({
     transition: 'fade',
     duration: '100',
-    onApprove: function() {
-      Accounts.logout(function() {
+    onApprove() {
+      Accounts.logout(() => {
         FlowRouter.redirect('/');
       });
     },
