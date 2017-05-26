@@ -24,6 +24,7 @@
     <div class="row">
       <div class="{{isDebugColors 'green'}} {{#if isInRole "admin"}} eleven {{else}} sixteen {{/if}} wide column">
         {{> userTable}}
+        {{> userRemoveModal}}
       </div>
       {{#if isInRole "admin"}}
         <div class="{{isDebugColors 'red'}} five wide column">
@@ -111,7 +112,6 @@
   </table>
 </template>
 
-
 <template name="roleTable">
   {{#if profileUserId}}
     <table class="ui table">
@@ -136,16 +136,15 @@
   {{/if}}
 </template>
 
-
 <template name="userRemoveModal">
-  <div class="ui small modal">
+  <div class="ui small modal user-remove-modal">
     <div class="header">Remove User</div>
     <div class="content">
       <p>Are you sure you want to remove this user?</p>
     </div>
     <div class="actions">
-      <div class="ui negative button">No</div>
-      <div class="ui positive button">Yes</div>
+      <div class="ui negative button">Cancel</div>
+      <div class="ui positive button">Delete User</div>
     </div>
   </div>
 </template>

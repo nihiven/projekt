@@ -17,7 +17,7 @@
       {{/if}}
     </div>
   </div>
-  {{> logoutModal}}
+  {{> userLogoutModal}}
 </template>
 
 
@@ -41,8 +41,8 @@
   <a class="ui item login" href="{{pathFor '/sign-in'}}">Sign In</a>
 </template>
 
-<template name="logoutModal">
-  <div class="ui small modal">
+<template name="userLogoutModal">
+  <div class="ui small modal user-logout-modal">
     <div class="header">Logout</div>
     <div class="content">
       <p>Are you sure you want to logout?</p>

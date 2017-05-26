@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { defaults } from 'meteor/nihiven:projekt';
+import { defaults, _log } from 'meteor/nihiven:projekt';
 
 // collections
 import { Profiles } from './profiles.js';
@@ -28,5 +28,31 @@ Meteor.methods({
 
       Roles.addUsersToRoles(docInserted, defaults.roles);
     }); // callback
+  },
+  'users.remove'(userId) {
+    check(userId, String);
+
+    // user must be logged in
+    if (!Meteor.userId()) {
+      projekt.err('notLoggedIn');
+      return false;
+    }
+
+    // make sure this user has elevated priviliges
+    if (Roles.adminCheckFails(this.userId)) {
+      projekt.err('notAdmin');
+      return false;
+    }
+
+    _log('removing user...');
+    Users.remove({ _id: userId }, (error, docRemoved)=> {
+      if (error) {
+        _log(`error removing user ${userId}`);
+        return false;
+      } else {
+        _log(`removed user ${docRemoved}`);
+        return true;
+      }
+    });
   },
 });

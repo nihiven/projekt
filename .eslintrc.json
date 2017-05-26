@@ -53,7 +53,7 @@
             "error",
             2
         ],
-        "no-console": 0,
+        "no-console": 1,
         "eol-last": 2,
         "comma-dangle": [
           "error", {

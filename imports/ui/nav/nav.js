@@ -28,11 +28,11 @@ Template.loggedInMenu.events({
     FlowRouter.go('/admin/settings');
   },
   'click .signout-icon'() {
-    $('.ui.small.modal').modal('show');
+    $('.user-logout-modal').modal('show');
   },
 });
-Template.logoutModal.onRendered(() => {
-  $('.modal').modal({
+Template.userLogoutModal.onRendered(() => {
+  $('.user-logout-modal').modal({
     transition: 'fade',
     duration: '100',
     onApprove() {

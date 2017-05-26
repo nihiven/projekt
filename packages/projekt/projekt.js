@@ -71,3 +71,7 @@ export const defaults = {
   officePhone: '444-555-000',
   roles: ['view', 'resource'],
 };
+
+export const _log = (param) => {
+  console.log(param);
+};

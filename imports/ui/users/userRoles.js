@@ -1,8 +1,13 @@
+// core
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { Roles } from 'meteor/alanning:roles';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+// packages
+import { Roles } from 'meteor/alanning:roles';
+import { _log } from 'meteor/nihiven:projekt';
+
+// collections
 import { Profiles } from '/imports/api/collections/profiles.js';
 
 // templates
@@ -63,10 +68,10 @@ Template.profileTable.helpers({
 });
 Template.profileTable.events({
   'click [class~="user-remove"]'() {
-    console.log(this);
+    $('.user-remove-modal').modal('show');
   },
   'click [class~="profile-update"]'() {
-    console.log(this);
+    _log(this);
   },
 });
 
@@ -75,17 +80,17 @@ Template.userRemoveModal.onRendered(() => {
     transition: 'fade',
     duration: '100',
     onApprove() {
-      // remove user document
-      Meteor.call('removeUser', _x.profileUserId.get(), ()=> {
-        // TODO: user remove _log
-      });
-
       // remove profile document
-      Meteor.call('removeUser', _x.profileUserId.get(), ()=> {
-        // TODO: user remove _log
+      _log('profiles.remove begin');
+      Meteor.call('profiles.remove', _x.profileUserId.get(), ()=> {
+        _log('profiles.remove end');
       });
 
-      // TODO remover other references to the userId?
+      // remove user document
+      _log('users.remove begin');
+      Meteor.call('users.remove', _x.profileUserId.get(), ()=> {
+        _log('users.remove end');
+      });
     },
   });
 });
@@ -128,7 +133,7 @@ Template.roleTable.events({
 
     // BUG: sometimes this.name is undefined
     if (!role) {
-      console.log('userRoles.js: caught null bug');
+      _log('userRoles.js: caught null bug');
       event.preventDefault();
       return;
     }
