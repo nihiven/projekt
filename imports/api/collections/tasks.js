@@ -11,6 +11,7 @@ import { Profiles } from './profiles.js';
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
 import moment from 'moment';
+import faker from 'faker';
 
 // exports
 export const Tasks = new Mongo.Collection('tasks');
@@ -122,7 +123,8 @@ Meteor.methods({
       projekt.err('notLoggedIn');
     }
 
-    // TODO: make sure this user owns the profile
+    // TODO: make sure this user owns the task
+    // OR is assigned to the task
     // OR has elevated priviliges
 
     Tasks.update(
@@ -167,36 +169,14 @@ Meteor.methods({
   },
   'tasks.testData'() {
     Tasks.insert({
-      projectId: 'project19',
+      projectId: 'fake',
       createdId: this.userId,
       createdTime: Date.now(),
       updatedId: this.userId,
       updatedTime: Date.now(),
-      title: 'Just a Task',
-      description: 'This is how we keep track of things.',
+      title: faker.fake('{{company.bs}}'),
+      description: faker.fake('{{hacker.phrase}}'),
       dueDate: '20170518',
-      assignments: [this.userId],
-    });
-    Tasks.insert({
-      projectId: 'project19',
-      createdId: this.userId,
-      createdTime: Date.now(),
-      updatedId: this.userId,
-      updatedTime: Date.now(),
-      title: 'THIS IS Just a Task',
-      description: 'This is how we keep track of things.',
-      dueDate: '20170807',
-      assignments: [this.userId],
-    });
-    Tasks.insert({
-      projectId: 'project22',
-      createdId: this.userId,
-      createdTime: Date.now(),
-      updatedId: this.userId,
-      updatedTime: Date.now(),
-      title: 'Against the LAW',
-      description: 'This is how we keep track of things.',
-      dueDate: '20180101',
       assignments: [this.userId],
     });
   },

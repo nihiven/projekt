@@ -31,7 +31,7 @@ Template.projectList.helpers({
 
 Template.projectCard.onCreated(function() {
   this.autorun(() => {
-    this.subscribe('tasks.public', () => { console.log('subbed'); });
+    this.subscribe('tasks.public');
   });
 });
 

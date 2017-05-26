@@ -36,11 +36,13 @@
 </template>
 
 <template name="userTable">
-  <table class="ui blue selectable table">
+  <table class="ui blue selectable striped table">
     <thead>
       <tr>
         <th>Name</th>
         <th>E-Mail</th>
+        <th>Office Location</th>
+        <th>Office Phone</th>
       </tr>
     </thead>
     <tbody>
@@ -52,12 +54,18 @@
 </template>
 
 <template name="userRow">
-  <tr class="userTable">
+  <tr class="userTable {{isSelected}}">
     <td class="collapsing">
       {{profile.name}}
     </td>
     <td>
       {{profile.email}}
+    </td>
+    <td>
+      {{profile.officeLocation}}
+    </td>
+    <td>
+      {{profile.officePhone}}
     </td>
   </tr>
 </template>
@@ -65,43 +73,64 @@
 <!-- Profile Table -->
 <template name="profileTable">
   <table class="ui table">
-    <thead>
-      <tr>
-        <th colspan="2">User Profile {{justin}} a</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Name</td>
-        <td>Justin Behanna</td>
-      </tr>
-      <tr>
-        <td>Email</td>
-        <td>behannaje@upmc.com</td>
-      </tr>
-    </tbody>
+      <thead>
+        <tr>
+          <th colspan="2">Edit User Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#if profileUserId}}
+        <tr>
+          <td>Name</td>
+          <td>{{profile.name}}</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>{{profile.email}}</td>
+        </tr>
+        <tr>
+          <td>Office Location</td>
+          <td>{{profile.officeLocation}}</td>
+        </tr>
+        <tr>
+          <td>Office Phone</td>
+          <td>{{profile.officePhone}}</td>
+        </tr>
+        <tr class="right aligned">
+          <td colspan="2">
+            <button class="ui small button update-profile">Update</button>
+          </td>
+        </tr>
+        {{else}}
+          <tr>
+            <td colspan="2">Select a user.</td>
+          </tr>
+        {{/if}}
+      </tbody>
   </table>
 </template>
 
 
 <template name="roleTable">
-  <table class="ui table">
-    <thead>
-      <tr>
-          <th>Roles</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each getAllRoles}}
+  {{#if profileUserId}}
+    <table class="ui table">
+      <thead>
         <tr>
-          <td>
-            <div class="ui toggle checkbox">
-              <input type="checkbox" tabindex="0" class="hidden debugColors" checked={{isUserInRole ../_id name}}>
-              <label>{{name}}</label>
-            </div>
-          </td>
+            <th>Roles</th>
         </tr>
-      {{/each}}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {{#each getAllRoles}}
+          <tr>
+            <td>
+              <div class="ui toggle checkbox">
+                <input type="checkbox" tabindex="0" class="hidden debugColors" checked={{isUserInRole profileUserId name}}>
+                <label>{{name}}</label>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
 </template>

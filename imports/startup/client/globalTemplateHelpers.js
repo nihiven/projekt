@@ -16,7 +16,7 @@ Template.registerHelper('isAdmin', (trueProperty = '', falseProperty = '') => {
 });
 
 Template.registerHelper('isDebugColors', (trueProperty = '', falseProperty = '') => {
-  if (projekt.debugColors.get()) {
+  if (projekt.debugColors.get() && Roles.adminCheckPasses(Meteor.userId())) {
     return trueProperty;
   } else {
     return '';

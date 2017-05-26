@@ -8,6 +8,9 @@ import { Profiles } from '/imports/api/collections/profiles.js';
 // templates
 import './userRoles.html';
 
+// for sharing user id between templates
+_x.profileUserId = new ReactiveVar();
+
 // ////////// USERS /////////// //
 Template.userTable.onCreated(function() { // can't use => here
   this.autorun(() => { // keeps track of subscription readiness
@@ -32,26 +35,31 @@ Template.userRow.helpers({
   profile() {
     return Profiles.findOne({ userId: this._id });
   },
+  isSelected() {
+    return (_x.profileUserId.get() === this._id) ? 'active' : false;
+  },
 });
 
 Template.userRow.events({
-  'click .userTable'(event) {
-    console.log(Template.profileTable.instance());
+  'click .userTable'() {
+    _x.profileUserId.set(this._id);
   },
 });
 
 // ////////// PROFILES /////////// //
 Template.profileTable.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
-    this.justin = new ReactiveVar();
-    this.justin.set('jb');
+    this.subscribe('profiles.public');
+    _x.profileUserId.set(undefined);
   });
 });
 
 Template.profileTable.helpers({
-  justin() {
-    const instance = Template.instance();
-    return instance.justin.get();
+  profile() {
+    return Profiles.findOne({ userId: _x.profileUserId.get() });
+  },
+  profileUserId() {
+    return _x.profileUserId.get();
   },
 });
 
@@ -59,13 +67,13 @@ Template.profileTable.helpers({
 Template.roleTable.onCreated(function() { // can't use => here
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('users.public');
-    this.subscribe('roles.all');
+    this.subscribe('roles.public');
   });
 });
 
 Template.roleTable.helpers({
   'userList'() {
-    return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1 });
+    return Meteor.users.find({}, { _id: 1, roles: 1 });
   },
   'getAllRoles'() {
     return Roles.getAllRoles();
@@ -80,11 +88,14 @@ Template.roleTable.helpers({
       return false;
     }
   },
+  profileUserId() {
+    return _x.profileUserId.get();
+  },
 });
 
 Template.roleTable.events({
   'click [class~="checkbox"]'(event) {
-    const userId = $(event.target).attr('id');
+    const userId = _x.profileUserId.get();
     const role = [this.name]; // always needs to be an array
 
     // BUG: sometimes this.name is undefined

@@ -81,10 +81,11 @@ Meteor.methods({
       projekt.err('notLoggedIn');
     }
 
-    // TODO: make sure this user owns the profile
-    // OR has elevated priviliges
+    // make sure this user owns the profile OR has elevated priviliges
+    if (Meteor.userId() !== this.userId  && Roles.adminCheckFails(this.userId)) {
+      projekt.err('');
+    }
 
-    // TODO: formatting :( ??
     Profiles.update(
       { userId: this.userId },
       {

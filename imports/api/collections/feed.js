@@ -1,4 +1,3 @@
-// TODO: ? mxab:simple-schema-jsdoc Generate jsdoc from your schemas.
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';

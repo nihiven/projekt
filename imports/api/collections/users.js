@@ -1,5 +1,11 @@
 import { Meteor } from 'meteor/meteor';
+import { defaults } from 'meteor/nihiven:projekt';
+
+// collections
 import { Profiles } from './profiles.js';
+
+// node modules
+import faker from 'faker';
 
 Meteor.publish('users.public', function () { // not required
   return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1 });
@@ -7,43 +13,20 @@ Meteor.publish('users.public', function () { // not required
 
 Meteor.methods({
   'users.testData'() {
-    addUser = (element, index, array) => {
-      Meteor.users.insert({
-        email: element.email,
-        officeLocation: element.officeLocation,
-        officePhone: element.officePhone,
-      },
-      (error, docInserted) => {
-        Profiles.insert({ userId: docInserted, name: 'Some Guy'});
-        const roles = ['normal-user'];
-        Roles.addUsersToRoles(docInserted, roles);
+    Meteor.users.insert({
+      emails: [{ address: faker.fake('{{internet.email}}'), verified: false }],
+      createdAt: Date.now(),
+    },
+    (error, docInserted) => {
+      Profiles.insert({
+        userId: docInserted,
+        name: faker.fake('{{name.firstName}} {{name.lastName}}'),
+        email: faker.fake('{{internet.email}}'),
+        officeLocation: faker.fake('{{address.streetAddress}} '),
+        officePhone: faker.fake('{{phone.phoneNumberFormat}}'),
       });
-    };
 
-    const userData = [
-      {
-        email: 'chuck@test.com',
-        officeLocation: 'Oakland',
-        officePhone: '348-1343-431',
-      },
-      {
-        email: 'jb@jb.com',
-        officeLocation: 'D o w n t o w n',
-        officePhone: '348-1343-4314',
-      },
-      {
-        email: 'williamg@ms.com',
-        officeLocation: 'Washington',
-        officePhone: '348-1343-431',
-      },
-      {
-        email: 'johnc@id.com',
-        officeLocation: 'Austin',
-        officePhone: '348-1343-431',
-      },
-    ];
-
-    userData.forEach(addUser);
-
-  }, // 'users.testData'
+      Roles.addUsersToRoles(docInserted, defaults.roles);
+    }); // callback
+  },
 });

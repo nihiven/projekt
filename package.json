@@ -10,6 +10,7 @@
     "autoprefixer": "^6.3.1",
     "babel-runtime": "^6.20.0",
     "bcrypt": "https://registry.npmjs.org/bcrypt/-/bcrypt-1.0.2.tgz",
+    "faker": "^4.1.0",
     "meteor-node-stubs": "~0.2.4",
     "moment": "^2.18.1",
     "simpl-schema": "^0.2.3"

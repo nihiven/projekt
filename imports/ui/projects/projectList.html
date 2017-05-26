@@ -14,13 +14,8 @@
 </template>
 
 <template name="projectCard">
-	<div class="ui link card">
+	<div class="ui {{#if isRegulatory}}red{{/if}} link card">
 		<div class="content project-body">
-			{{#if isRegulatory}}
-				<a class="ui red right corner label">
-		 			<i class="warning icon"></i>
-	 			</a>
-			{{/if}}
     	<div class="header">{{name}}</div>
 	    <div class="description">
 	      <p>{{description}}</p>

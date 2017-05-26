@@ -18,8 +18,17 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import { projekt } from 'meteor/nihiven:projekt';
 
+if (Meteor.isServer) {
+  if (Meteor.roles.find({}).count() === 0) {
+    Roles.createRole('admin');
+    Roles.createRole('view');
+    Roles.createRole('resource');
+    Roles.createRole('project-mgr');
+  }
+}
+
 // exposing roles for admin functions
-Meteor.publish('roles.all', () => {
+Meteor.publish('roles.public', () => {
   return Meteor.roles.find({});
 });
 
