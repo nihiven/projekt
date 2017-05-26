@@ -16,7 +16,7 @@
         </div>
         <div class="right aligned eight wide column">
           <button class="ui small button">Add</button>
-          <button class="ui small button">Delete</button>
+          <button class="ui small button">Remove</button>
         </div>
       </div>
     {{/if}}
@@ -36,7 +36,7 @@
 </template>
 
 <template name="userTable">
-  <table class="ui blue selectable striped table">
+  <table class="ui selectable striped table">
     <thead>
       <tr>
         <th>Name</th>
@@ -96,9 +96,10 @@
           <td>Office Phone</td>
           <td>{{profile.officePhone}}</td>
         </tr>
-        <tr class="right aligned">
+        <tr class="center aligned">
           <td colspan="2">
-            <button class="ui small button update-profile">Update</button>
+            <button class="ui small button user-remove">Remove</button>
+            <button class="ui small button profile-update">Update</button>
           </td>
         </tr>
         {{else}}
@@ -133,4 +134,18 @@
       </tbody>
     </table>
   {{/if}}
+</template>
+
+
+<template name="userRemoveModal">
+  <div class="ui small modal">
+    <div class="header">Remove User</div>
+    <div class="content">
+      <p>Are you sure you want to remove this user?</p>
+    </div>
+    <div class="actions">
+      <div class="ui negative button">No</div>
+      <div class="ui positive button">Yes</div>
+    </div>
+  </div>
 </template>

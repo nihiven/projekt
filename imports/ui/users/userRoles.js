@@ -50,7 +50,6 @@ Template.userRow.events({
 Template.profileTable.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('profiles.public');
-    _x.profileUserId.set(undefined);
   });
 });
 
@@ -62,6 +61,35 @@ Template.profileTable.helpers({
     return _x.profileUserId.get();
   },
 });
+Template.profileTable.events({
+  'click [class~="user-remove"]'() {
+    console.log(this);
+  },
+  'click [class~="profile-update"]'() {
+    console.log(this);
+  },
+});
+
+Template.userRemoveModal.onRendered(() => {
+  $('.user-remove-modal').modal({
+    transition: 'fade',
+    duration: '100',
+    onApprove() {
+      // remove user document
+      Meteor.call('removeUser', _x.profileUserId.get(), ()=> {
+        // TODO: user remove _log
+      });
+
+      // remove profile document
+      Meteor.call('removeUser', _x.profileUserId.get(), ()=> {
+        // TODO: user remove _log
+      });
+
+      // TODO remover other references to the userId?
+    },
+  });
+});
+
 
 // ////////// ROLES /////////// //
 Template.roleTable.onCreated(function() { // can't use => here

@@ -1,0 +1,21 @@
+Field and Variable Naming
+they're named like this so we always know our context
+------------------------------------
+Camel Case naming in javascript: officePhone
+underscore for spaces in database: office_phone
+dots for meteor methods: office.phone
+dashes for html: office-phone
+ - html template names camel case
+
+
+NOUN-VERB Naming
+------------------------------------
+user-add
+user-remove
+profile-update
+project-add
+
+
+Global Variables and Functions
+------------------------------------
+always preceded by an underscore: _x, _state

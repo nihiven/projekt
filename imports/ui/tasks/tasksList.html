@@ -14,21 +14,17 @@
 </template>
 
 <template name="taskDetail">
-  <div class="ui link card">
+  <div class="ui {{#if project}}green{{else}}red{{/if}} link card">
     <div class="content">
       <a class="header">{{title}}</a>
       {{#if project}}
         <a href="/tasks/project/{{project._id}}">{{project.name}}</a>
       {{else}}
-        Orphan Task
+        Solo Task
       {{/if}}
     </div>
     <div class="content">
-      {{#if project}}
-        <p>{{project.description}}</p>
-      {{else}}
-        <p>No parent project is available for this task.</p>
-      {{/if}}
+      <p>{{description}}</p>
     </div>
     <div class="extra content">
       {{#if creatorProfile}}
