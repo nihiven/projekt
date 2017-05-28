@@ -5,31 +5,18 @@ import { Roles } from 'meteor/alanning:roles';
 import { projekt, defaults, _log } from 'meteor/nihiven:projekt';
 
 if (Meteor.isServer) {
+  // exposing roles for admin functions
+  Meteor.publish('roles.public', () => {
+    return Meteor.roles.find({});
+  });
+
   if (Meteor.roles.find({}).count() === 0) {
     Roles.createRole('admin');
     Roles.createRole('view');
     Roles.createRole('resource');
     Roles.createRole('project-mgr');
   }
-
-  // post user insert hook for settings default roles
-  Meteor.users.after.insert((userId, user) => {
-    // TODO: standardize post user inserts
-    Roles.addUsersToRoles(user._id, defaults.roles);
-
-    const count = Meteor.users.find().count();
-    if (count <= 1) {
-      _log('Make first user an admin...');
-      Roles.addUsersToRoles(user._id, ['admin']);
-    }
-  });
 }
-
-
-// exposing roles for admin functions
-Meteor.publish('roles.public', () => {
-  return Meteor.roles.find({});
-});
 
 Meteor.methods({
   'roles.grant'(userId, role) {
