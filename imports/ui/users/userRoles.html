@@ -1,5 +1,9 @@
 <template name="userRoleMgmt">
-  {{> newGrid}}
+  {{#if currentUser}}
+    {{> newGrid}}
+  {{else}}
+
+  {{/if}}
 </template>
 
 <template name="newGrid">

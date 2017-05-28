@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check, Match } from 'meteor/check';
 import { defaults, _log } from 'meteor/nihiven:projekt';
 
 // collections
@@ -13,6 +14,7 @@ Meteor.publish('users.public', function () { // not required
 
 Meteor.methods({
   'users.testData'() {
+    // TODO: this should be accounts.createUser
     Meteor.users.insert({
       emails: [{ address: faker.fake('{{internet.email}}'), verified: false }],
       createdAt: Date.now(),
@@ -45,6 +47,7 @@ Meteor.methods({
     }
 
     _log('removing user...');
+    // TODO: this should be an accounts function
     Users.remove({ _id: userId }, (error, docRemoved)=> {
       if (error) {
         _log(`error removing user ${userId}`);

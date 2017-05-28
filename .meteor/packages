@@ -27,8 +27,9 @@ aldeed:collection2-core@2.0.0  # ?
 ecmascript-runtime@0.3.15
 accounts-base@1.2.17
 alanning:roles
-ecmascript@0.7.3
 audit-argument-checks@1.0.7
 zimme:active-route
 nihiven:projekt
 dburles:collection-helpers
+ecmascript@0.8.0-rc.9
+matb33:collection-hooks

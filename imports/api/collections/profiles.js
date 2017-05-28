@@ -19,7 +19,13 @@ if (Meteor.isServer) {
   Meteor.publish('profiles.public', function() { // data for public consumption
     return Profiles.find({ }, { userId: 1, name: 1, email: 1 });
   });
-}
+
+  // post user insert hook for default profiles
+  Meteor.users.after.insert((userId, user) => {
+    // TODO: standardize post user inserts
+    Meteor.call('profiles.newUser', user);
+  });
+} // isServer
 
 // Deny all client-side updates
 Profiles.deny({

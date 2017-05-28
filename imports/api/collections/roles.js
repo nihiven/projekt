@@ -1,22 +1,8 @@
-/*
-  We'll need to make some decisions on what roles are available globally
-  and what roles are project specific. Then decide what roles can grant
-  and revoke these roles in each case.
-
-  GLOBAL
-  admin
-  project-mgr
-  normal-user
-  view-only
-  ????
-
-  PROJECT
-  contributor
-*/
+// core
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt } from 'meteor/nihiven:projekt';
+import { projekt, defaults, _log } from 'meteor/nihiven:projekt';
 
 if (Meteor.isServer) {
   if (Meteor.roles.find({}).count() === 0) {
@@ -25,7 +11,20 @@ if (Meteor.isServer) {
     Roles.createRole('resource');
     Roles.createRole('project-mgr');
   }
+
+  // post user insert hook for settings default roles
+  Meteor.users.after.insert((userId, user) => {
+    // TODO: standardize post user inserts
+    Roles.addUsersToRoles(user._id, defaults.roles);
+
+    const count = Meteor.users.find().count();
+    if (count <= 1) {
+      _log('Make first user an admin...');
+      Roles.addUsersToRoles(user._id, ['admin']);
+    }
+  });
 }
+
 
 // exposing roles for admin functions
 Meteor.publish('roles.public', () => {

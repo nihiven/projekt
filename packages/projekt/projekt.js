@@ -69,9 +69,13 @@ export const defaults = {
   publicEmail: 'email@internet.com',
   officeLocation: 'Heinz 57 Tower, Pittsburgh, PA',
   officePhone: '444-555-000',
-  roles: ['view', 'resource'],
+  roles: ['view', 'resource', 'admin'],
 };
 
 export const _log = (param) => {
   console.log(param);
+};
+
+export const _err = (errorType, param1='', param2='') => {
+  projekt.err(errorType, param1, param2);
 };
