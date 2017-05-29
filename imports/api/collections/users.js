@@ -71,7 +71,7 @@ Meteor.methods({
 
     _log('removing user...');
     // TODO: this should be an accounts function
-    Users.remove({ _id: userId }, (error, docRemoved)=> {
+    Meteor.users.remove({ _id: userId }, (error, docRemoved)=> {
       if (error) {
         _log(`error removing user ${userId}`);
         return false;

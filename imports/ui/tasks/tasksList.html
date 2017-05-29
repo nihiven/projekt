@@ -1,15 +1,19 @@
 <template name="tasksList">
-  <div class="ui big top attached label">
-    Tasks
-  </div>
-  {{#if Template.subscriptionsReady}}
-    <div class="ui two cards">
-      {{#each tasks}}
-        {{> taskDetail}}
-      {{/each}}
+  {{#if currentUser}}
+    <div class="ui big top attached label">
+      Tasks
     </div>
+    {{#if Template.subscriptionsReady}}
+      <div class="ui two cards">
+        {{#each tasks}}
+          {{> taskDetail}}
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="ui active centered inline loader"></div>
+    {{/if}}
   {{else}}
-    <div class="ui active centered inline loader"></div>
+    <p>{{errMessage "notLoggedInView"}}</p>
   {{/if}}
 </template>
 

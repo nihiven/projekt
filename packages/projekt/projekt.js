@@ -42,6 +42,10 @@ export const errors = {
     code: 'not-logged-in',
     message: 'User must be logged in to make this change.',
   },
+  notLoggedInView: {
+    code: 'not-logged-in-view',
+    message: 'User must be logged in to view this page.',
+  },
   notAuthorized: {
     code: 'not-authorized',
     message: 'User does not have the authority to make this change.',
