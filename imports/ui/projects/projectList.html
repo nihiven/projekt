@@ -15,6 +15,38 @@
 	{{else}}
   	<p>{{errMessage "notLoggedInView"}}</p>
 	{{/if}}
+
+	<div class="ui divided items">
+		{{#each listAllProjects}}
+			{{> projectItem}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="projectItem">
+	<div class="item">
+		<div class="item">
+		 <div class="content">
+			 <a class="header">{{name}}</a>
+			 <div class="meta">
+				 <span class="cinema">{{project_manager}}</span>
+			 </div>
+			 <div class="description">
+				 <p>{{description}}</p>
+			 </div>
+			 <div class="extra">
+				 {{#if currentUser}}
+		 			<div class="left floated favorite-icon">
+		 					<i class="{{#if isFavorite}}red heart icon{{else}}empty heart icon{{/if}}"></i>Favorite
+		 	    </div>
+		 	    <div class="right floated">
+		 				Tasks: {{taskCount}}
+		 	    </div>
+		 	  {{/if}}
+			 </div>
+		 </div>
+	 </div>
+	</div>
 </template>
 
 <template name="projectCard">

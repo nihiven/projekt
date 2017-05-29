@@ -15,7 +15,7 @@ export const name = 'projekt';
 // main projekt data container
 export const projekt = {
   // settings
-  debugColors: new ReactiveVar(true), // show debug properties
+  debugColors: new ReactiveVar(false), // show debug properties
   logLevel: 0, // 0 = info/warn/error, 1 = warn, error, 2 = error, 3 = off
   dateFormat: 'MMM Mo, YYYY',
   // settings for default message transition

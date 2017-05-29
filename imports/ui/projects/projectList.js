@@ -53,7 +53,7 @@ Template.projectCard.helpers({
     return this.is_regulatory;
   },
   isFavorite() {
-    if (Favorites.find({ projectId: this._id }).count() === 0) {
+    if (Favorites.find({ projectId: this._id, userId: Meteor.userId() }).count() === 0) {
       return false;
     } else {
       return true;
