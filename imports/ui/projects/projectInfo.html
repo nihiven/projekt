@@ -1,5 +1,6 @@
 <template name="projectInfo">
   {{#if Template.subscriptionsReady}}
+    {{> progress}}
     {{>projectDetails details}}
   {{else}}
     <div class="ui active centered inline loader"></div>
@@ -9,9 +10,9 @@
 <template name="projectDetails">
   <div class="ui grid">
       <div class="fluid four wide column">
-          {{> progress}}
+        {{> verticalProjectMenu}}
       </div>
-    <div class="fluid eight wide column">
+    <div class="fluid twelve wide column">
       <table class="ui basic single line striped table">
         <thead>
           <tr>
@@ -37,9 +38,6 @@
         </tfoot>
       </table>
     </div>
-    <div class="three wide column">
-      {{> verticalProjectMenu}}
-    </div>
   </div>
   <div class="ui divider"></div>
   <div class="ui grid">
@@ -64,7 +62,7 @@
 </template>
 
 <template name="progress">
-  <div class="ui fluid vertical steps">
+  <div class="ui fluid steps">
     <div class="completed step">
       <div class="content">
         <div class="title">Project Request</div>
