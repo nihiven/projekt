@@ -20,9 +20,9 @@
 <template name="taskDetail">
   <div class="ui {{#if project}}green{{else}}red{{/if}} link card">
     <div class="content">
-      <a class="header">{{title}}</a>
+      <a class="header" href="/tasks/{{_id}}">{{title}}</a>
       {{#if project}}
-        <a href="/tasks/project/{{project._id}}">{{project.name}}</a>
+        <a href="/projects/{{project._id}}">{{project.name}}</a>
       {{else}}
         Solo Task
       {{/if}}

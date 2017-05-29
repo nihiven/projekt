@@ -3,7 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { project, errors } from 'meteor/nihiven:projekt';
+import { _err } from 'meteor/nihiven:projekt';
 
 export const Favorites = new Mongo.Collection('favorites');
 export { Favorites as default };
@@ -45,7 +45,7 @@ Meteor.methods({
 
     // user must be logged in
     if (!this.userId) {
-      project.err('notAuthorized');
+      _err('notAuthorized');
     }
 
     // TODO: does there need to be something more here?
@@ -61,7 +61,7 @@ Meteor.methods({
 
     // user must be logged in
     if (!this.userId) {
-      project.err('notAuthorized');
+      _err('notAuthorized');
     }
 
     Favorites.insert({
@@ -74,7 +74,7 @@ Meteor.methods({
 
     // user must be logged in
     if (!this.userId) {
-      project.err('notAuthorized');
+      _err('notAuthorized');
     }
 
     Favorites.remove({
@@ -86,7 +86,7 @@ Meteor.methods({
     if (Roles.adminCheckPasses(this.userId)) {
       Favorites.remove({});
     } else {
-      project.err('notAuthorized');
+      _err('notAuthorized');
     }
   },
 });

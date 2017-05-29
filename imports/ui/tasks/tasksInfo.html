@@ -1,0 +1,15 @@
+<template name="taskInfo">
+  {{#if currentUser}}
+    {{#if Template.subscriptionsReady}}
+      {{> taskInfoBody}}
+      {{else}}
+      <div class="ui active centered inline loader"></div>
+    {{/if}}
+  {{else}}
+    {{errMessage "notLoggedInView"}}
+  {{/if}}
+</template>
+
+<template name="taskInfoBody">
+  WOOP DEE DOO
+</template>

@@ -2,6 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { _log } from 'meteor/nihiven:projekt';
 
 // collections
 import { Projects } from '/imports/api/collections/projects.js';
@@ -17,15 +18,18 @@ Template.projectInfo.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('projects.public');
     this.subscribe('favorites.user');
+
     this.projectInfo = new ReactiveVar();
+    this.projectId = new ReactiveVar();
+    this.projectId.set(FlowRouter.getParam('projectId'));
   });
 });
 
 Template.projectInfo.helpers({
   'details'() {
     const instance = Template.instance();
-    const projectId = FlowRouter.getParam('projectId');
-    instance.projectInfo.set(Projects.findOne({ _id: projectId }));
+    // TODO: not sure if this goes here or in the onCreated
+    instance.projectInfo.set(Projects.findOne({ _id: instance.projectId.get() }));
     return instance.projectInfo.get();
   },
 });
@@ -55,6 +59,7 @@ Template.taskDetailCompact.helpers({
 Template.projectDetails.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('tasks.public');
+    
     this.projectId = new ReactiveVar();
     this.projectId.set(FlowRouter.getParam('projectId'));
   });
@@ -76,12 +81,12 @@ Template.projectDetails.helpers({
 
 Template.projectDetails.events({
   'click [class~="pm-name"]'(event) {
-    console.log('open link to pm message?');
+    _log('open link to pm message?');
   },
   'click [class~="bo-name"]'(event) {
-    console.log('open link to bo message?');
+    _log('open link to bo message?');
   },
   'click [class~="dev-name"]'(event) {
-    console.log(`open link to dev message ${this._id}?`);
+    _log(`open link to dev message ${this._id}?`);
   },
 });

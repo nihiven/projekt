@@ -2,7 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt, defaults, _log } from 'meteor/nihiven:projekt';
+import { defaults, _err, _log } from 'meteor/nihiven:projekt';
 
 if (Meteor.isServer) {
   // exposing roles for admin functions
@@ -25,13 +25,13 @@ Meteor.methods({
 
     // user must be logged in
     if (!this.userId) {
-      projekt.err('notLoggedIn');
+      _err('notLoggedIn');
       return false;
     }
 
     // user must be an admin (for now)
     if (Roles.adminCheckFails(this.userId, 'notAdmin')) {
-      projekt.err('notAdmin');
+      _err('notAdmin');
       return false;
     }
 
@@ -44,19 +44,19 @@ Meteor.methods({
 
     // user must be logged in
     if (!this.userId) {
-      projekt.err('notLoggedIn');
+      _err('notLoggedIn');
       return false;
     }
 
     // user must be an admin (for now)
     if (Roles.adminCheckFails(this.userId)) {
-      projekt.err('notAdmin');
+      _err('notAdmin');
       return false;
     }
 
     // can't demote yourself
     if (role.indexOf('admin') >= 0 && userId === this.userId) {
-      projekt.err('cantDemoteSelf');
+      _err('cantDemoteSelf');
       return false;
     }
 

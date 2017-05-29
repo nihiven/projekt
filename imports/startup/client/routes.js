@@ -15,6 +15,7 @@ import '/imports/ui/users/userRoles.js';
 import '/imports/ui/reports/reportsList.js';
 import '/imports/ui/tasks/tasksList.js';
 import '/imports/ui/admin/adminSettings.js';
+import '/imports/ui/tasks/tasksInfo.js';
 
 // dev only
 import '/imports/ui/admin/testData.js';
@@ -53,23 +54,12 @@ FlowRouter.route('/projects/:projectId', {
 });
 
 FlowRouter.route('/projects/favorites', {
-  name: 'projects',
+  name: 'favorites',
   action() {
     BlazeLayout.render(
       'mainLayout', {
         nav: 'nav',
         content: 'projectFavorites',
-      });
-  },
-});
-
-FlowRouter.route('/projects/:_id', {
-  name: 'projects',
-  action() {
-    BlazeLayout.render(
-      'mainLayout', {
-        nav: 'nav',
-        content: 'projectList',
       });
   },
 });
@@ -128,6 +118,18 @@ FlowRouter.route('/tasks', {
       'mainLayout', {
         nav: 'nav',
         content: 'tasksList',
+      });
+  },
+});
+
+// tasks
+FlowRouter.route('/tasks/:taskId', {
+  name: 'tasks',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'taskInfo',
       });
   },
 });

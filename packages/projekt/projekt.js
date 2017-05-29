@@ -23,12 +23,6 @@ export const projekt = {
     animation: 'fade down',
     duration: 100,
   },
-  err(errorType, param1='', param2='') { // TODO: add params
-    check(errorType, String);
-
-    // TODO: checking for bad errorTypes
-    throw new Meteor.Error(errors[errorType].code, errors[errorType].message);
-  },
 };
 
 export const log = (message, level = 1) => {
@@ -81,5 +75,9 @@ export const _log = (param) => {
 };
 
 export const _err = (errorType, param1='', param2='') => {
-  projekt.err(errorType, param1, param2);
+  check(errorType, String);
+
+  // TODO: checking for bad errorTypes
+  throw new Meteor.Error(errors[errorType].code, errors[errorType].message);
+
 };

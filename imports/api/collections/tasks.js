@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt } from 'meteor/nihiven:projekt';
+import { _err } from 'meteor/nihiven:projekt';
 
 // collections
 import { Projects } from './projects.js';
@@ -120,7 +120,7 @@ Meteor.methods({
 
     // user must be logged in
     if (!Meteor.userId()) {
-      projekt.err('notLoggedIn');
+      _err('notLoggedIn');
     }
 
     // TODO: make sure this user owns the task
@@ -164,7 +164,7 @@ Meteor.methods({
     if (Roles.userIsInRole(this.userId, ['admin'])) {
       Tasks.remove({});
     } else {
-      projekt.err('notAuthorized');
+      _err('notAuthorized');
     }
   },
   'tasks.testData'() {

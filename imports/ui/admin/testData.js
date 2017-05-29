@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt } from 'meteor/nihiven:projekt';
+import { _err } from 'meteor/nihiven:projekt';
 
 // templates
 import './testData.html';
@@ -38,6 +38,6 @@ const testData = function(mode = 'load') {
       Meteor.call('tasks.testData');
     }
   } else {
-    projekt.err('notAdmin');
+    _err('notAdmin');
   };
 };

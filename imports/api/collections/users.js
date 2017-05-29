@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-import { defaults, _log } from 'meteor/nihiven:projekt';
+import { defaults, _err, _log } from 'meteor/nihiven:projekt';
 
 // collections
 import { Profiles } from './profiles.js';
@@ -59,13 +59,13 @@ Meteor.methods({
 
     // user must be logged in
     if (!Meteor.userId()) {
-      projekt.err('notLoggedIn');
+      _err('notLoggedIn');
       return false;
     }
 
     // make sure this user has elevated priviliges
     if (Roles.adminCheckFails(this.userId)) {
-      projekt.err('notAdmin');
+      _err('notAdmin');
       return false;
     }
 

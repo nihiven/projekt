@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { projekt } from 'meteor/nihiven:projekt';
+import { _err } from 'meteor/nihiven:projekt';
 
 // collections
 import { Tasks } from './tasks.js';
@@ -98,21 +98,21 @@ Meteor.methods({
         createdAt: new Date(),
       });
     } else {
-      projekt.err('notAuthorized');
+      _err('notAuthorized');
     }
   },
   'projects.reset'() {
     if (Roles.adminCheckPasses(this.userId)) {
       Projects.remove({});
     } else {
-      projekt.err('notAdmin');
+      _err('notAdmin');
     }
   },
   'projects.testData'() {
     if (Roles.adminCheckPasses(this.userId)) {
       loadTestData();
     } else {
-      projekt.err('notAdmin');
+      _err('notAdmin');
     }
   },
 });

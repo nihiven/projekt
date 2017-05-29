@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { projekt, _log } from 'meteor/nihiven:projekt';
+import { _err, _log } from 'meteor/nihiven:projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
@@ -78,12 +78,12 @@ Meteor.methods({
 
     // user must be logged in
     if (!Meteor.userId()) {
-      projekt.err('notLoggedIn');
+      _err('notLoggedIn');
     }
 
     // make sure this user owns the profile OR has elevated priviliges
     if (Meteor.userId() !== this.userId  && Roles.adminCheckFails(this.userId)) {
-      projekt.err('');
+      _err('');
     }
 
     Profiles.update(
@@ -106,13 +106,13 @@ Meteor.methods({
 
     // user must be logged in
     if (!Meteor.userId()) {
-      projekt.err('notLoggedIn');
+      _err('notLoggedIn');
       return false;
     }
 
     // make sure this user has elevated priviliges
     if (Roles.adminCheckFails(this.userId)) {
-      projekt.err('notAdmin');
+      _err('notAdmin');
       return false;
     }
 
@@ -143,7 +143,7 @@ Meteor.methods({
     if (Roles.userIsInRole(this.userId, ['admin'])) {
       Profiles.remove({});
     } else {
-      projekt.err('notAuthorized');
+      _err('notAuthorized');
     }
   },
 });
