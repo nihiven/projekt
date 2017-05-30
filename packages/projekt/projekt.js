@@ -68,7 +68,7 @@ export const defaults = {
 };
 
 export const _log = (param) => {
-  // disable because this is the on place where we want to use console
+  // disable because this is the one place where we want to use console
   // eslint-disable-next-line no-console
   console.log(param);
 };

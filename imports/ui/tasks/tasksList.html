@@ -18,23 +18,27 @@
 </template>
 
 <template name="taskDetail">
-  <div class="ui {{#if project}}green{{else}}red{{/if}} link card">
-    <div class="content">
+  <div class="ui {{#if project}}green{{else}}red{{/if}} card">
+    <div class="content tasks-clickable">
       <a class="header" href="/tasks/{{_id}}">{{title}}</a>
       {{#if project}}
         <a href="/projects/{{project._id}}">{{project.name}}</a>
       {{else}}
-        Solo Task
+        Unlinked Task
       {{/if}}
     </div>
-    <div class="content">
+    <div class="content tasks-clickable">
       <p>{{description}}</p>
     </div>
     <div class="extra content">
       {{#if creatorProfile}}
-        <span class="taskSubHeader"><a class="user" href="/users/{{createdId}}">{{creatorProfile.name}}</a> created this task {{aLongLongTimeAgo}}.</span>
+        <span class="taskSubHeader">
+          <a class="user" href="/users/{{createdId}}">{{creatorProfile.name}}</a> created this task {{aLongLongTimeAgo}}.
+        </span>
       {{else}}
-        <span class="taskSubHeader">This task was created {{aLongLongTimeAgo}}.</span>
+        <span class="taskSubHeader">
+          This task was created {{aLongLongTimeAgo}}.
+        </span>
       {{/if}}
     </div>
   </div>

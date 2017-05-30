@@ -44,8 +44,45 @@
     <div class="fluid ten wide column">
     </div>
   </div>
+  {{> projectComments}}
+  <!--
   <div class="ui bottom attached warning message">
     <p>This is regulatory project.</p>
+  </div>
+  -->
+</template>
+
+<template name="projectComments">
+  <div class="ui comments">
+    <!-- <h3 class="ui dividing header">Comments</h3> -->
+    {{#each comments}}
+      {{> projectCommentsRow}}
+    {{/each}}
+    <form class="ui reply form">
+      <div class="field">
+        <textarea class="comment-text"></textarea>
+      </div>
+      <div class="ui blue labeled submit icon button">
+        <i class="icon edit"></i> Add Comment
+      </div>
+    </form>
+  </div>
+</template>
+
+<template name="projectCommentsRow">
+  <div class="comment">
+    <div class="content">
+      <a class="author">{{profile.name}}</a>
+      <div class="metadata">
+        <span class="date">{{aLongLongTimeAgo}}</span>
+      </div>
+      <div class="text">
+        {{comment}}
+      </div>
+      <div class="actions">
+        <a class="reply">Reply</a>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -1,3 +1,4 @@
+// core
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
@@ -6,7 +7,7 @@ import { Profiles } from '/imports/api/collections/profiles.js';
 import { Projects } from '/imports/api/collections/projects.js';
 import { Tasks } from '/imports/api/collections/tasks.js';
 
-
+// templates
 import './tasksList.html';
 
 Template.tasksList.onCreated(function() {
@@ -37,5 +38,11 @@ Template.taskDetail.helpers({
   },
   project() {
     return this.project();
+  },
+});
+
+Template.taskDetail.events({
+  'click [class~="tasks-clickable"]'() {
+    FlowRouter.go(`/tasks/${this._id}`);
   },
 });

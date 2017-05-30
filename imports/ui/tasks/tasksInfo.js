@@ -1,9 +1,10 @@
-// core components
+// core
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _log } from 'meteor/nihiven:projekt';
 
+// templates
 import './tasksInfo.html';
 
 // projectList
