@@ -11,8 +11,9 @@ export { Favorites as default };
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
 
-if (Meteor.isServer) { // This code only runs on the server
+if (Meteor.isServer) {
   Meteor.publish('favorites.user', function() {
+    // limit to the current user
     return Favorites.find({ userId: this.userId });
   });
 }

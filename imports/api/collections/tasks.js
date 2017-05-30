@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { _err } from 'meteor/nihiven:projekt';
+import { defaults, _err } from 'meteor/nihiven:projekt';
 
 // collections
 import { Projects } from './projects.js';
@@ -100,7 +100,7 @@ Tasks.helpers({
   },
   dueDateString() {
     if (this.dueDate !== undefined) {
-      return moment(this.dueDate).format(projekt.dateFormat);
+      return moment(this.dueDate).format(defaults.dateFormat);
     } else {
       return '';
     }

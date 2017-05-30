@@ -1,4 +1,3 @@
-import { Template } from 'meteor/templating';
 import { check } from 'meteor/check';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -16,8 +15,6 @@ export const name = 'projekt';
 export const projekt = {
   // settings
   debugColors: new ReactiveVar(false), // show debug properties
-  logLevel: 0, // 0 = info/warn/error, 1 = warn, error, 2 = error, 3 = off
-  dateFormat: 'MMM Mo, YYYY',
   // settings for default message transition
   messageTransition: {
     animation: 'fade down',
@@ -30,7 +27,6 @@ export const log = (message, level = 1) => {
 
 };
 
-// this is imported where needed
 export const errors = {
   notLoggedIn: {
     code: 'not-logged-in',
@@ -63,21 +59,22 @@ export const errors = {
 };
 
 export const defaults = {
+  dateFormat: 'MMM Mo, YYYY',
   displayName: 'Everyday Worker',
-  publicEmail: 'email@internet.com',
   officeLocation: 'Heinz 57 Tower, Pittsburgh, PA',
   officePhone: '444-555-000',
+  publicEmail: 'email@internet.com',
   roles: ['view', 'resource'],
 };
 
 export const _log = (param) => {
+  // disable because this is the on place where we want to use console
+  // eslint-disable-next-line no-console
   console.log(param);
 };
 
 export const _err = (errorType, param1='', param2='') => {
   check(errorType, String);
-
   // TODO: checking for bad errorTypes
   throw new Meteor.Error(errors[errorType].code, errors[errorType].message);
-
 };

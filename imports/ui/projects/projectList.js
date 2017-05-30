@@ -43,7 +43,7 @@ Template.projectCard.events({
   'click [class~="favorite-icon"]'() {
     Meteor.call('favorites.toggle', this._id);
   },
-  'click [class~="project-body"]'() {
+  'click [class~="project-clickable"]'() {
     FlowRouter.go(`/projects/${this._id}`);
   },
 });
@@ -53,10 +53,7 @@ Template.projectCard.helpers({
     return this.is_regulatory;
   },
   isFavorite() {
-    if (Favorites.find({ projectId: this._id, userId: Meteor.userId() }).count() === 0) {
-      return false;
-    } else {
-      return true;
-    }
+    const count = Favorites.find({ projectId: this._id, userId: Meteor.userId() }).count();
+    return (count === 0 ? true : false);
   },
 });
