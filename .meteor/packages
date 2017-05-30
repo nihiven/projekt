@@ -31,5 +31,5 @@ audit-argument-checks@1.0.7
 zimme:active-route
 nihiven:projekt
 dburles:collection-helpers
-ecmascript@0.8.0-rc.9
+ecmascript
 matb33:collection-hooks
