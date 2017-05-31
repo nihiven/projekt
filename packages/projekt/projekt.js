@@ -40,6 +40,10 @@ export const errors = {
     code: 'not-authorized',
     message: 'User does not have the authority to make this change.',
   },
+  notAuthorizedView: {
+    code: 'not-authorized-view',
+    message: 'User does not have the authority to view this page.',
+  },
   notAdmin: {
     code: 'not-admin',
     message: 'User must be an admin to make this change.',

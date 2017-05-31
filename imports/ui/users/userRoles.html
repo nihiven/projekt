@@ -41,7 +41,7 @@
 </template>
 
 <template name="userTable">
-  <table class="ui selectable striped table">
+  <table class="ui selectable table">
     <thead>
       <tr>
         <th>Name</th>
@@ -59,7 +59,7 @@
 </template>
 
 <template name="userRow">
-  <tr class="userTable {{isSelected}}">
+  <tr class="{{isBanned this._id 'banned' ''}} userTable {{isSelected}}">
     <td class="collapsing">
       {{profile.name}}
     </td>
@@ -77,13 +77,16 @@
 
 <!-- Profile Table -->
 <template name="profileTable">
-  <table class="ui table">
+  <table class="ui {{isBanned profile.userId 'red banned' ''}} table">
       <thead>
         <tr>
           <th colspan="2">Edit User Profile</th>
         </tr>
       </thead>
       <tbody>
+        {{#if isBanned profile.userId true false}}
+          <tr class="banned"><td colspan="2">BANNED</td></tr>
+        {{/if}}
         {{#if profileUserId}}
         <tr>
           <td>Name</td>

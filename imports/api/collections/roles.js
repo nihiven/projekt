@@ -12,9 +12,8 @@ if (Meteor.isServer) {
 
   if (Meteor.roles.find({}).count() === 0) {
     Roles.createRole('admin');
-    Roles.createRole('view');
     Roles.createRole('resource');
-    Roles.createRole('project-mgr');
+    Roles.createRole('project-manager');
     Roles.createRole('banned');
   }
 }

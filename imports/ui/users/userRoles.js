@@ -11,6 +11,7 @@ import { _log } from 'meteor/nihiven:projekt';
 import { Profiles } from '/imports/api/collections/profiles.js';
 
 // templates
+import './users.less';
 import './userRoles.html';
 
 // for sharing user id between templates
