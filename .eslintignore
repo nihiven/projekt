@@ -1,1 +1,4 @@
 semantic-ui/
+.meteor/
+node_modules/
+.git/
