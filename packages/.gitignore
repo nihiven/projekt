@@ -1,2 +1,6 @@
 accounts-base
+ecmascript
 ecmascript-runtime
+mongo
+mongo-id
+mongo-livedata
