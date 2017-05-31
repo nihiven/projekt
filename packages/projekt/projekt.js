@@ -64,6 +64,10 @@ export const errors = {
     code: 'bad-parameter',
     message: 'Invalid parameter passed: {$1}',
   },
+  cantRemovecomment: {
+    code: 'cant-remove-comment',
+    message: 'You cannot remove this comment.',
+  },
 };
 
 export const defaults = {

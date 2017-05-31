@@ -40,16 +40,7 @@
     </div>
   </div>
   <div class="ui divider"></div>
-  <div class="ui grid">
-    <div class="fluid ten wide column">
-    </div>
-  </div>
   {{> projectComments}}
-  <!--
-  <div class="ui bottom attached warning message">
-    <p>This is regulatory project.</p>
-  </div>
-  -->
 </template>
 
 <template name="projectComments">
@@ -58,14 +49,6 @@
     {{#each comments}}
       {{> projectCommentsRow}}
     {{/each}}
-    <form class="ui reply form">
-      <div class="field">
-        <textarea class="comment-text"></textarea>
-      </div>
-      <div class="ui blue labeled submit icon button">
-        <i class="icon edit"></i> Add Comment
-      </div>
-    </form>
   </div>
 </template>
 
@@ -80,9 +63,27 @@
         {{comment}}
       </div>
       <div class="actions">
-        <a class="reply">Reply</a>
+        <a class="comment-reply">Reply</a>
+        {{#if isUserComment}}<a class="comment-remove">Remove</a>{{/if}}
+      </div>
+      <div class="project-hidden">
+        <p>
+          <form class="ui form comment-form">
+            <div class="ui mini input">
+              <input class="comment-text" type="text">
+              <button class="ui mini button comment-button">Comment</button>
+            </div>
+          </form>
+        </p>
       </div>
     </div>
+    {{#if hasReplies}}
+      <div class="ui comments test">
+        {{#each replies}}
+          {{> projectCommentsRow}}
+        {{/each}}
+      </div>
+    {{/if}}
   </div>
 </template>
 

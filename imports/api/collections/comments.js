@@ -42,6 +42,11 @@ Comments.schema = new SimpleSchema({
     optional: false,
     label() { return 'The project id the comment belongs to.'; },
   },
+  parentId: {
+    type: String,
+    optional: false,
+    label() { return 'The project id the comment belongs to.'; },
+  },
   comment: {
     type: String,
     optional: false,
@@ -66,11 +71,20 @@ Comments.helpers({
       return '';
     }
   },
+  replies() {
+    // return comments that list this item as the parentId
+    return Comments.find({ parentId: this._id }, { $orderby: { createdTime: -1 }});
+  },
+  hasReplies() {
+    const count = Comments.find({ parentId: this._id }).count();
+    return (count === 0 ? false : true);
+  },
 });
 
 Meteor.methods({
-  'comments.new'(projectId, comment) {
+  'comments.new'(projectId, parentId, comment) {
     check(projectId, String);
+    check(parentId, String);
     check(comment, String);
 
     // user must be logged in
@@ -79,9 +93,22 @@ Meteor.methods({
     }
     const result = Comments.insert({
       projectId,
+      parentId,
       userId: this.userId,
       comment,
       createdTime: Date.now(),
     });
+  },
+  'comments.remove'(commentId) {
+    check(commentId, String);
+
+    const commentOwnerId = Comments.findOne({ _id: commentId }).userId;
+
+    if (commentOwnerId !== this.userId && adminCheckFails(this.userId)) {
+      _err('cantRemoveComment');
+      return false;
+    }
+
+    return Comments.remove({ _id: commentId });
   },
 });

@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { projekt, settings } from 'meteor/nihiven:projekt';
+import { projekt, _log } from 'meteor/nihiven:projekt';
 
 // local profile data
 import { Profiles } from '/imports/api/collections/profiles.js';
@@ -53,8 +53,8 @@ Template.formBody.onRendered(function() {
         // there was an error updating the database
         if (err) {
           // handle displaying an error message
-          console.log(err.message);
-          console.log(err.details);
+          _log(err.message);
+          _log(err.details);
           $('.error.message').text(err.message);
           $('.error.message').show();
           return false;

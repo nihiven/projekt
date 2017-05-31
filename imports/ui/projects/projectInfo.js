@@ -14,12 +14,17 @@ import { Tasks } from '/imports/api/collections/tasks.js';
 import './projects.less';
 import './projectInfo.html';
 
+_x.projectId = new ReactiveVar();
+
 // projectList
 Template.projectInfo.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.projectInfo = new ReactiveVar();
+    // TODO: maybe use _x?
     this.projectId = new ReactiveVar();
     this.projectId.set(FlowRouter.getParam('projectId'));
+    _x.projectId.set(this.projectId.get());
+
 
     this.subscribe('projects.public');
     this.subscribe('comments.public', this.projectId.get());
@@ -90,23 +95,53 @@ Template.projectDetails.events({
   },
 });
 
+Template.projectCommentsRow.onRendered(() => {
+  $('.ui.form').form({
+    onSuccess(event, instance) {
+      event.preventDefault();
+    },
+  });
+});
+
 Template.projectComments.helpers({
   comments() {
-    return Comments.find({});
+    return Comments.find({ projectId: _x.projectId.get(), parentId: 'root' }, { $orderby: { cratedTime: -1}});
   },
 });
-
-Template.projectComments.events({
-  'click [class~="button"]'() {
-    const comment = $('[class~="comment-text"]').val();
-    Meteor.call('comments.new', this._id, comment);
-  },
-});
-
 
 // project details
 Template.projectCommentsRow.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('profiles.public');
   });
+});
+
+Template.projectCommentsRow.helpers({
+  isUserComment() {
+    return (this.userId === Meteor.userId() ? true : false);
+  },
+});
+
+
+Template.projectCommentsRow.events({
+  'click [class~="comment-remove"]'() {
+    Meteor.call('comments.remove', this._id);
+  },
+  'click [class~="comment-reply"]'(event) {
+    _log($(event.target));
+    _log($(event.target.parentNode));
+    _log(event.target.parentNode);
+    _log($(event.target).parentNode.next('.project-hidden'));
+
+    $(event.target).parentNode().next('.project-hidden').toggle();
+  },
+  'click [class~="comment-button"]'(event) {
+    const comment = $(event.target).val();
+
+    if (comment !== '') {
+      Meteor.call('comments.new', this.projectId, this._id, comment);
+      $(event.target).parents().next('.project-hidden').toggle();
+      $(event.target).val('');
+    }
+  },
 });
