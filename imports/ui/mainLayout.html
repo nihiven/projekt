@@ -3,10 +3,14 @@
 </head>
 
 <template name="mainLayout">
-	<div class="ui container" id="content">
-		{{> Template.dynamic template=nav}}
-		<div class="ui padded clearing segment">
-	  	{{> Template.dynamic template=content}}
-	  </div>
-	</div>
+	{{#if isInRole "banned"}}
+		You are banned from this site.
+	{{else}}
+		<div class="ui container" id="content">
+			{{> Template.dynamic template=nav}}
+			<div class="ui padded clearing segment">
+		  	{{> Template.dynamic template=content}}
+		  </div>
+		</div>
+	{{/if}}
 </template>

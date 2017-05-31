@@ -102,3 +102,11 @@ Template.projectComments.events({
     Meteor.call('comments.new', this._id, comment);
   },
 });
+
+
+// project details
+Template.projectCommentsRow.onCreated(function() {
+  this.autorun(() => { // keeps track of subscription readiness
+    this.subscribe('profiles.public');
+  });
+});
