@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { Roles } from 'meteor/alanning:roles';
 import { projekt, errors } from 'meteor/nihiven:projekt';
 
 // global helper for template errors
@@ -29,4 +30,8 @@ Template.registerHelper('userProfileField', (userId, field) => {
     instance.display[field].set(result[field]);
   });
   return instance.display[field].get();
+});
+
+Template.registerHelper('isBanned', (userId, trueValue = '', falseValue = '') => {
+  return (Roles.userIsInRole(userId, 'banned') ? trueValue : falseValue);
 });
