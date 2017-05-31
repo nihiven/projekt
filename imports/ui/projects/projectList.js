@@ -54,6 +54,6 @@ Template.projectCard.helpers({
   },
   isFavorite() {
     const count = Favorites.find({ projectId: this._id, userId: Meteor.userId() }).count();
-    return (count === 0 ? true : false);
+    return (count === 0 ? false : true);
   },
 });

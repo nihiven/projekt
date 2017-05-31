@@ -56,6 +56,10 @@ export const errors = {
     code: 'cant-demote-self',
     message: 'You cannot remove elevated privileges from yourself.',
   },
+  cantBanSelf: {
+    code: 'cant-ban-self',
+    message: 'You cannot ban yourself.',
+  },
   badParameter: {
     code: 'bad-parameter',
     message: 'Invalid parameter passed: {$1}',

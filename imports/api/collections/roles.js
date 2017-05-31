@@ -35,6 +35,12 @@ Meteor.methods({
       return false;
     }
 
+    // can't ban yourself
+    if (role.indexOf('banned') >= 0 && userId === this.userId) {
+      _err('cantBanSelf');
+      return false;
+    }
+
     Roles.addUsersToRoles(userId, role);
     return true;
   },
