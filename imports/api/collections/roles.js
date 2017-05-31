@@ -15,6 +15,7 @@ if (Meteor.isServer) {
     Roles.createRole('view');
     Roles.createRole('resource');
     Roles.createRole('project-mgr');
+    Roles.createRole('banned');
   }
 }
 
