@@ -9,6 +9,10 @@ Template.registerHelper('errMessage', (errorType) => {
 });
 
 // a bunch of isSomething to use in any template
+Template.registerHelper('isInRoleUserId', (userId, role) => {
+  return Roles.userIsInRole(userId, role);
+});
+
 Template.registerHelper('isBanned', (userId, trueValue = '', falseValue = '') => {
   return (Roles.userIsInRole(userId, 'banned') ? trueValue : falseValue);
 });

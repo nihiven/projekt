@@ -1,4 +1,7 @@
 <template name="projectInfo">
+  <div class="ui big top attached label">
+    Project Info
+  </div>
   {{#if Template.subscriptionsReady}}
     {{> progress}}
     {{>projectDetails details}}
@@ -53,32 +56,31 @@
 </template>
 
 <template name="projectCommentsRow">
-  <div class="comment">
-    <div class="content">
+  <div class="comment content">
+
       <a class="author">{{profile.name}}</a>
+      {{#if isInRoleUserId this.userId 'admin'}}<i class="star icon"></i>{{/if}}
       <div class="metadata">
         <span class="date">{{aLongLongTimeAgo}}</span>
       </div>
-      <div class="text">
+      <div class="text {{#if isUserComment}}user-comment{{/if}}">
         {{comment}}
       </div>
       <div class="actions">
-        <a class="comment-reply">Reply</a>
-        {{#if isUserComment}}<a class="comment-remove">Remove</a>{{/if}}
+        <div class="comment-reply">Reply</div>
+        {{#if isUserComment}}<div class="comment-remove">Remove</div>{{/if}}
       </div>
-      <div class="comment-container-{{_id}}">
-        <p>
-          <form class="ui form comment-form">
-            <div class="ui mini input">
-              <input class="comment-text" type="text">
-              <button class="ui mini button comment-button">Comment</button>
-            </div>
-          </form>
-        </p>
-      </div>
-    </div>
+      <p>
+        <form class="ui form comment-container-{{_id}}" style="display: inline;">
+          <div class="ui mini input">
+            <input class="comment-text-{{_id}}" type="text" placeholder="{{_id}}">
+            <button class="ui mini button comment-button">Comment</button>
+          </div>
+        </form>
+      </p>
+
     {{#if hasReplies}}
-      <div class="ui comments test">
+      <div class="ui comments">
         {{#each replies}}
           {{> projectCommentsRow}}
         {{/each}}

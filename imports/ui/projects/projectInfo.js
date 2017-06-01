@@ -113,6 +113,7 @@ Template.projectComments.helpers({
 Template.projectCommentsRow.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('profiles.public');
+    this.subscribe('users.public');
   });
 });
 
@@ -122,23 +123,22 @@ Template.projectCommentsRow.helpers({
   },
 });
 
-
 Template.projectCommentsRow.events({
   'click [class~="comment-remove"]'() {
     Meteor.call('comments.remove', this._id);
   },
   'click [class~="comment-reply"]'(event) {
-    const replyForm = 'comment-container-' + this._id;
-    $(replyForm).toggle();
-    _log($(replyForm));
+    $(event.target).off().on('click', () => {
+      $(event.target.parentElement.nextElementSibling).toggle();
+    });
   },
-  'click [class^="comment-button"]'(event) {
-    const comment = $(event.target).val();
+  'click [class~="comment-button"]'(event) {
+    const textField = `[class~="comment-text-${this._id}"]`;
+    const comment = $(textField).val();
 
     if (comment !== '') {
       Meteor.call('comments.new', this.projectId, this._id, comment);
-      $(event.target).parents().next('.project-hidden').toggle();
-      $(event.target).val('');
+      $(textField).val('');
     }
   },
 });
