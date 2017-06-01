@@ -1,10 +1,16 @@
 <template name="adminSettings">
   <div class="ui form">
-    <div class="inline field">
+    <p>
       <div class="ui toggle checkbox debugColors">
-        <input type="checkbox" tabindex="0" class="hidden" {{isDebugColors "checked"}}>
+        <input type="checkbox" tabindex="0" class="hidden" {{isDebugColors "checked" ""}}>
         <label>Debug Colors</label>
       </div>
-    </div>
+    </p>
+    <p>
+      <div class="ui toggle checkbox quickMessage">
+        <input type="checkbox" tabindex="0" class="hidden" {{isQuickMessage "checked" ""}}>
+        <label>Quick Message</label>
+      </div>
+    </p>
   </div>
 </template>

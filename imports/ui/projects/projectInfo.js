@@ -128,14 +128,11 @@ Template.projectCommentsRow.events({
     Meteor.call('comments.remove', this._id);
   },
   'click [class~="comment-reply"]'(event) {
-    _log($(event.target));
-    _log($(event.target.parentNode));
-    _log(event.target.parentNode);
-    _log($(event.target).parentNode.next('.project-hidden'));
-
-    $(event.target).parentNode().next('.project-hidden').toggle();
+    const replyForm = 'comment-container-' + this._id;
+    $(replyForm).toggle();
+    _log($(replyForm));
   },
-  'click [class~="comment-button"]'(event) {
+  'click [class^="comment-button"]'(event) {
     const comment = $(event.target).val();
 
     if (comment !== '') {

@@ -14,6 +14,7 @@ export const name = 'projekt';
 // main projekt data container
 export const projekt = {
   // settings
+  quickMessage: new ReactiveVar(true), // on name click, popup message composer
   debugColors: new ReactiveVar(false), // show debug properties
   // settings for default message transition
   messageTransition: {
