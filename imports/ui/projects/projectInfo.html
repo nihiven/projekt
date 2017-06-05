@@ -49,6 +49,10 @@
 <template name="projectComments">
   <div class="ui comments">
     <!-- <h3 class="ui dividing header">Comments</h3> -->
+    <div class="ui mini input">
+      <input class="root-comment-text" type="text">
+      <button class="ui mini button root-comment-button">Comment</button>
+    </div>
     {{#each comments}}
       {{> projectCommentsRow}}
     {{/each}}

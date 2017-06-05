@@ -95,19 +95,25 @@ Template.projectDetails.events({
   },
 });
 
-Template.projectCommentsRow.onRendered(() => {
-  $('.ui.form').form({
-    onSuccess(event, instance) {
-      event.preventDefault();
-    },
-  });
-});
-
 Template.projectComments.helpers({
   comments() {
     return Comments.find({ projectId: _x.projectId.get(), parentId: 'root' }, { $orderby: { cratedTime: -1}});
   },
 });
+
+Template.projectComments.events({
+  'click [class~="root-comment-button"]'(event) {
+    event.preventDefault();
+
+    const comment = $('[class~="root-comment-text"]').val();
+    _log(comment);
+    if (comment !== '') {
+      Meteor.call('comments.new', this.projectId, 'root', comment);
+      $('[class~="root-comment-text"]').val('');
+    }
+  },
+});
+
 
 // project details
 Template.projectCommentsRow.onCreated(function() {
