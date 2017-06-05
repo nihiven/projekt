@@ -19,9 +19,11 @@ _x.projectId = new ReactiveVar(false);
 
 // projectList
 Template.projectInfo.onCreated(function() {
-  this.autorun(() => { // keeps track of subscription readiness
+  // keeps track of subscription readiness
+  this.autorun(() => {
     this.projectInfo = new ReactiveVar();
-    // TODO: maybe use _x?
+
+    // TODO: does this get replaced with _x? i think so
     this.projectId = new ReactiveVar();
     this.projectId.set(FlowRouter.getParam('projectId'));
     _x.projectId.set(this.projectId.get());
@@ -37,13 +39,15 @@ Template.projectInfo.helpers({
   details() {
     const instance = Template.instance();
     // TODO: not sure if this goes here or in the onCreated
+    // i say do it as early as possible, right?
     instance.projectInfo.set(Projects.findOne({ _id: instance.projectId.get() }));
     return instance.projectInfo.get();
   },
 });
 
 Template.taskDetailCompact.onCreated(function() {
-  this.autorun(() => { // keeps track of subscription readiness
+  // keeps track of subscription readiness
+  this.autorun(() => {
     this.subscribe('profiles.public');
   });
 });
@@ -68,6 +72,7 @@ Template.projectDetails.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('tasks.public');
 
+    // use a reactive var for... reactivity
     this.projectId = new ReactiveVar();
     this.projectId.set(FlowRouter.getParam('projectId'));
   });
@@ -78,7 +83,10 @@ Template.projectDetails.helpers({
     return (this.is_regulatory ? 'Yes' : 'No');
   },
   tasks() {
+    // get this template instance because thats where we store the project id
     const instance = Template.instance();
+
+    // use .get() because projectId is a ReactiveVar
     const projectId = instance.projectId.get();
     return Tasks.find({ projectId });
   },
@@ -108,8 +116,10 @@ Template.projectComments.helpers({
 
 Template.projectComments.events({
   'click [class~="root-comment-button"]'(event) {
+    // prevent form submission behavior
     event.preventDefault();
 
+    // store comment for style points
     const comment = $('[class~="root-comment-text"]').val();
     if (comment !== '') {
       Meteor.call('comments.new', _x.projectId.get(), 'root', comment);
@@ -121,7 +131,8 @@ Template.projectComments.events({
 
 // project details
 Template.projectCommentsRow.onCreated(function() {
-  this.autorun(() => { // keeps track of subscription readiness
+  // keeps track of subscription readiness
+  this.autorun(() => {
     this.subscribe('profiles.public');
     this.subscribe('users.public');
   });
@@ -138,37 +149,31 @@ Template.projectCommentsRow.events({
     // TODO:  modal?
     Meteor.call('comments.remove', this._id);
 
-    // don't send events up the DOM
+    // don't send the click event up the DOM
     event.stopPropagation();
   },
   'click [class~="comment-reply"]'(event) {
-    // stop the form submission and don't send events up the DOM
+    // stop the form submission and don't send the click event up the DOM
     event.preventDefault();
     event.stopPropagation();
 
     // I don't know if this is best...
     $(event.target.parentNode.nextElementSibling).toggle();
+
+    // set focus to textbox
   },
   'click [class~="comment-button"]'(event) {
-    // stop the form submission and don't send events up the DOM
+    // stop the form submission and don't send the click event up the DOM
     event.preventDefault();
     event.stopPropagation();
 
-    // just making this a little easier to read
-    const form = $(event.target.parentNode);
-    const textBox = form.firstElementChild;
-    const comment = $(textBox).val();
-
-    _log(form);
-    _log(textBox);
-    _log(comment);
+    const comment = $(event.target.parentNode.firstElementChild).val();
 
     // add a new comment if there's anything in the textbox
     if (comment !== '') {
-      const result = Meteor.call('comments.new', _x.projectId.get(), this._id, comment);
-      _log(result);
-      textBox.val('');
-      $(form).toggle();
+      Meteor.call('comments.new', _x.projectId.get(), this._id, comment);
+      $(event.target.parentNode.firstElementChild).val('');
+      $(event.target.parentNode).toggle();
     }
   },
 });
