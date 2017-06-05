@@ -167,9 +167,11 @@ Meteor.methods({
       _err('notAuthorized');
     }
   },
-  'tasks.testData'() {
+  'tasks.testData'(projectId = 'fake') {
+    check(projectId, String);
+
     Tasks.insert({
-      projectId: 'fake',
+      projectId: projectId,
       createdId: this.userId,
       createdTime: Date.now(),
       updatedId: this.userId,

@@ -73,7 +73,7 @@ Comments.helpers({
   },
   replies() {
     // return comments that list this item as the parentId
-    return Comments.find({ parentId: this._id }, { $orderby: { createdTime: -1 }});
+    return Comments.find({ parentId: this._id }, { sort: { createdTime: -1 }});
   },
   hasReplies() {
     const count = Comments.find({ parentId: this._id }).count();

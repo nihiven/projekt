@@ -11,10 +11,11 @@ import { Comments } from '/imports/api/collections/comments.js';
 import { Tasks } from '/imports/api/collections/tasks.js';
 
 // templates
+import '/imports/ui/projekt.less'; // global styles
 import './projects.less';
 import './projectInfo.html';
 
-_x.projectId = new ReactiveVar();
+_x.projectId = new ReactiveVar(false);
 
 // projectList
 Template.projectInfo.onCreated(function() {
@@ -93,11 +94,15 @@ Template.projectDetails.events({
   'click [class~="dev-name"]'(event) {
     _log(`open link to dev message ${this._id}?`);
   },
+  'click [class~="task-add-button"]'() {
+    _log('add dummy task');
+    Meteor.call('tasks.testData', _x.projectId.get());
+  },
 });
 
 Template.projectComments.helpers({
   comments() {
-    return Comments.find({ projectId: _x.projectId.get(), parentId: 'root' }, { $orderby: { createdTime: -1}});
+    return Comments.find({ projectId: _x.projectId.get(), parentId: 'root' }, { sort: { createdTime: -1}});
   },
 });
 
@@ -132,26 +137,38 @@ Template.projectCommentsRow.events({
   'click [class~="comment-remove"]'() {
     // TODO:  modal?
     Meteor.call('comments.remove', this._id);
+
+    // don't send events up the DOM
     event.stopPropagation();
   },
   'click [class~="comment-reply"]'(event) {
+    // stop the form submission and don't send events up the DOM
     event.preventDefault();
     event.stopPropagation();
-    // TODO: change to next comment-reply-form
-    $(event.target.parentElement.nextElementSibling).toggle();
+
+    // I don't know if this is best...
+    $(event.target.parentNode.nextElementSibling).toggle();
   },
   'click [class~="comment-button"]'(event) {
-    // TODO: meteorize this! too much jquery junk
+    // stop the form submission and don't send events up the DOM
     event.preventDefault();
     event.stopPropagation();
-    const textField = `[class~="comment-text-${this._id}"]`;
-    const container = `[class~="comment-container-${this._id}"]`;
-    const comment = $(textField).val();
 
+    // just making this a little easier to read
+    const form = $(event.target.parentNode);
+    const textBox = form.firstElementChild;
+    const comment = $(textBox).val();
+
+    _log(form);
+    _log(textBox);
+    _log(comment);
+
+    // add a new comment if there's anything in the textbox
     if (comment !== '') {
-      Meteor.call('comments.new', this.projectId, this._id, comment);
-      $(textField).val('');
-      $(container).toggle();
+      const result = Meteor.call('comments.new', _x.projectId.get(), this._id, comment);
+      _log(result);
+      textBox.val('');
+      $(form).toggle();
     }
   },
 });

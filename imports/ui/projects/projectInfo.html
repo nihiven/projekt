@@ -33,7 +33,7 @@
           <tr>
             <th colspan="3">
               <!-- TODO: fix button -->
-              <div class="ui right floated small labeled button">
+              <div class="ui right floated small labeled button task-add-button">
                 Add Task
               </div>
             </th>
@@ -69,24 +69,22 @@
 <template name="projectCommentsRow">
   <div class="comment">
     <div class="content">
-      <a class="author">{{profile.name}}</a>
-      {{#if isInRoleUserId this.userId 'admin'}}<i class="star icon"></i>{{/if}}
+      <a class="author">{{profile.name}}</a> {{#if isUserComment}}<i class="admin-flair small star icon"></i>{{/if}}
       <div class="metadata">
         <span class="date">{{aLongLongTimeAgo}}</span>
       </div>
-      <div class="text {{#if isUserComment}}user-comment{{/if}}">
+      <div class="text">
         {{comment}}
       </div>
-      <div class="actions">
-        <a class="comment-reply">Reply</a> {{#if isUserComment}}<a class="comment-remove">Remove</a>{{/if}}
-      </div>
+      <a class="text-action comment-reply">Reply</a> {{#if isUserComment}}<a class="text-action comment-remove">Remove</a>{{/if}}
+    </div> <!-- content -->
 
-      <form class="ui form comment-container-{{_id}}" style="display: none;">
-        <div class="ui mini input">
-          <input class="comment-text-{{_id}}" type="text">
-          <button class="ui mini button comment-button">Comment</button>
-        </div>
-      </form>
+    <form class="ui form comment-container" style="display: none;">
+      <div class="ui mini input">
+        <input class="comment-text" type="text">
+        <button class="ui mini button comment-button">Comment</button>
+      </div>
+    </form>
 
       {{#if hasReplies}}
         <div class="ui comments no-padding-bottom">
@@ -95,7 +93,6 @@
           {{/each}}
         </div>
       {{/if}}
-    </div> <!-- content -->
   </div> <!-- comment -->
 </template>
 
