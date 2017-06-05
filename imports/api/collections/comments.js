@@ -109,6 +109,7 @@ Meteor.methods({
       return false;
     }
 
-    return Comments.remove({ _id: commentId });
+    return Comments.update({ '_id': commentId, 'comment': '[removed]' });
+    // return Comments.remove({ _id: commentId });
   },
 });

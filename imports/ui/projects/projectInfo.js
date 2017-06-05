@@ -97,7 +97,7 @@ Template.projectDetails.events({
 
 Template.projectComments.helpers({
   comments() {
-    return Comments.find({ projectId: _x.projectId.get(), parentId: 'root' }, { $orderby: { cratedTime: -1}});
+    return Comments.find({ projectId: _x.projectId.get(), parentId: 'root' }, { $orderby: { createdTime: -1}});
   },
 });
 
@@ -106,9 +106,8 @@ Template.projectComments.events({
     event.preventDefault();
 
     const comment = $('[class~="root-comment-text"]').val();
-    _log(comment);
     if (comment !== '') {
-      Meteor.call('comments.new', this.projectId, 'root', comment);
+      Meteor.call('comments.new', _x.projectId.get(), 'root', comment);
       $('[class~="root-comment-text"]').val('');
     }
   },
@@ -131,20 +130,28 @@ Template.projectCommentsRow.helpers({
 
 Template.projectCommentsRow.events({
   'click [class~="comment-remove"]'() {
+    // TODO:  modal?
     Meteor.call('comments.remove', this._id);
+    event.stopPropagation();
   },
   'click [class~="comment-reply"]'(event) {
-    $(event.target).off().on('click', () => {
-      $(event.target.parentElement.nextElementSibling).toggle();
-    });
+    event.preventDefault();
+    event.stopPropagation();
+    // TODO: change to next comment-reply-form
+    $(event.target.parentElement.nextElementSibling).toggle();
   },
   'click [class~="comment-button"]'(event) {
+    // TODO: meteorize this! too much jquery junk
+    event.preventDefault();
+    event.stopPropagation();
     const textField = `[class~="comment-text-${this._id}"]`;
+    const container = `[class~="comment-container-${this._id}"]`;
     const comment = $(textField).val();
 
     if (comment !== '') {
       Meteor.call('comments.new', this.projectId, this._id, comment);
       $(textField).val('');
+      $(container).toggle();
     }
   },
 });

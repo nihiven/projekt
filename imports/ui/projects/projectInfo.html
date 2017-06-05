@@ -47,21 +47,28 @@
 </template>
 
 <template name="projectComments">
-  <div class="ui comments">
-    <!-- <h3 class="ui dividing header">Comments</h3> -->
+  <p>
+    Leave a comment.
+  </p>
+  <form class="ui form">
     <div class="ui mini input">
       <input class="root-comment-text" type="text">
       <button class="ui mini button root-comment-button">Comment</button>
     </div>
+  </form>
+
+  <div class="ui horizontal divider header">Comments</div>
+  <div class="ui comments no-padding-bottom">
     {{#each comments}}
       {{> projectCommentsRow}}
-    {{/each}}
+      <div class="ui divider"></div>
+      {{/each}}
   </div>
 </template>
 
 <template name="projectCommentsRow">
-  <div class="comment content">
-
+  <div class="comment">
+    <div class="content">
       <a class="author">{{profile.name}}</a>
       {{#if isInRoleUserId this.userId 'admin'}}<i class="star icon"></i>{{/if}}
       <div class="metadata">
@@ -71,26 +78,25 @@
         {{comment}}
       </div>
       <div class="actions">
-        <div class="comment-reply">Reply</div>
-        {{#if isUserComment}}<div class="comment-remove">Remove</div>{{/if}}
+        <a class="comment-reply">Reply</a> {{#if isUserComment}}<a class="comment-remove">Remove</a>{{/if}}
       </div>
-      <p>
-        <form class="ui form comment-container-{{_id}}" style="display: inline;">
-          <div class="ui mini input">
-            <input class="comment-text-{{_id}}" type="text" placeholder="{{_id}}">
-            <button class="ui mini button comment-button">Comment</button>
-          </div>
-        </form>
-      </p>
 
-    {{#if hasReplies}}
-      <div class="ui comments">
-        {{#each replies}}
-          {{> projectCommentsRow}}
-        {{/each}}
-      </div>
-    {{/if}}
-  </div>
+      <form class="ui form comment-container-{{_id}}" style="display: none;">
+        <div class="ui mini input">
+          <input class="comment-text-{{_id}}" type="text">
+          <button class="ui mini button comment-button">Comment</button>
+        </div>
+      </form>
+
+      {{#if hasReplies}}
+        <div class="ui comments no-padding-bottom">
+          {{#each replies}}
+            {{> projectCommentsRow}}
+          {{/each}}
+        </div>
+      {{/if}}
+    </div> <!-- content -->
+  </div> <!-- comment -->
 </template>
 
 <template name="taskDetailCompact">
