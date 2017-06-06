@@ -19,7 +19,21 @@ export { Comments as default };
 if (Meteor.isServer) {
   Meteor.publish('comments.public', function(projectId) {
     check(projectId, String);
-    return Comments.find({ projectId });
+
+    // publish all fields if the user is an admin
+    if (Roles.adminCheckPasses(this.userId)) {
+      return Comments.find({ projectId });
+    } else {
+      // limit the fields that are returned if the user isnt an admin
+      return Comments.find({ projectId }, { fields: { removedComment: 0 }});
+    }
+  });
+
+  Meteor.publish('comments.user', function(projectId) {
+    check(projectId, String);
+
+    // this subscription publishes the fields limited above, but only for the user's data
+    return Comments.find({ projectId, userId: this.userId }, { fields: { removedComment: 1 }});
   });
 }
 
@@ -70,6 +84,7 @@ Comments.schema = new SimpleSchema({
 });
 Comments.attachSchema(Comments.schema);
 
+// helpers that are attached directly to the document
 Comments.helpers({
   profile() {
     return Profiles.findOne({ userId: this.userId });

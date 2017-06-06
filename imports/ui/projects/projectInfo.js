@@ -28,9 +28,9 @@ Template.projectInfo.onCreated(function() {
     this.projectId.set(FlowRouter.getParam('projectId'));
     _x.projectId.set(this.projectId.get());
 
-
     this.subscribe('projects.public');
     this.subscribe('comments.public', this.projectId.get());
+    this.subscribe('comments.user', this.projectId.get());
     this.subscribe('favorites.user');
   });
 });

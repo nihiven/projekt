@@ -74,6 +74,7 @@
       </div>
       <div class="text {{#if isRemoved}}text-removed{{/if}}">
         {{comment}}
+        {{#if ghostComment}}<div class="text-removed-ghost">{{removedComment}}</div>{{/if}}
       </div>
       <a class="text-action comment-reply">Reply</a>
       {{#if showRemove}}<a class="text-action comment-remove">Remove</a>{{/if}}
