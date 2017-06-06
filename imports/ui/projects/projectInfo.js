@@ -140,14 +140,32 @@ Template.projectCommentsRow.onCreated(function() {
 
 Template.projectCommentsRow.helpers({
   isUserComment() {
+    // does this comment belong to the current user?
     return (this.userId === Meteor.userId() ? true : false);
+  },
+  showRemove() {
+    // make sure this comment belongs to the user or the user is an admin
+    // and the comment hasn't already been removed
+    if (this.userId === Meteor.userId() || Roles.adminCheckPasses(Meteor.userId())) {
+      return !this.isRemoved;
+    }
+    return false;
   },
 });
 
 Template.projectCommentsRow.events({
   'click [class~="comment-remove"]'() {
+
     // TODO:  modal?
     Meteor.call('comments.remove', this._id);
+
+    // don't send the click event up the DOM
+    event.stopPropagation();
+  },
+  'click [class~="comment-delete"]'() {
+
+    // TODO:  modal?
+    Meteor.call('comments.delete', this._id);
 
     // don't send the click event up the DOM
     event.stopPropagation();

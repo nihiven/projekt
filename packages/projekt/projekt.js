@@ -65,9 +65,13 @@ export const errors = {
     code: 'bad-parameter',
     message: 'Invalid parameter passed: {$1}',
   },
-  cantRemovecomment: {
+  cantRemoveComment: {
     code: 'cant-remove-comment',
     message: 'You cannot remove this comment.',
+  },
+  cantRemoveCommentAdmin: {
+    code: 'cant-remove-admin',
+    message: 'You must be an admin to remove this comment.',
   },
 };
 

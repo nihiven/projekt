@@ -57,6 +57,11 @@ Comments.schema = new SimpleSchema({
     optional: false,
     label() { return 'Time the task was created.'; },
   },
+  isRemoved: {
+    type: Boolean,
+    optional: false,
+    label() { return 'Removal status of the comment.';},
+  },
 });
 Comments.attachSchema(Comments.schema);
 
@@ -91,25 +96,38 @@ Meteor.methods({
     if (!this.userId) {
       _err('notAuthorized');
     }
+
     const result = Comments.insert({
       projectId,
       parentId,
       userId: this.userId,
       comment,
       createdTime: Date.now(),
+      isRemoved: false,
     });
+
+    return result;
   },
   'comments.remove'(commentId) {
     check(commentId, String);
 
     const commentOwnerId = Comments.findOne({ _id: commentId }).userId;
-
-    if (commentOwnerId !== this.userId && adminCheckFails(this.userId)) {
+    if (commentOwnerId !== this.userId && Roles.adminCheckFails(this.userId)) {
       _err('cantRemoveComment');
       return false;
     }
 
-    return Comments.update({ '_id': commentId, 'comment': '[removed]' });
-    // return Comments.remove({ _id: commentId });
+    return Comments.update({ _id: commentId }, { $set: { comment: '[removed]', isRemoved: true }});
+  },
+  'comments.delete'(commentId) {
+    // TODO: delete children too?
+    check(commentId, String);
+
+    if (Roles.adminCheckFails(this.userId)) {
+      _err('cantRemoveCommentAdmin');
+      return false;
+    }
+
+    return Comments.remove({ _id: commentId });
   },
 });

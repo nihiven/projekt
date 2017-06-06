@@ -37,3 +37,4 @@ hot-code-push
 livedata
 meteor-base
 reload
+coffeescript@1.12.3_1
