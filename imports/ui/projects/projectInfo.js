@@ -128,7 +128,6 @@ Template.projectComments.events({
   },
 });
 
-
 // project details
 Template.projectCommentsRow.onCreated(function() {
   // keeps track of subscription readiness
@@ -151,34 +150,41 @@ Template.projectCommentsRow.helpers({
     }
     return false;
   },
+  ghostComment() {
+    if (this.userId === Meteor.userId() || Roles.adminCheckPasses(Meteor.userId())) {
+      return this.isRemoved;
+    }
+    return false;
+  },
 });
 
 Template.projectCommentsRow.events({
   'click [class~="comment-remove"]'() {
+    // don't send the click event up the DOM
+    event.stopPropagation();
 
     // TODO:  modal?
     Meteor.call('comments.remove', this._id);
-
-    // don't send the click event up the DOM
-    event.stopPropagation();
   },
   'click [class~="comment-delete"]'() {
+    // don't send the click event up the DOM
+    event.stopPropagation();
 
     // TODO:  modal?
     Meteor.call('comments.delete', this._id);
-
-    // don't send the click event up the DOM
-    event.stopPropagation();
   },
   'click [class~="comment-reply"]'(event) {
     // stop the form submission and don't send the click event up the DOM
     event.preventDefault();
     event.stopPropagation();
 
-    // I don't know if this is best...
+    // this can't be right, it relies on the structure of the html
+    // we want some kind of class search for comment-container
+    // BUG: after posting a comment you can no longer toggle the parent textbox
     $(event.target.parentNode.nextElementSibling).toggle();
 
     // set focus to textbox
+    _log($(event.target.parentNode.nextElementSibling.childNodes));
   },
   'click [class~="comment-button"]'(event) {
     // stop the form submission and don't send the click event up the DOM

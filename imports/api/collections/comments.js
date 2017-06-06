@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { _err, _log } from 'meteor/nihiven:projekt';
+import { _err, _log, defaults } from 'meteor/nihiven:projekt';
 
 // collections
 import { Profiles } from './profiles.js';
@@ -52,6 +52,11 @@ Comments.schema = new SimpleSchema({
     optional: false,
     label() { return 'The comment.'; },
   },
+  removedComment: {
+    type: String,
+    optional: true,
+    label() { return 'Stores the contents of a removed comment.'; },
+  },
   createdTime: {
     type: Date,
     optional: false,
@@ -78,7 +83,7 @@ Comments.helpers({
   },
   replies() {
     // return comments that list this item as the parentId
-    return Comments.find({ parentId: this._id }, { sort: { createdTime: -1 }});
+    return Comments.find({ parentId: this._id }, { sort: { createdTime: 1 }});
   },
   hasReplies() {
     const count = Comments.find({ parentId: this._id }).count();
@@ -111,13 +116,21 @@ Meteor.methods({
   'comments.remove'(commentId) {
     check(commentId, String);
 
-    const commentOwnerId = Comments.findOne({ _id: commentId }).userId;
+    const commentDoc = Comments.findOne({ _id: commentId });
+    const commentOwnerId = commentDoc.userId;
+
     if (commentOwnerId !== this.userId && Roles.adminCheckFails(this.userId)) {
       _err('cantRemoveComment');
       return false;
     }
 
-    return Comments.update({ _id: commentId }, { $set: { comment: '[removed]', isRemoved: true }});
+    return Comments.update({ _id: commentId }, {
+      $set: {
+        comment: defaults.removedComment,
+        removedComment: commentDoc.comment,
+        isRemoved: true,
+      },
+    });
   },
   'comments.delete'(commentId) {
     // TODO: delete children too?

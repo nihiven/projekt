@@ -1,10 +1,37 @@
+@goodBlue: rgba(70, 130, 180, 0.87);
+@goodRed: rgba(200, 0, 0, 0.87);
+
 [class~=admin-flair] {
-  color: steelblue !important;
+  color: @goodBlue !important;
 }
+
 [class~=text-action] {
-  cursor: pointer;
+  cursor: pointer !important;
   font-size: 0.875em;
   color: rgba(0, 0, 0, 0.4);
   display: inline-block;
   margin: 0em 0.75em 0em 0em;
+}
+
+[class~=text-self] {
+  color: @goodBlue !important;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+[class~=text-self]:hover {
+  color: @goodRed !important;
+}
+
+[class~=text-removed] {
+  font-style: italic !important;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[class~=root-comment-text] {
+  padding: 0.2em !important;
+}
+
+[class~=comment-text] {
+  padding: 0.2em !important;
 }

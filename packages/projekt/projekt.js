@@ -16,6 +16,7 @@ export const projekt = {
   // settings
   quickMessage: new ReactiveVar(true), // on name click, popup message composer
   debugColors: new ReactiveVar(false), // show debug properties
+
   // settings for default message transition
   messageTransition: {
     animation: 'fade down',
@@ -82,6 +83,7 @@ export const defaults = {
   officePhone: '444-555-000',
   publicEmail: 'email@internet.com',
   roles: ['view', 'resource'],
+  removedComment: '[removed]',
 };
 
 export const _log = (param) => {

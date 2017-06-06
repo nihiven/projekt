@@ -3,7 +3,6 @@
     Project Info
   </div>
   {{#if Template.subscriptionsReady}}
-    {{> progress}}
     {{>projectDetails details}}
   {{else}}
     <div class="ui active centered inline loader"></div>
@@ -12,9 +11,9 @@
 
 <template name="projectDetails">
   <div class="ui grid">
-      <div class="fluid four wide column">
-        {{> verticalProjectMenu}}
-      </div>
+    <div class="fluid four wide column">
+      {{> verticalProjectMenu}}
+    </div>
     <div class="fluid twelve wide column">
       <table class="ui basic single line striped table">
         <thead>
@@ -51,9 +50,9 @@
     Leave a comment.
   </p>
   <form class="ui form">
-    <div class="ui mini input">
+    <div class="ui tiny input">
       <input class="root-comment-text" type="text">
-      <button class="ui mini button root-comment-button">Comment</button>
+      <button class="ui tiny button root-comment-button">Comment</button>
     </div>
   </form>
 
@@ -69,11 +68,11 @@
 <template name="projectCommentsRow">
   <div class="comment">
     <div class="content">
-      <a class="author">{{profile.name}}</a> {{#if isUserComment}}<i class="admin-flair small star icon"></i>{{/if}}
+      <a class="author {{#if isUserComment}}text-self{{/if}}">{{profile.name}}</a>
       <div class="metadata">
         <span class="date">{{aLongLongTimeAgo}}</span>
       </div>
-      <div class="text">
+      <div class="text {{#if isRemoved}}text-removed{{/if}}">
         {{comment}}
       </div>
       <a class="text-action comment-reply">Reply</a>
@@ -82,9 +81,9 @@
     </div> <!-- content -->
 
     <form class="ui form comment-container" style="display: none;">
-      <div class="ui mini input">
+      <div class="ui tiny input">
         <input class="comment-text" type="text">
-        <button class="ui mini button comment-button">Comment</button>
+        <button class="ui tiny button comment-button">Comment</button>
       </div>
     </form>
 
