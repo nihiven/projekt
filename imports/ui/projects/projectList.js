@@ -35,7 +35,6 @@ Template.projectCard.onCreated(function() {
   });
 });
 
-
 Template.projectCard.events({
   'click [class~="empty heart"]'(event) {
     $(event.target).transition('jiggle');

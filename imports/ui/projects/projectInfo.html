@@ -68,7 +68,7 @@
 <template name="projectCommentsRow">
   <div class="comment">
     <div class="content">
-      <a class="author {{#if isUserComment}}text-self{{/if}}">{{profile.name}}</a>
+      <a class="author {{#if isUserComment}}text-self{{/if}}" href="/users/{{userId}}">{{profile.name}}</a>
       <div class="metadata">
         <span class="date">{{aLongLongTimeAgo}}</span>
       </div>

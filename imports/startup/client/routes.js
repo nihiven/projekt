@@ -98,6 +98,17 @@ FlowRouter.route('/users', {
   },
 });
 
+FlowRouter.route('/users/:userId', {
+  name: 'users',
+  action(params) {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'userRoleMgmt',
+      });
+  },
+});
+
 // reports
 FlowRouter.route('/reports', {
   name: 'reports',
