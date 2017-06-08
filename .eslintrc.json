@@ -18,9 +18,12 @@
         "import/no-extraneous-dependencies": 0,
         "import/no-unresolved": 0,
         "import/extensions": 0,
+        "import/no-absolute-path": 0,
 
         "arrow-body-style": ["error", "always"],
         "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+        "object-curly-spacing": ["error", "always", { "objectsInObjects": false }],
+        "no-undef": 0,
 
         "meteor/no-dom-lookup-on-created": 2,
         "meteor/eventmap-params": 2,
@@ -77,10 +80,6 @@
         "quotes": [
             "error",
             "single"
-        ],
-        "semi": [
-            "error",
-            "always"
         ]
     }
 }

@@ -20,7 +20,7 @@ _x.projectId = new ReactiveVar(false);
 _x.projectInfo = new ReactiveVar();
 
 // projectList
-Template.projectInfo.onCreated(function() {
+Template.projectInfo.onCreated(function onCreatedProjectInfo() {
   // keeps track of subscription readiness
   this.autorun(() => {
     // set the global variables
@@ -40,7 +40,7 @@ Template.projectInfo.helpers({
   },
 });
 
-Template.taskDetailCompact.onCreated(function() {
+Template.taskDetailCompact.onCreated(function onCreatedTaskDetailCompact() {
   // keeps track of subscription readiness
   this.autorun(() => {
     this.subscribe('profiles.public');
@@ -63,7 +63,7 @@ Template.taskDetailCompact.helpers({
 });
 
 // project details
-Template.projectDetails.onCreated(function() {
+Template.projectDetails.onCreated(function onCreatedProjectDetails() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('tasks.public');
   });
@@ -79,16 +79,16 @@ Template.projectDetails.helpers({
 });
 
 Template.projectDetails.events({
-  'click [class~="pm-name"]'(event) {
+  'click [class~="pm-name"]': function clickPmName() {
     _log('open link to pm message?');
   },
-  'click [class~="bo-name"]'(event) {
+  'click [class~="bo-name"]': function clickBoName() {
     _log('open link to bo message?');
   },
-  'click [class~="dev-name"]'(event) {
+  'click [class~="dev-name"]': function clickDevName() {
     _log(`open link to dev message ${this._id}?`);
   },
-  'click [class~="task-add-button"]'() {
+  'click [class~="task-add-button"]': function clickTaskAddButton() {
     _log('add dummy task');
     Meteor.call('tasks.testData', _x.projectId.get());
   },
@@ -99,15 +99,15 @@ Template.projectComments.helpers({
     return Comments.find({
       projectId: _x.projectId.get(),
       parentId: 'root',
-    }, { sort: { createdTime: -1}});
+    }, { sort: { createdTime: -1 }});
   },
 });
 
 Template.projectComments.events({
-  'click [class~="root-comment-toggle"]'(event) {
+  'click [class~="root-comment-toggle"]': function clickRootCommentToggle() {
     $('[class~="root-comment-form"]').toggle();
   },
-  'click [class~="root-comment-button"]'(event) {
+  'click [class~="root-comment-button"]': function clickRootCommentButton(event) {
     // prevent form submission behavior
     event.preventDefault();
 
@@ -119,7 +119,7 @@ Template.projectComments.events({
       $('[class~="root-comment-form"]').hide();
     }
   },
-  'keypress [class~="root-comment-text"]'(event) {
+  'keypress [class~="root-comment-text"]': function keypressRootCommentText(event) {
     // TODO: refactor
     if (event.keyCode === 13) {
       // prevent form submission behavior
@@ -136,7 +136,7 @@ Template.projectComments.events({
 });
 
 // project details
-Template.projectCommentsRow.onCreated(function() {
+Template.projectCommentsRow.onCreated(function onCreatedprojectCommentsRow() {
   // keeps track of subscription readiness
   this.autorun(() => {
     this.subscribe('profiles.public');
@@ -147,7 +147,7 @@ Template.projectCommentsRow.onCreated(function() {
 Template.projectCommentsRow.helpers({
   isUserComment() {
     // does this comment belong to the current user?
-    return (this.userId === Meteor.userId() ? true : false);
+    return (this.userId === Meteor.userId());
   },
   showRemove() {
     // make sure this comment belongs to the user or the user is an admin
@@ -166,21 +166,21 @@ Template.projectCommentsRow.helpers({
 });
 
 Template.projectCommentsRow.events({
-  'click [class~="comment-remove"]'() {
+  'click [class~="comment-remove"]': function clickCommentRemove() {
     // don't send the click event up the DOM
     event.stopPropagation();
 
     // TODO:  modal?
     Meteor.call('comments.remove', this._id);
   },
-  'click [class~="comment-delete"]'() {
+  'click [class~="comment-delete"]': function clickCommentDelete() {
     // don't send the click event up the DOM
     event.stopPropagation();
 
     // TODO:  modal?
     Meteor.call('comments.delete', this._id);
   },
-  'click [class~="comment-reply"]'(event) {
+  'click [class~="comment-reply"]': function clickCommentReply(event) {
     // stop the form submission and don't send the click event up the DOM
     event.preventDefault();
     event.stopPropagation();
@@ -193,7 +193,7 @@ Template.projectCommentsRow.events({
     // set focus to textbox
     _log($(event.target.parentNode.nextElementSibling.childNodes));
   },
-  'click [class~="comment-button"]'(event) {
+  'click [class~="comment-button"]': function clickCommentButton(event) {
     // stop the form submission and don't send the click event up the DOM
     event.preventDefault();
     event.stopPropagation();

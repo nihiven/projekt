@@ -31,16 +31,16 @@ const testData = (mode = 'load') => {
 };
 
 Template.testDataFunctions.events({
-  'click [class~="project-data"]': () => {
+  'click [class~="project-data"]': function testDataProjects() {
     testData('projects');
   },
-  'click [class~="reset"]': () => {
+  'click [class~="reset"]': function testDataReset() {
     testData('reset');
   },
-  'click [class~="task-data"]': () => {
+  'click [class~="task-data"]': function testDataTasks() {
     testData('tasks');
   },
-  'click [class~="user-data"]': () => {
+  'click [class~="user-data"]': function testDataUsers() {
     testData('users');
   },
 });
