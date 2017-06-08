@@ -18,6 +18,7 @@ import '/imports/ui/admin/adminSettings.js';
 import '/imports/ui/tasks/tasksInfo.js';
 
 // dev only
+import '/imports/ui/admin/autoForm.js';
 import '/imports/ui/admin/testData.js';
 
 // F L O W R O U T A
@@ -164,6 +165,17 @@ FlowRouter.route('/admin/settings', {
       'mainLayout', {
         nav: 'nav',
         content: 'adminSettings',
+      });
+  },
+});
+
+FlowRouter.route('/admin/autoForm', {
+  name: 'autoForm',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'testAutoForm',
       });
   },
 });

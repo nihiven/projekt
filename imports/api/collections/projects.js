@@ -3,19 +3,19 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { _err } from 'meteor/nihiven:projekt';
 
-// collections
-import { Tasks } from './tasks.js';
-
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
 import faker from 'faker';
+
+// collections
+import { Tasks } from './tasks.js';
 
 // exports
 export const Projects = new Mongo.Collection('projects');
 export { Projects as default };
 
 if (Meteor.isServer) {
-  Meteor.publish('projects.public', function() {
+  Meteor.publish('projects.public', () => {
     return Projects.find();
   });
 }
@@ -81,22 +81,22 @@ Projects.helpers({
 });
 
 Meteor.methods({
-  'projects.all'(userId) {
+  'projects.all': function (userId) {
     check(userId, String); // TODO: eventually restrict based on role
     return Projects.find({ });
   },
-  'projects.info'(projectId) {
+  'projects.info': function (projectId) {
     check(projectId, String);
     return Projects.findOne({ _id: projectId });
   },
   projectsCount() {
     return Projects.find({}).count();
   },
-  'projects.insert'(name) {
+  'projects.insert': function (name) {
     check(name, String);
 
     // TODO: do something with hard coded roles
-    if (Roles.roleCheckPasses(this.userId, ['admin','project-mgr'])) {
+    if (Roles.roleCheckPasses(this.userId, ['admin', 'project-mgr'])) {
       Projects.insert({
         name,
         creator: Meteor.userId(),
@@ -106,14 +106,14 @@ Meteor.methods({
       _err('notAuthorized');
     }
   },
-  'projects.reset'() {
+  'projects.reset': function () {
     if (Roles.adminCheckPasses(this.userId)) {
       Projects.remove({});
     } else {
       _err('notAdmin');
     }
   },
-  'projects.testData'() {
+  'projects.testData': function () {
     if (Roles.adminCheckPasses(this.userId)) {
       loadTestData();
     } else {

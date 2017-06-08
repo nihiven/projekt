@@ -1,15 +1,28 @@
 <!-- TODO: add modal for data reset -->
 <template name="testData">
 		{{#if isInRole 'admin'}}
-			<div class="ui top attached big label">Load Test Data</div>
-			<p>Projects Loaded: {{projectCount}}</p>
-			<button class="ui button projectData">Load Projects</button>
-			<button class="ui button taskData">Load Tasks</button>
-			<button class="ui button reset">Reset Project Data</button>
-
-			<p>Test User Data</p>
-			<button class="ui button userData">Load Users</button>
+			{{> testDataFunctions}}
 		{{ else }}
 			<p>{{errMessage "notAdminView"}}</p>
 		{{/if}}
+</template>
+
+<template name="testDataFunctions">
+	<div class="ui top attached big label">Test Data</div>
+
+	<div class="ui segment">
+		<button class="ui button users-load">Load a User</button>
+		<button class="ui button tasks-load">Load a Task</button>
+		<button class="ui button projects-load">Load a Project</button>
+	</div>
+
+	<div class="ui segment">
+		<button class="ui button projects-reset">Reset Project Data</button>
+		<button class="ui button users-reset">Reset User Data</button>
+		<button class="ui button profiles-reset">Reset Profile Data</button>
+	</div>
+
+	<div class="ui segment">
+		{{> quickForm id="fields1" schema=Schemas.FieldsExamples}}
+	</div>
 </template>

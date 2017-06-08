@@ -1,15 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { check, Match } from 'meteor/check';
+import { check } from 'meteor/check';
 import { defaults, _err, _log } from 'meteor/nihiven:projekt';
-
-// collections
-import { Profiles } from './profiles.js';
 
 // node modules
 import faker from 'faker';
 
+// collections
+import { Profiles } from './profiles.js';
+
+
 if (Meteor.isServer) {
-  Meteor.publish('users.public', function () { // not required
+  Meteor.publish('users.public', () => { // not required
     return Meteor.users.find({}, { _id: 1, roles: 1, emails: 1 });
   });
 
@@ -32,7 +33,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  'users.testData'() {
+  'users.testData': function () {
     // TODO: this should be accounts.createUser
 
     const userId = Meteor.users.insert({
@@ -54,7 +55,7 @@ Meteor.methods({
 
     Roles.addUsersToRoles(userId, defaults.roles);
   },
-  'users.remove'(userId) {
+  'users.remove': function (userId) {
     check(userId, String);
 
     // user must be logged in
@@ -71,14 +72,13 @@ Meteor.methods({
 
     _log('removing user...');
     // TODO: this should be an accounts function
-    Meteor.users.remove({ _id: userId }, (error, docRemoved)=> {
+    Meteor.users.remove({ _id: userId }, (error, docRemoved) => {
       if (error) {
         _log(`error removing user ${userId}`);
         return false;
-      } else {
-        _log(`removed user ${docRemoved}`);
-        return true;
       }
+      _log(`removed user ${docRemoved}`);
+      return true;
     });
   },
 });

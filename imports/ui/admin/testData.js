@@ -1,46 +1,45 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { Roles } from 'meteor/alanning:roles';
-import { _err } from 'meteor/nihiven:projekt';
+
+// autoform
+import SimpleSchema from 'simpl-schema';
+import { Tracker } from 'meteor/tracker';
+
+// collections
+import { Projects } from '/imports/api/collections/projects.js';
 
 // templates
 import './testData.html';
 
+// Required AutoForm setup
+SimpleSchema.extendOptions(['autoform']);
+
 // subscriptions for collection analysis
 // this should include every available publication
 
-const testData = (mode = 'load') => {
-  if (Roles.adminCheckPasses(Meteor.userId())) {
-    if (mode === 'projects') {
-      Meteor.call('projects.testData');
-    }
-    if (mode === 'reset') {
-      Meteor.call('projects.reset');
-      Meteor.call('favorites.reset');
-      Meteor.call('tasks.reset');
-    }
-    if (mode === 'users') {
-      Meteor.call('users.testData');
-    }
-    if (mode === 'tasks') {
-      Meteor.call('tasks.testData');
-    }
-  } else {
-    _err('notAdmin');
-  }
-};
-
 Template.testDataFunctions.events({
-  'click [class~="project-data"]': function testDataProjects() {
-    testData('projects');
+  'click [class~="users-load"]': function clickUsersLoad() {
+    Meteor.call('test.users.load');
   },
-  'click [class~="reset"]': function testDataReset() {
-    testData('reset');
+  'click [class~="users-reset"]': function clickUsersReset() {
+    Meteor.call('test.users.reset');
   },
-  'click [class~="task-data"]': function testDataTasks() {
-    testData('tasks');
+  'click [class~="tasks-load"]': function clickTasksLoad() {
+    Meteor.call('test.tasks.load');
   },
-  'click [class~="user-data"]': function testDataUsers() {
-    testData('users');
+  'click [class~="tasks-reset"]': function clickTasksReset() {
+    Meteor.call('test.tasks.reset');
+  },
+  'click [class~="projects-load"]': function clickProjectsLoad() {
+    Meteor.call('test.projects.load');
+  },
+  'click [class~="projects-resets"]': function clickProjectsReset() {
+    Meteor.call('test.projects.resets');
+  },
+  'click [class~="profiles-load"]': function clickProfilesLoad() {
+    Meteor.call('test.profiles.load');
+  },
+  'click [class~="profiles-reset"]': function clickProfilesReset() {
+    Meteor.call('test.profiles.reset');
   },
 });

@@ -21,9 +21,10 @@
         "import/no-absolute-path": 0,
 
         "arrow-body-style": ["error", "always"],
-        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
-        "object-curly-spacing": ["error", "always", { "objectsInObjects": false }],
         "no-undef": 0,
+        "no-underscore-dangle": 0,
+        "object-curly-spacing": ["error", "always", { "objectsInObjects": false }],
+        "object-curly-newline": ["error", { "minProperties": 1 }],
 
         "meteor/no-dom-lookup-on-created": 2,
         "meteor/eventmap-params": 2,
