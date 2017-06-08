@@ -1,35 +1,34 @@
 // core
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check, Match } from 'meteor/check';
+import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { _err, _log, defaults } from 'meteor/nihiven:projekt';
+import { _err, defaults } from 'meteor/nihiven:projekt';
 
 // collections
 import { Profiles } from './profiles.js';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
-import moment from 'moment';
+import * as moment from 'moment';
 
 // exports
 export const Comments = new Mongo.Collection('comments');
 export { Comments as default };
 
 if (Meteor.isServer) {
-  Meteor.publish('comments.public', function(projectId) {
+  Meteor.publish('comments.public', function publishCommentsPublic(projectId) {
     check(projectId, String);
 
     // publish all fields if the user is an admin
     if (Roles.adminCheckPasses(this.userId)) {
       return Comments.find({ projectId });
-    } else {
-      // limit the fields that are returned if the user isnt an admin
-      return Comments.find({ projectId }, { fields: { removedComment: 0 }});
     }
+      // limit the fields that are returned if the user isnt an admin
+    return Comments.find({ projectId }, { fields: { removedComment: 0 }});
   });
 
-  Meteor.publish('comments.user', function(projectId) {
+  Meteor.publish('comments.user', function publishCommentsUser(projectId) {
     check(projectId, String);
 
     // this subscription publishes the fields limited above, but only for the user's data
@@ -79,7 +78,7 @@ Comments.schema = new SimpleSchema({
   isRemoved: {
     type: Boolean,
     optional: false,
-    label() { return 'Removal status of the comment.';},
+    label() { return 'Removal status of the comment.'; },
   },
 });
 Comments.attachSchema(Comments.schema);
@@ -92,9 +91,8 @@ Comments.helpers({
   aLongLongTimeAgo() {
     if (this.createdTime !== undefined) {
       return moment(this.createdTime).fromNow();
-    } else {
-      return '';
     }
+    return '';
   },
   replies() {
     // return comments that list this item as the parentId
@@ -102,12 +100,12 @@ Comments.helpers({
   },
   hasReplies() {
     const count = Comments.find({ parentId: this._id }).count();
-    return (count === 0 ? false : true);
+    return (count !== 0);
   },
 });
 
 Meteor.methods({
-  'comments.new'(projectId, parentId, comment) {
+  'comments.new': function (projectId, parentId, comment) {
     check(projectId, String);
     check(parentId, String);
     check(comment, String);
@@ -128,7 +126,7 @@ Meteor.methods({
 
     return result;
   },
-  'comments.remove'(commentId) {
+  'comments.remove': function (commentId) {
     check(commentId, String);
 
     const commentDoc = Comments.findOne({ _id: commentId });
@@ -147,7 +145,7 @@ Meteor.methods({
       },
     });
   },
-  'comments.delete'(commentId) {
+  'comments.delete': function (commentId) {
     // TODO: delete children too?
     check(commentId, String);
 

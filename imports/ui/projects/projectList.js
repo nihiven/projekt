@@ -11,38 +11,39 @@ import { Favorites } from '/imports/api/collections/favorites.js';
 import './projects.less';
 import './projectList.html';
 
+_x.projectList = new ReactiveVar();
+
 // projectList
-Template.projectList.onCreated(function() {
+Template.projectList.onCreated(function onCreatedProjectList() {
   // using autorun automatically keeps track of subscription readiness
   this.autorun(() => {
     this.subscribe('projects.public');
     this.subscribe('favorites.user');
-    this.projectList = new ReactiveVar();
+
+    _x.projectList.set(Projects.find({}));
   });
 });
 
 Template.projectList.helpers({
-  'listAllProjects'() {
-    const instance = Template.instance();
-    instance.projectList.set(Projects.find({ }));
-    return instance.projectList.get();
+  listAllProjects() {
+    return _x.projectList.get();
   },
 });
 
-Template.projectCard.onCreated(function() {
+Template.projectCard.onCreated(function onCreatedProjectCard() {
   this.autorun(() => {
     this.subscribe('tasks.public');
   });
 });
 
 Template.projectCard.events({
-  'click [class~="empty heart"]'(event) {
+  'click [class~="empty heart"]': function clickEmptyHeart(event) {
     $(event.target).transition('jiggle');
   },
-  'click [class~="favorite-icon"]'() {
+  'click [class~="favorite-icon"]': function clickFavoriteIcon() {
     Meteor.call('favorites.toggle', this._id);
   },
-  'click [class~="project-clickable"]'() {
+  'click [class~="project-clickable"]': function clickProjectClickable() {
     FlowRouter.go(`/projects/${this._id}`);
   },
 });
@@ -53,6 +54,6 @@ Template.projectCard.helpers({
   },
   isFavorite() {
     const count = Favorites.find({ projectId: this._id, userId: Meteor.userId() }).count();
-    return (count === 0 ? false : true);
+    return (count !== 0);
   },
 });

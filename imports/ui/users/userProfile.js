@@ -5,22 +5,25 @@ import { projekt, _log } from 'meteor/nihiven:projekt';
 import { Profiles } from '/imports/api/collections/profiles.js';
 import './userProfile.html';
 
-Template.formBody.onCreated(function() {
+Template.formBody.onCreated(function onCreatedFormBodyAutoRun() {
   this.autorun(() => { // automatically tracks subscription readiness
     this.subscribe('profiles.user');
   });
 });
 
 Template.userProfile.helpers({
-  userProfile: function() {
+  userProfile() {
     return Profiles.findOne({ userId: Meteor.userId() });
   },
 });
 
+// use below to save the timeoutId for closing our message box
+let timeoutId;
+
 Template.formBody.events({
   // hide the account updated message
-  'click .message'() {
-    let msg = $('.success.message');
+  'click .message': function clickFormBodyMessage() {
+    const msg = $('.success.message');
     if (msg.is(':visible') === true) {
       Meteor.clearTimeout(timeoutId);
       msg.transition(projekt.messageTransition);
@@ -28,13 +31,10 @@ Template.formBody.events({
   },
 });
 
-// use below to save the timeoutId for closing our message box
-let timeoutId = undefined;
-
-Template.formBody.onRendered(function() {
+Template.formBody.onRendered(() => {
   $('.ui.form').form({
     // callbacks
-    onSuccess(event, instance) {
+    onSuccess(event) {
       // stop form's default submission action
       event.preventDefault();
 
@@ -49,7 +49,7 @@ Template.formBody.onRendered(function() {
       };
 
       // call the server side upsert method
-      Meteor.call('profiles.upsert', profileData, (err, res) => {
+      Meteor.call('profiles.upsert', profileData, (err) => {
         // there was an error updating the database
         if (err) {
           // handle displaying an error message
@@ -58,27 +58,27 @@ Template.formBody.onRendered(function() {
           $('.error.message').text(err.message);
           $('.error.message').show();
           return false;
-        } else {
+        }
           // the database was successfully updated
-          $('.error.message').hide();
+        $('.error.message').hide();
 
-          let msg = $('.success.message');
-          if (msg.is(':visible') === false) {
+        const msg = $('.success.message');
+        if (msg.is(':visible') === false) {
             // show success message
-            msg.transition(projekt.messageTransition);
+          msg.transition(projekt.messageTransition);
 
             // if a timer is already set, stop it
-            Meteor.clearTimeout(timeoutId);
+          Meteor.clearTimeout(timeoutId);
 
             // save the timer id so we can stop it later if needed
-            timeoutId = Meteor.setTimeout(() => {
+          timeoutId = Meteor.setTimeout(() => {
               // set message to hide in two seconds
-              if (msg.is(':visible') === true) { msg.transition(projekt.messageTransition); }
-            }, 2000);
-          }
+            if (msg.is(':visible') === true) { msg.transition(projekt.messageTransition); }
+          }, 2000);
+        }
 
-          return true;
-        }; // else
+        return true;
+         // else
       }); // call
     },
     // form validation profile

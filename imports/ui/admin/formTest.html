@@ -1,0 +1,15 @@
+<template name="testAutoForm">
+  {{> testQuickForm}}
+</template>
+
+<template name="testQuickForm">
+  {{#autoForm id="afUpdateDemo" type=formType collection=Collections.People doc=selectedPersonDoc autosave=autoSaveMode}}
+    {{> afQuickField name="firstName"}}
+    {{> afQuickField name="lastName"}}
+    {{> afQuickField name="age"}}
+    <div class="ui form">
+      <button type="submit" class="ui button" disabled="{{disableButtons}}">Submit</button>
+      <button type="reset" class="ui button" disabled="{{disableButtons}}">Reset Form</button>
+    </div>
+  {{/autoForm}}
+</template>

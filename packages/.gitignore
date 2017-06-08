@@ -34,7 +34,7 @@ templating-compiler
 templating-runtime
 templating-tools
 ui
-meteor-autoform-6.1.0
 meteor-momentjs
 meteor-simple-schema
 git
+meteor-autoform-6.1.0

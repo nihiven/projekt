@@ -27,6 +27,7 @@ Template.projectInfo.onCreated(function onCreatedProjectInfo() {
     _x.projectId.set(FlowRouter.getParam('projectId'));
     _x.projectInfo.set(Projects.findOne({ _id: _x.projectId.get() }));
 
+    // subscriptions
     this.subscribe('projects.public');
     this.subscribe('comments.public', _x.projectId.get());
     this.subscribe('comments.user', _x.projectId.get()); // this gives us access to ghost comments
