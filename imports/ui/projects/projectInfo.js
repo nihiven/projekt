@@ -15,33 +15,28 @@ import '/imports/ui/projekt.less'; // global styles
 import './projects.less';
 import './projectInfo.html';
 
+// i use these to share info between templates
 _x.projectId = new ReactiveVar(false);
+_x.projectInfo = new ReactiveVar();
 
 // projectList
 Template.projectInfo.onCreated(function() {
   // keeps track of subscription readiness
   this.autorun(() => {
-    this.projectInfo = new ReactiveVar();
-
-    // TODO: does this get replaced with _x? i think so
-    this.projectId = new ReactiveVar();
-    this.projectId.set(FlowRouter.getParam('projectId'));
-    _x.projectId.set(this.projectId.get());
+    // set the global variables
+    _x.projectId.set(FlowRouter.getParam('projectId'));
+    _x.projectInfo.set(Projects.findOne({ _id: _x.projectId.get() }));
 
     this.subscribe('projects.public');
-    this.subscribe('comments.public', this.projectId.get());
-    this.subscribe('comments.user', this.projectId.get());
+    this.subscribe('comments.public', _x.projectId.get());
+    this.subscribe('comments.user', _x.projectId.get()); // this gives us access to ghost comments
     this.subscribe('favorites.user');
   });
 });
 
 Template.projectInfo.helpers({
   details() {
-    const instance = Template.instance();
-    // TODO: not sure if this goes here or in the onCreated
-    // i say do it as early as possible, right?
-    instance.projectInfo.set(Projects.findOne({ _id: instance.projectId.get() }));
-    return instance.projectInfo.get();
+    return _x.projectInfo.get();
   },
 });
 
@@ -71,10 +66,6 @@ Template.taskDetailCompact.helpers({
 Template.projectDetails.onCreated(function() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('tasks.public');
-
-    // use a reactive var for... reactivity
-    this.projectId = new ReactiveVar();
-    this.projectId.set(FlowRouter.getParam('projectId'));
   });
 });
 
@@ -83,12 +74,7 @@ Template.projectDetails.helpers({
     return (this.is_regulatory ? 'Yes' : 'No');
   },
   tasks() {
-    // get this template instance because thats where we store the project id
-    const instance = Template.instance();
-
-    // use .get() because projectId is a ReactiveVar
-    const projectId = instance.projectId.get();
-    return Tasks.find({ projectId });
+    return Tasks.find({ projectId: _x.projectId.get() });
   },
 });
 
@@ -110,11 +96,17 @@ Template.projectDetails.events({
 
 Template.projectComments.helpers({
   comments() {
-    return Comments.find({ projectId: _x.projectId.get(), parentId: 'root' }, { sort: { createdTime: -1}});
+    return Comments.find({
+      projectId: _x.projectId.get(),
+      parentId: 'root',
+    }, { sort: { createdTime: -1}});
   },
 });
 
 Template.projectComments.events({
+  'click [class~="root-comment-toggle"]'(event) {
+    $('[class~="root-comment-form"]').toggle();
+  },
   'click [class~="root-comment-button"]'(event) {
     // prevent form submission behavior
     event.preventDefault();
@@ -124,6 +116,21 @@ Template.projectComments.events({
     if (comment !== '') {
       Meteor.call('comments.new', _x.projectId.get(), 'root', comment);
       $('[class~="root-comment-text"]').val('');
+      $('[class~="root-comment-form"]').hide();
+    }
+  },
+  'keypress [class~="root-comment-text"]'(event) {
+    // TODO: refactor
+    if (event.keyCode === 13) {
+      // prevent form submission behavior
+      event.preventDefault();
+
+      // store comment for style points
+      const comment = $('[class~="root-comment-text"]').val();
+      if (comment !== '') {
+        Meteor.call('comments.new', _x.projectId.get(), 'root', comment);
+        $('[class~="root-comment-text"]').val('');
+      }
     }
   },
 });

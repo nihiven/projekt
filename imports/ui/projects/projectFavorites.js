@@ -1,5 +1,4 @@
 // core components
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 // collections
@@ -12,7 +11,7 @@ import './projectList.html';
 
 
 // projectList
-Template.projectFavorites.onCreated(function() {
+Template.projectFavorites.onCreated(function onCreated() {
   this.autorun(() => {
     this.state = new ReactiveDict();
 
@@ -24,7 +23,7 @@ Template.projectFavorites.onCreated(function() {
 Template.projectFavorites.helpers({
   listFavoriteProjects() {
     const favs = Favorites.find({ });
-    const projIds = favs.map(function(doc) { return doc.projectId; });
+    const projIds = favs.map((doc) => { return doc.projectId; });
     const projs = Projects.find({ _id: { $in: projIds } });
     return projs;
   },
@@ -32,7 +31,7 @@ Template.projectFavorites.helpers({
 
 
 // projectCard
-Template.projectFavorites.onCreated(function() {
+Template.projectFavorites.onCreated(() => {
   // init semantic objects here
 });
 
@@ -43,7 +42,7 @@ Template.projectFavoriteCard.helpers({
     return (this.is_regulatory === 'Yes');
   },
   attributes() {
-    const count = function(projectId) {
+    const count = (projectId) => {
       return Favorites.find({ projectId }).count();
     };
 

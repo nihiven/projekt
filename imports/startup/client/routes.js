@@ -44,7 +44,7 @@ FlowRouter.route('/projects', {
 
 FlowRouter.route('/projects/:projectId', {
   name: 'projects',
-  action(params) {
+  action() {
     BlazeLayout.render(
       'mainLayout', {
         nav: 'nav',
@@ -100,7 +100,7 @@ FlowRouter.route('/users', {
 
 FlowRouter.route('/users/:userId', {
   name: 'users',
-  action(params) {
+  action() {
     BlazeLayout.render(
       'mainLayout', {
         nav: 'nav',

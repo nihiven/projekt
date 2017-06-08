@@ -66,6 +66,11 @@ Tasks.schema = new SimpleSchema({
     optional: true,
     label() { return 'Task Description'; },
   },
+  phase: {
+    type: String,
+    optional: false,
+    label() { return 'The project phase that this task is linked to.'; },
+  },
   dueDate: {
     type: String,
     optional: true,

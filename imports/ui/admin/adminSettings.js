@@ -1,3 +1,5 @@
+// TODO: this files mixes admin settings and user settings
+// break this up eventually
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { projekt } from 'meteor/nihiven:projekt';

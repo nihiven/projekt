@@ -22,6 +22,7 @@ Template.userTable.onCreated(function() { // can't use => here
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('users.public');
     this.subscribe('profiles.public');
+    
     _x.profileUserId.set(FlowRouter.getParam('userId'));
   });
 });

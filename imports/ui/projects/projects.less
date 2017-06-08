@@ -1,17 +1,19 @@
+@emphasisColor: steelblue;
+
 .favorite-icon:hover {
   color: red;
   cursor: pointer;
 }
 .dev-name:hover {
-  color: steelblue;
+  color: @emphasisColor;
   cursor: pointer;
 }
 .pm-name:hover {
-  color: steelblue;
+  color: @emphasisColor;
   cursor: pointer;
 }
 .bo-name:hover {
-  color: steelblue;
+  color: @emphasisColor;
   cursor: pointer;
 }
 .project-clickable:hover {
@@ -21,7 +23,7 @@
   display: none;
 }
 .user-comment {
-  color: lightblue;
+  color: green;
 }
 div .no-padding-bottom {
   padding-bottom: 0 !important;
@@ -29,4 +31,13 @@ div .no-padding-bottom {
 
 [class~=comment-delete]:hover {
   color: red !important;
+}
+
+[class~=root-comment-toggle]:hover {
+  color: @emphasisColor;
+  cursor: pointer;
+}
+
+[class~=root-comment-form] {
+  display: none;
 }

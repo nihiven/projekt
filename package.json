@@ -10,13 +10,6 @@
     "autoprefixer": "^6.3.1",
     "babel-runtime": "^6.20.0",
     "bcrypt": "https://registry.npmjs.org/bcrypt/-/bcrypt-1.0.2.tgz",
-    "eslint": "^3.19.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-html": "^2.0.3",
-    "eslint-plugin-meteor": "^4.0.1",
-    "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
     "faker": "^4.1.0",
     "meteor-node-stubs": "^0.2.6",
     "moment": "^2.18.1",
@@ -28,11 +21,13 @@
     "babel-eslint": "^7.2.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-meteor": "^0.1.0",
     "eslint-import-resolver-meteor": "^0.4.0",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-html": "^2.0.3",
+    "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-meteor": "^4.0.1",
-    "eslint-plugin-html": "^2.0.3"
+    "eslint-plugin-react": "^7.0.1"
   },
   "postcss": {
     "plugins": {

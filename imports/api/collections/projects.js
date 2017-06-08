@@ -39,6 +39,11 @@ Projects.schema = new SimpleSchema({
     optional: true,
     label() { return 'Project Description'; },
   },
+  phase: {
+    type: String,
+    optional: false,
+    label() { return 'The phase that this Project is currently in.'; },
+  },
   business_owner: {
     type: String,
     optional: true,

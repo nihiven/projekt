@@ -9,12 +9,19 @@
       "meteor",
       "html"
     ],
-    "extends": ["plugin:meteor/recommended"],
+    "extends": ["plugin:meteor/recommended", "eslint:recommended", "airbnb"],
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module"
     },
     "rules": {
+        "import/no-extraneous-dependencies": 0,
+        "import/no-unresolved": 0,
+        "import/extensions": 0,
+
+        "arrow-body-style": ["error", "always"],
+        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+
         "meteor/no-dom-lookup-on-created": 2,
         "meteor/eventmap-params": 2,
         "meteor/no-template-lifecycle-assignments": 2,

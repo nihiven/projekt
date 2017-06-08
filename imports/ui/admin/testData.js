@@ -6,22 +6,10 @@ import { _err } from 'meteor/nihiven:projekt';
 // templates
 import './testData.html';
 
-Template.testData.events({
-  'click [class~="projectData"]'() {
-    testData('projects');
-  },
-  'click [class~="reset"]'() {
-    testData('reset');
-  },
-  'click [class~="taskData"]'() {
-    testData('tasks');
-  },
-  'click [class~="userData"]'() {
-    testData('users');
-  },
-});
+// subscriptions for collection analysis
+// this should include every available publication
 
-const testData = function(mode = 'load') {
+const testData = (mode = 'load') => {
   if (Roles.adminCheckPasses(Meteor.userId())) {
     if (mode === 'projects') {
       Meteor.call('projects.testData');
@@ -39,5 +27,20 @@ const testData = function(mode = 'load') {
     }
   } else {
     _err('notAdmin');
-  };
+  }
 };
+
+Template.testDataFunctions.events({
+  'click [class~="project-data"]': () => {
+    testData('projects');
+  },
+  'click [class~="reset"]': () => {
+    testData('reset');
+  },
+  'click [class~="task-data"]': () => {
+    testData('tasks');
+  },
+  'click [class~="user-data"]': () => {
+    testData('users');
+  },
+});

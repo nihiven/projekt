@@ -1,15 +1,16 @@
+<!-- TODO: this files mixes admin settings and user settings. break this up eventually -->
 <template name="adminSettings">
   <div class="ui form">
     <p>
       <div class="ui toggle checkbox debugColors">
         <input type="checkbox" tabindex="0" class="hidden" {{isDebugColors "checked" ""}}>
-        <label>Debug Colors</label>
+        <label>Debug Colors: Bright colors for some objects.</label>
       </div>
     </p>
     <p>
       <div class="ui toggle checkbox quickMessage">
         <input type="checkbox" tabindex="0" class="hidden" {{isQuickMessage "checked" ""}}>
-        <label>Quick Message</label>
+        <label>Quick Message: Clicking on a user's name will bring up a quick message window instead of taking you to their profile.</label>
       </div>
     </p>
   </div>

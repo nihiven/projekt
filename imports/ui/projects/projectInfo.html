@@ -1,9 +1,11 @@
 <template name="projectInfo">
   <div class="ui big top attached label">
-    Project Info
+    {{details.name}}
   </div>
   {{#if Template.subscriptionsReady}}
     {{>projectDetails details}}
+    <div class="ui divider"></div>
+    {{> progress}}
   {{else}}
     <div class="ui active centered inline loader"></div>
   {{/if}}
@@ -11,10 +13,17 @@
 
 <template name="projectDetails">
   <div class="ui grid">
-    <div class="fluid four wide column">
-      {{> verticalProjectMenu}}
+    <!--
+      <div class="fluid three wide column">
+        {{> verticalProjectMenu}}
+      </div>
+    -->
+    <div class="fluid five wide column">
+      <div class="ui segment">
+        {{> projectComments}}
+      </div>
     </div>
-    <div class="fluid twelve wide column">
+    <div class="fluid eleven wide column">
       <table class="ui basic single line striped table">
         <thead>
           <tr>
@@ -41,27 +50,26 @@
       </table>
     </div>
   </div>
-  <div class="ui divider"></div>
-  {{> projectComments}}
 </template>
 
 <template name="projectComments">
-  <p>
-    Leave a comment.
+  <p class="root-comment-toggle">
+    Click here to leave a comment.
   </p>
-  <form class="ui form">
-    <div class="ui tiny input">
-      <input class="root-comment-text" type="text">
-      <button class="ui tiny button root-comment-button">Comment</button>
+  <form class="ui form root-comment-form">
+    <div class="ui tiny action input">
+      <input class="fluid root-comment-text" type="text">
+      <button class="ui icon button root-comment-button">
+        <i class="chevron right icon"></i>
+      </button>
     </div>
   </form>
 
-  <div class="ui horizontal divider header">Comments</div>
   <div class="ui comments no-padding-bottom">
     {{#each comments}}
-      {{> projectCommentsRow}}
       <div class="ui divider"></div>
-      {{/each}}
+      {{> projectCommentsRow}}
+    {{/each}}
   </div>
 </template>
 
@@ -82,9 +90,12 @@
     </div> <!-- content -->
 
     <form class="ui form comment-container" style="display: none;">
-      <div class="ui tiny input">
+      <div class="ui tiny action input">
         <input class="comment-text" type="text">
-        <button class="ui tiny button comment-button">Comment</button>
+        <!-- <button class="ui tiny button comment-button">Comment</button> -->
+        <button class="ui icon button comment-button">
+          <i class="chevron right icon"></i>
+        </button>
       </div>
     </form>
 
@@ -115,31 +126,31 @@
     <div class="completed step">
       <div class="content">
         <div class="title">Project Request</div>
-        <div class="description">Finalize user request</div>
+        <div class="description">Completed: 03/14/2017</div>
       </div>
     </div>
     <div class="completed step">
       <div class="content">
         <div class="title">Requirements</div>
-        <div class="description">Create requirements document</div>
+        <div class="description">Completed: 05/17/2017</div>
       </div>
     </div>
     <div class="active step">
       <div class="content">
         <div class="title">Development</div>
-        <div class="description">User requirements to code</div>
+        <div class="description">Started on: 05/18/2017</div>
       </div>
     </div>
     <div class="step">
       <div class="content">
         <div class="title">Testing</div>
-        <div class="description">Test features for requirements</div>
+        <div class="description">Planned Start: 06/30/2017</div>
       </div>
     </div>
     <div class="step">
       <div class="content">
         <div class="title">UAT</div>
-        <div class="description">Test with and get user approval</div>
+        <div class="description">Planned Start: 08/07/2017</div>
       </div>
     </div>
   </div>
