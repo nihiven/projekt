@@ -19,3 +19,12 @@ project-add
 Global Variables and Functions
 ------------------------------------
 always preceded by an underscore: _x, _state
+
+
+TEST/DEV naming
+This is for items that are exclusively for testing.
+Such as a function for loading dummy users or projects.
+------------------------------------
+test.nounVerb
+test.noun-verb
+test.noun.verb

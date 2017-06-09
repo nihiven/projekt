@@ -4,20 +4,20 @@ import { check, Match } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import { defaults, _err } from 'meteor/nihiven:projekt';
 
-// collections
-import { Projects } from './projects.js';
-import { Profiles } from './profiles.js';
-
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
 import moment from 'moment';
 import faker from 'faker';
 
+// collections
+import { Projects } from './projects.js';
+import { Profiles } from './profiles.js';
+
 // exports
-export const Tasks = new Mongo.Collection('tasks');
+export default Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
-  Meteor.publish('tasks.public', function() { // data for self consumption
+  Meteor.publish('tasks.public', () => { // data for self consumption
     return Tasks.find({ });
   });
 }
@@ -99,28 +99,26 @@ Tasks.helpers({
     return Profiles.findOne({ userId: this.updatedId });
   },
   assignedTo() {
-    var users = [];
+    const users = [];
     users.push('test');
     return users;
   },
   dueDateString() {
     if (this.dueDate !== undefined) {
       return moment(this.dueDate).format(defaults.dateFormat);
-    } else {
-      return '';
     }
+    return '';
   },
   aLongLongTimeAgo() {
     if (this.createdTime !== undefined) {
       return moment(this.createdTime).fromNow();
-    } else {
-      return '';
     }
+    return '';
   },
 });
 
 Meteor.methods({
-  'tasks.upsert': function(data) {
+  'tasks.upsert': function tasksUpsert(data) {
     check(data, Match.Any);
 
     // user must be logged in
@@ -147,7 +145,7 @@ Meteor.methods({
 
     return true;
   },
-  'tasks.newTask'(user) {
+  'tasks.newTask': function tasksNewTask(user) {
     check(user, Object);
 
     // insert default values
@@ -165,18 +163,18 @@ Meteor.methods({
 
     return true;
   },
-  'tasks.reset'() {
+  'test.tasks.reset': function testTasksReset() {
     if (Roles.userIsInRole(this.userId, ['admin'])) {
       Tasks.remove({});
     } else {
       _err('notAuthorized');
     }
   },
-  'tasks.testData'(projectId = 'fake') {
+  'test.tasks.load': function testTaskLoads(projectId = 'fake') {
     check(projectId, String);
 
     Tasks.insert({
-      projectId: projectId,
+      projectId,
       createdId: this.userId,
       createdTime: Date.now(),
       updatedId: this.userId,

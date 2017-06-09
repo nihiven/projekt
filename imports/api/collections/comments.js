@@ -1,3 +1,4 @@
+// TODO: try rate limiting for adding new comments
 // core
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';

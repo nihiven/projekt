@@ -1,3 +1,7 @@
+// TODO: sort out the reutrn values in the methods below.
+// i'm not sure they're right and in fact am not sure
+// what any of the monogo calls acutally return
+
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { defaults, _err, _log } from 'meteor/nihiven:projekt';
@@ -29,13 +33,42 @@ if (Meteor.isServer) {
     _log('profiles: user post');
     // TODO: standardize post user inserts
     Meteor.call('profiles.newUser', user);
+
+    return true;
   });
 }
 
 Meteor.methods({
-  'users.testData': function () {
-    // TODO: this should be accounts.createUser
+  'test.users.reset': function testUsersReset() {
+    // user must be logged in
+    if (!Meteor.userId()) {
+      _err('notLoggedIn');
+      return false;
+    }
 
+    // make sure this user has elevated priviliges
+    if (Roles.adminCheckFails(this.userId)) {
+      _err('notAdmin');
+      return false;
+    }
+
+    _log('removing all users...');
+    // TODO: this should be an accounts function
+    Meteor.users.remove({ }, (error) => {
+      if (error) {
+        _log('error removing users');
+        _log(error);
+        return false;
+      }
+
+      _log('removed all users');
+      return true;
+    });
+
+    return false; // ?
+  },
+  'test.users.load': function testUsersLoad() {
+    // TODO: this should be accounts.createUser
     const userId = Meteor.users.insert({
       emails: [{ address: faker.fake('{{internet.email}}'), verified: false }],
       createdAt: Date.now(),
@@ -55,7 +88,7 @@ Meteor.methods({
 
     Roles.addUsersToRoles(userId, defaults.roles);
   },
-  'users.remove': function (userId) {
+  'users.remove': function usersRemove(userId) {
     check(userId, String);
 
     // user must be logged in
@@ -77,8 +110,11 @@ Meteor.methods({
         _log(`error removing user ${userId}`);
         return false;
       }
+
       _log(`removed user ${docRemoved}`);
       return true;
     });
+
+    return true; // ?
   },
 });

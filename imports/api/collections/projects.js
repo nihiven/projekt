@@ -80,48 +80,6 @@ Projects.helpers({
   },
 });
 
-Meteor.methods({
-  'projects.all': function (userId) {
-    check(userId, String); // TODO: eventually restrict based on role
-    return Projects.find({ });
-  },
-  'projects.info': function (projectId) {
-    check(projectId, String);
-    return Projects.findOne({ _id: projectId });
-  },
-  projectsCount() {
-    return Projects.find({}).count();
-  },
-  'projects.insert': function (name) {
-    check(name, String);
-
-    // TODO: do something with hard coded roles
-    if (Roles.roleCheckPasses(this.userId, ['admin', 'project-mgr'])) {
-      Projects.insert({
-        name,
-        creator: Meteor.userId(),
-        createdAt: new Date(),
-      });
-    } else {
-      _err('notAuthorized');
-    }
-  },
-  'projects.reset': function () {
-    if (Roles.adminCheckPasses(this.userId)) {
-      Projects.remove({});
-    } else {
-      _err('notAdmin');
-    }
-  },
-  'projects.testData': function () {
-    if (Roles.adminCheckPasses(this.userId)) {
-      loadTestData();
-    } else {
-      _err('notAdmin');
-    }
-  },
-});
-
 const loadTestData = () => {
   Projects.insert({
     name: faker.fake('{{company.bs}}'),
@@ -137,3 +95,45 @@ const loadTestData = () => {
     is_regulatory: false,
   });
 };
+
+Meteor.methods({
+  'projects.all': function projectsAll(userId) {
+    check(userId, String); // TODO: eventually restrict based on role
+    return Projects.find({ });
+  },
+  'projects.info': function projectsInfo(projectId) {
+    check(projectId, String);
+    return Projects.findOne({ _id: projectId });
+  },
+  projectsCount() {
+    return Projects.find({}).count();
+  },
+  'projects.insert': function projectsInsert(name) {
+    check(name, String);
+
+    // TODO: do something with hard coded roles
+    if (Roles.roleCheckPasses(this.userId, ['admin', 'project-mgr'])) {
+      Projects.insert({
+        name,
+        creator: Meteor.userId(),
+        createdAt: new Date(),
+      });
+    } else {
+      _err('notAuthorized');
+    }
+  },
+  'test.projects.reset': function testProjectsReset() {
+    if (Roles.adminCheckPasses(this.userId)) {
+      Projects.remove({});
+    } else {
+      _err('notAdmin');
+    }
+  },
+  'test.projects.load': function testProjectsLoad() {
+    if (Roles.adminCheckPasses(this.userId)) {
+      loadTestData();
+    } else {
+      _err('notAdmin');
+    }
+  },
+});

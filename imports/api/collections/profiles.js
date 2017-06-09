@@ -13,10 +13,10 @@ export const Profiles = new Mongo.Collection('profiles');
 export { Profiles as default };
 
 if (Meteor.isServer) {
-  Meteor.publish('profiles.user', function() { // data for self consumption
+  Meteor.publish('profiles.user', () => { // data for self consumption
     return Profiles.find({ userId: this.userId });
   });
-  Meteor.publish('profiles.public', function() { // data for public consumption
+  Meteor.publish('profiles.public', () => { // data for public consumption
     return Profiles.find({ }, { userId: 1, name: 1, email: 1 });
   });
 } // isServer
@@ -67,13 +67,13 @@ Profiles.schema = new SimpleSchema({
 Profiles.attachSchema(Profiles.schema);
 
 Meteor.methods({
-  'profiles.public'(userId) {
+  'profiles.public': function profilesPublic(userId) {
     check(userId, String);
 
     const data = Profiles.findOne({ userId }, { userId: 1, name: 1, email: 1 });
     return data;
   },
-  'profiles.upsert': function(data) {
+  'profiles.upsert': function profilesUpsert(data) {
     check(data, Match.Any);
 
     // user must be logged in
@@ -82,7 +82,7 @@ Meteor.methods({
     }
 
     // make sure this user owns the profile OR has elevated priviliges
-    if (Meteor.userId() !== this.userId  && Roles.adminCheckFails(this.userId)) {
+    if (Meteor.userId() !== this.userId && Roles.adminCheckFails(this.userId)) {
       _err('');
     }
 
@@ -101,7 +101,7 @@ Meteor.methods({
 
     return true;
   },
-  'profiles.remove'(userId) {
+  'profiles.remove': function profilesRemove(userId) {
     check(userId, String);
 
     // user must be logged in
@@ -117,17 +117,18 @@ Meteor.methods({
     }
 
     _log('removing profile...');
-    Profiles.remove({ userId }, (error, docRemoved)=> {
+    Profiles.remove({ userId }, (error, docRemoved) => {
       if (error) {
         _log(`error removing profile for user ${userId}`);
         return false;
-      } else {
-        _log(`removed profile for user ${docRemoved}`);
-        return true;
       }
+      _log(`removed profile for user ${docRemoved}`);
+      return true;
     });
+
+    return false; // ?
   },
-  'profiles.newUser'(user) {
+  'profiles.newUser': function profilesNewUser(user) {
     check(user, Object);
 
     // insert default values
@@ -139,7 +140,7 @@ Meteor.methods({
 
     return true;
   },
-  'profiles.reset'() {
+  'test.profiles.reset': function testProfilesReset() {
     if (Roles.userIsInRole(this.userId, ['admin'])) {
       Profiles.remove({});
     } else {

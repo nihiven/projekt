@@ -74,6 +74,10 @@ export const errors = {
     code: 'cant-remove-admin',
     message: 'You must be an admin to remove this comment.',
   },
+  notGonnaHappen: {
+    code: 'not-gonna-happen',
+    message: 'Yeah right! I\'m not sure what you think you\'re doing, but no.',
+  },
 };
 
 export const defaults = {
@@ -92,7 +96,7 @@ export const _log = (param) => {
   console.log(param);
 };
 
-export const _err = (errorType, param1='', param2='') => {
+export const _err = (errorType, param1 = '', param2 = '') => {
   check(errorType, String);
   // TODO: checking for bad errorTypes
   throw new Meteor.Error(errors[errorType].code, errors[errorType].message);
