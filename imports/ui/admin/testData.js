@@ -1,18 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
-// autoform
-import SimpleSchema from 'simpl-schema';
-import { Tracker } from 'meteor/tracker';
-
-// collections
-import { Projects } from '/imports/api/collections/projects.js';
-
 // templates
 import './testData.html';
-
-// Required AutoForm setup
-SimpleSchema.extendOptions(['autoform']);
 
 // subscriptions for collection analysis
 // this should include every available publication

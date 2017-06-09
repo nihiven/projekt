@@ -5,12 +5,12 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import { _err, defaults } from 'meteor/nihiven:projekt';
 
-// collections
-import { Profiles } from './profiles.js';
-
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
-import * as moment from 'moment';
+import moment from 'moment';
+
+// collections
+import { Profiles } from './profiles.js';
 
 // exports
 export const Comments = new Mongo.Collection('comments');

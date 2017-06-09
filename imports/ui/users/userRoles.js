@@ -98,7 +98,6 @@ Template.userRemoveModal.onRendered(() => {
   });
 });
 
-
 // ////////// ROLES /////////// //
 Template.roleTable.onCreated(function onCreatedRoleTable() { // can't use => here
   this.autorun(() => { // keeps track of subscription readiness
