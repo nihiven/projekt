@@ -1,7 +1,9 @@
 <template name="projectInfo">
-  <div class="ui big top attached label">
-    {{details.name}}
-  </div>
+  <!--
+    <div class="ui big top attached label">
+      {{details.name}}
+    </div>
+  -->
   {{#if Template.subscriptionsReady}}
     {{>projectDetails details}}
     <div class="ui divider"></div>
@@ -13,42 +15,55 @@
 
 <template name="projectDetails">
   <div class="ui grid">
-    <!--
-      <div class="fluid three wide column">
-        {{> verticalProjectMenu}}
-      </div>
-    -->
     <div class="fluid five wide column">
+      <div class="ui segment">
+        {{name}}
+      </div>
       <div class="ui segment">
         {{> projectComments}}
       </div>
     </div>
+
     <div class="fluid eleven wide column">
-      <table class="ui basic single line striped table">
-        <thead>
-          <tr>
-            <th>Open Task</th>
-            <th>Assigned To</th>
-            <th>Due Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each tasks}}
-            {{> taskDetailCompact}}
-          {{/each}}
-        </tbody>
-        <tfoot class="full-width">
-          <tr>
-            <th colspan="3">
-              <!-- TODO: fix button -->
-              <div class="ui right floated small labeled button task-add-button">
-                Add Task
-              </div>
-            </th>
-          </tr>
-        </tfoot>
-      </table>
+      <div class="ui top attached tabular menu">
+        <a class="item active" data-tab="first">Tasks</a>
+        <a class="item" data-tab="second">Second</a>
+        <a class="item" data-tab="third">Third</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="first">
+        <table class="ui basic single line striped table">
+          <thead>
+            <tr>
+              <th>Open Task</th>
+              <th>Assigned To</th>
+              <th>Due Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each tasks}}
+              {{> taskDetailCompact}}
+            {{/each}}
+          </tbody>
+          <tfoot class="full-width">
+            <tr>
+              <th colspan="3">
+                <!-- TODO: fix button -->
+                <div class="ui right floated small labeled button task-add-button">
+                  Add Task
+                </div>
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div> <!-- tabs 1 -->
+      <div class="ui bottom attached tab segment" data-tab="second">
+        Second
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="third">
+        Third
+      </div>
     </div>
+
   </div>
 </template>
 

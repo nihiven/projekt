@@ -14,7 +14,7 @@ import { Projects } from './projects.js';
 import { Profiles } from './profiles.js';
 
 // exports
-export default Tasks = new Mongo.Collection('tasks');
+export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
   Meteor.publish('tasks.public', () => { // data for self consumption
@@ -68,7 +68,7 @@ Tasks.schema = new SimpleSchema({
   },
   phase: {
     type: String,
-    optional: false,
+    optional: true,
     label() { return 'The project phase that this task is linked to.'; },
   },
   dueDate: {

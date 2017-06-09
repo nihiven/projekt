@@ -70,6 +70,10 @@ Template.projectDetails.onCreated(function onCreatedProjectDetails() {
   });
 });
 
+Template.projectDetails.onRendered(() => {
+  $('.menu .item').tab();
+});
+
 Template.projectDetails.helpers({
   regulatory() {
     return (this.is_regulatory ? 'Yes' : 'No');
@@ -91,7 +95,7 @@ Template.projectDetails.events({
   },
   'click [class~="task-add-button"]': function clickTaskAddButton() {
     _log('add dummy task');
-    Meteor.call('tasks.testData', _x.projectId.get());
+    Meteor.call('test.tasks.load', _x.projectId.get());
   },
 });
 

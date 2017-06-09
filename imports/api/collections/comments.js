@@ -87,7 +87,12 @@ Comments.attachSchema(Comments.schema);
 // helpers that are attached directly to the document
 Comments.helpers({
   profile() {
-    return Profiles.findOne({ userId: this.userId });
+    let data = Profiles.findOne({ userId: this.userId });
+    if (data === undefined) {
+      data = {};
+      data.name = '[deleted]';
+    }
+    return data;
   },
   aLongLongTimeAgo() {
     if (this.createdTime !== undefined) {
@@ -106,7 +111,7 @@ Comments.helpers({
 });
 
 Meteor.methods({
-  'comments.new': function (projectId, parentId, comment) {
+  'comments.new': function commentsNew(projectId, parentId, comment) {
     check(projectId, String);
     check(parentId, String);
     check(comment, String);
@@ -127,7 +132,7 @@ Meteor.methods({
 
     return result;
   },
-  'comments.remove': function (commentId) {
+  'comments.remove': function commentsRemove(commentId) {
     check(commentId, String);
 
     const commentDoc = Comments.findOne({ _id: commentId });
@@ -146,7 +151,7 @@ Meteor.methods({
       },
     });
   },
-  'comments.delete': function (commentId) {
+  'comments.delete': function commentsDelete(commentId) {
     // TODO: delete children too?
     check(commentId, String);
 
