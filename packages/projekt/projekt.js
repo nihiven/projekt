@@ -11,8 +11,29 @@ import { ReactiveVar } from 'meteor/reactive-var';
 // package name
 export const name = 'projekt';
 
+export const defaults = {
+  dateFormat: 'MMM Mo, YYYY',
+  displayName: 'Everyday Worker',
+  officeLocation: 'Heinz 57 Tower, Pittsburgh, PA',
+  officePhone: '444-555-000',
+  publicEmail: 'email@internet.com',
+  roles: ['view', 'resource'],
+  removedComment: '[removed]',
+};
+
+export const _log = (param) => {
+  // disable because this is the one place where we want to use console
+  // eslint-disable-next-line no-console
+  console.log(param);
+};
+
 // main projekt data container
 export const projekt = {
+  // NOTE: right, wrong place?
+  name: 'projekt',
+  nameStylized: 'projekt',
+  version: '0.1.0',
+
   // settings
   quickMessage: new ReactiveVar(true), // on name click, popup message composer
   debugColors: new ReactiveVar(false), // show debug properties
@@ -22,11 +43,6 @@ export const projekt = {
     animation: 'fade down',
     duration: 100,
   },
-};
-
-export const log = (message, level = 1) => {
-    // level: 1 = info, 2 = warning, 3 = error
-
 };
 
 export const errors = {
@@ -80,23 +96,7 @@ export const errors = {
   },
 };
 
-export const defaults = {
-  dateFormat: 'MMM Mo, YYYY',
-  displayName: 'Everyday Worker',
-  officeLocation: 'Heinz 57 Tower, Pittsburgh, PA',
-  officePhone: '444-555-000',
-  publicEmail: 'email@internet.com',
-  roles: ['view', 'resource'],
-  removedComment: '[removed]',
-};
-
-export const _log = (param) => {
-  // disable because this is the one place where we want to use console
-  // eslint-disable-next-line no-console
-  console.log(param);
-};
-
-export const _err = (errorType, param1 = '', param2 = '') => {
+export const _err = (errorType) => {
   check(errorType, String);
   // TODO: checking for bad errorTypes
   throw new Meteor.Error(errors[errorType].code, errors[errorType].message);

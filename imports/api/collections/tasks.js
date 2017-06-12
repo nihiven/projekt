@@ -17,7 +17,7 @@ import { Profiles } from './profiles.js';
 export const Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isServer) {
-  Meteor.publish('tasks.public', () => { // data for self consumption
+  Meteor.publish('tasks.public', () => {
     return Tasks.find({ });
   });
 }

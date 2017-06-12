@@ -5,14 +5,14 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { _err } from 'meteor/nihiven:projekt';
 
-export const Favorites = new Mongo.Collection('favorites');
-export { Favorites as default };
-
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
 
+export const Favorites = new Mongo.Collection('favorites');
+export { Favorites as default };
+
 if (Meteor.isServer) {
-  Meteor.publish('favorites.user', function() {
+  Meteor.publish('favorites.user', () => {
     // limit to the current user
     return Favorites.find({ userId: this.userId });
   });
@@ -41,7 +41,7 @@ Favorites.schema = new SimpleSchema({
 Favorites.attachSchema(Favorites.schema);
 
 Meteor.methods({
-  'favorites.toggle'(projectId) {
+  'favorites.toggle': function favoritesToggle(projectId) {
     check(projectId, String);
 
     // user must be logged in
@@ -57,7 +57,7 @@ Meteor.methods({
       Meteor.call('favorites.remove', projectId);
     }
   },
-  'favorites.insert'(projectId) {
+  'favorites.insert': function favoritesInsert(projectId) {
     check(projectId, String);
 
     // user must be logged in
@@ -70,7 +70,7 @@ Meteor.methods({
       userId: this.userId,
     });
   },
-  'favorites.remove'(projectId) {
+  'favorites.remove': function favoritesRemove(projectId) {
     check(projectId, String);
 
     // user must be logged in
@@ -83,7 +83,7 @@ Meteor.methods({
       userId: this.userId,
     });
   },
-  'favorites.reset'() {
+  'favorites.reset': function favoritesReset() {
     if (Roles.adminCheckPasses(this.userId)) {
       Favorites.remove({});
     } else {

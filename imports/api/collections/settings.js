@@ -1,7 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check, Match } from 'meteor/check';
-import { projekt } from 'meteor/nihiven:projekt';
 
 // imports from npm package
 import SimpleSchema from 'simpl-schema';
@@ -10,7 +8,7 @@ import SimpleSchema from 'simpl-schema';
 export const Settings = new Mongo.Collection('settings');
 
 if (Meteor.isServer) {
-  Meteor.publish('settings.public', function() { // data for self consumption
+  Meteor.publish('settings.public', () => { // data for self consumption
     return Settings.find({ });
   });
 

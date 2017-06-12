@@ -1,16 +1,14 @@
 // core
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 // collections
 import { Profiles } from '/imports/api/collections/profiles.js';
-import { Projects } from '/imports/api/collections/projects.js';
 import { Tasks } from '/imports/api/collections/tasks.js';
 
 // templates
 import './tasksList.html';
 
-Template.tasksList.onCreated(function() {
+Template.tasksList.onCreated(function onCreatedTasksList() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('tasks.public');
   });
@@ -22,7 +20,7 @@ Template.tasksList.helpers({
   },
 });
 
-Template.taskDetail.onCreated(function() {
+Template.taskDetail.onCreated(function onCreatedTaskDetail() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('profiles.public');
     this.subscribe('projects.public');
@@ -42,7 +40,7 @@ Template.taskDetail.helpers({
 });
 
 Template.taskDetail.events({
-  'click [class~="tasks-clickable"]'() {
+  'click [class~="tasks-clickable"]': function clickTaskDetail() {
     FlowRouter.go(`/tasks/${this._id}`);
   },
 });

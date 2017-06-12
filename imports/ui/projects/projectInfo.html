@@ -6,8 +6,6 @@
   -->
   {{#if Template.subscriptionsReady}}
     {{>projectDetails details}}
-    <div class="ui divider"></div>
-    {{> progress}}
   {{else}}
     <div class="ui active centered inline loader"></div>
   {{/if}}
@@ -15,56 +13,80 @@
 
 <template name="projectDetails">
   <div class="ui grid">
-    <div class="fluid five wide column">
-      <div class="ui segment">
+    <div class="five wide column">
+      <div class="ui segment header">
         {{name}}
       </div>
       <div class="ui segment">
         {{> projectComments}}
       </div>
     </div>
-
-    <div class="fluid eleven wide column">
-      <div class="ui top attached tabular menu">
-        <a class="item active" data-tab="first">Tasks</a>
-        <a class="item" data-tab="second">Second</a>
-        <a class="item" data-tab="third">Third</a>
-      </div>
-      <div class="ui bottom attached tab segment active" data-tab="first">
-        <table class="ui basic single line striped table">
-          <thead>
-            <tr>
-              <th>Open Task</th>
-              <th>Assigned To</th>
-              <th>Due Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each tasks}}
-              {{> taskDetailCompact}}
-            {{/each}}
-          </tbody>
-          <tfoot class="full-width">
-            <tr>
-              <th colspan="3">
-                <!-- TODO: fix button -->
-                <div class="ui right floated small labeled button task-add-button">
-                  Add Task
-                </div>
-              </th>
-            </tr>
-          </tfoot>
-        </table>
-      </div> <!-- tabs 1 -->
-      <div class="ui bottom attached tab segment" data-tab="second">
-        Second
-      </div>
-      <div class="ui bottom attached tab segment" data-tab="third">
-        Third
-      </div>
+    <div class="eleven wide column centered row">
+      {{> progress}}
+      {{> projectTabs}}
     </div>
-
   </div>
+</template>
+
+<template name="projectTabs">
+  <div class="ui top attached tabular menu">
+    <a class="item active" data-tab="first">Tasks</a>
+    <a class="item" data-tab="second">Second</a>
+    <a class="item" data-tab="third">Third</a>
+  </div>
+  <div class="ui bottom attached tab segment active" data-tab="first">
+    <table class="ui basic single line striped table">
+      <thead>
+        <tr>
+          <th>Open Task</th>
+          <th>Assigned To</th>
+          <th>Due Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each tasks}}
+          {{> taskDetailCompact}}
+        {{/each}}
+      </tbody>
+      <tfoot class="full-width">
+        <tr>
+          <th colspan="3">
+            <!-- TODO: fix button -->
+            <div class="ui right floated small labeled button task-add-button">
+              Add Task
+            </div>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div> <!-- tabs 1 -->
+  <div class="ui bottom attached tab segment" data-tab="second">
+    {{> projectPropertyTable}}
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="third">
+    <div class="ui segment">
+      Settings
+    </div>
+  </div>
+</template>
+
+<template name="projectPropertyTable">
+  <table class="ui basic single line striped table">
+    <thead>
+      <tr>
+        <th>Open Task</th>
+        <th>Assigned To</th>
+        <th>Due Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>value 1</td>
+        <td>value 2</td>
+        <td>value 3</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <template name="projectComments">
@@ -90,19 +112,17 @@
 
 <template name="projectCommentsRow">
   <div class="comment" style="background-color: {{debugColor userId 'light'}};">
-    <div class="content">
-      <a class="author {{#if isUserComment}}text-self{{/if}}" href="/users/{{userId}}">{{profile.name}}</a>
-      <div class="metadata">
-        <span class="date">{{aLongLongTimeAgo}}</span>
-      </div>
-      <div class="text {{#if isRemoved}}text-removed{{/if}}">
-        {{comment}}
-        {{#if ghostComment}}<div class="text-removed-ghost">{{removedComment}}</div>{{/if}}
-      </div>
-      <a class="text-action comment-reply">Reply</a>
-      {{#if showRemove}}<a class="text-action comment-remove">Remove</a>{{/if}}
-      {{#if isAdmin true false}}<a class="text-action comment-delete">Delete</a>{{/if}}
-    </div> <!-- content -->
+    <a class="author {{#if isUserComment}}text-self{{/if}}" href="/users/{{userId}}">{{profile.name}}</a>
+    <div class="metadata">
+      <span class="date">{{aLongLongTimeAgo}}</span>
+    </div>
+    <div class="text {{#if isRemoved}}text-removed{{/if}}">
+      {{comment}}
+      {{#if ghostComment}}<div class="text-removed-ghost">{{removedComment}}</div>{{/if}}
+    </div>
+    <a class="text-action comment-reply">Reply</a>
+    {{#if showRemove}}<a class="text-action comment-remove">Remove</a>{{/if}}
+    {{#if isAdmin true false}}<a class="text-action comment-delete">Delete</a>{{/if}}
 
     <form class="ui form comment-container" style="display: none;">
       <div class="ui tiny action input">
@@ -138,12 +158,6 @@
 
 <template name="progress">
   <div class="ui fluid tiny steps">
-    <div class="completed step">
-      <div class="content">
-        <div class="title">Project Request</div>
-        <div class="description">Completed: 03/14/2017</div>
-      </div>
-    </div>
     <div class="completed step">
       <div class="content">
         <div class="title">Requirements</div>

@@ -30,7 +30,7 @@ Template.projectInfo.onCreated(function onCreatedProjectInfo() {
     // subscriptions
     this.subscribe('projects.public');
     this.subscribe('comments.public', _x.projectId.get());
-    this.subscribe('comments.user', _x.projectId.get()); // this gives us access to ghost comments
+    this.subscribe('comments.user', _x.projectId.get()); // this gives us access to our ghost comments
     this.subscribe('favorites.user');
   });
 });

@@ -4,6 +4,7 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 // site wide templates
 import '/imports/ui/mainLayout.html';
 import '/imports/ui/nav/nav.js';
+import '/imports/ui/projekt.less';
 
 // sub components
 import '/imports/ui/dashboard/dashboard.js';

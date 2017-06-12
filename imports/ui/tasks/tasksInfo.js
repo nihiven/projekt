@@ -1,14 +1,12 @@
 // core
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { _log } from 'meteor/nihiven:projekt';
 
 // templates
 import './tasksInfo.html';
 
 // projectList
-Template.projectInfo.onCreated(function() {
+Template.projectInfo.onCreated(function onCreatedProjectInfo() {
   this.autorun(() => { // keeps track of subscription readiness
     this.subscribe('projects.public');
     this.subscribe('tasks.public');

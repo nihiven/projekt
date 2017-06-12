@@ -1,2 +1,4 @@
 // global vars for template data exchange
-_x = [];
+import { ReactiveDict } from 'meteor/reactive-dict';
+
+_x = new ReactiveDict();

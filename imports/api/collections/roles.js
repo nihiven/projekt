@@ -2,7 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { defaults, _err, _log } from 'meteor/nihiven:projekt';
+import { _err } from 'meteor/nihiven:projekt';
 
 if (Meteor.isServer) {
   // exposing roles for admin functions
@@ -19,7 +19,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  'roles.grant'(userId, role) {
+  'roles.grant': function rolesGrant(userId, role) {
     check(userId, String);
     check(role, Array);
 
@@ -44,7 +44,7 @@ Meteor.methods({
     Roles.addUsersToRoles(userId, role);
     return true;
   },
-  'roles.revoke'(userId, role) {
+  'roles.revoke': function rolesRevoke(userId, role) {
     check(userId, String);
     check(role, Array);
 
