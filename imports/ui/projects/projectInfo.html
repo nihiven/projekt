@@ -89,7 +89,7 @@
 </template>
 
 <template name="projectCommentsRow">
-  <div class="comment">
+  <div class="comment" style="background-color: {{debugColor userId 'light'}};">
     <div class="content">
       <a class="author {{#if isUserComment}}text-self{{/if}}" href="/users/{{userId}}">{{profile.name}}</a>
       <div class="metadata">

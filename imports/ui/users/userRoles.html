@@ -12,12 +12,12 @@
 <template name="newGrid">
   <div class="ui padded grid container">
     <div class="row">
-      <div class="{{isDebugColors 'green'}} {{#if isInRole "admin"}} eleven {{else}} sixteen {{/if}} wide column">
+      <div class="{{#if isInRole "admin"}} eleven {{else}} sixteen {{/if}} wide column" style="background-color: {{debugColor 'menu' 'light'}};">
         {{> userTable}}
         {{> userRemoveModal}}
       </div>
       {{#if isInRole "admin"}}
-        <div class="{{isDebugColors 'red'}} five wide column">
+        <div class="five wide column" style="background-color: {{debugColor 'admin-menu' 'light'}};">
           {{> profileTable}}
           {{> roleTable}}
         </div>

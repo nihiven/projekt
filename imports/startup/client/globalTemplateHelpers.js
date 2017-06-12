@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Roles } from 'meteor/alanning:roles';
 import { projekt, errors } from 'meteor/nihiven:projekt';
+import randomColor from 'randomcolor';
 
 // global helper for template errors
 Template.registerHelper('errMessage', (errorType) => {
@@ -21,15 +22,26 @@ Template.registerHelper('isBanned', (userId, trueValue = '', falseValue = '') =>
 Template.registerHelper('isAdmin', (trueValue = '', falseValue = '') => {
   if (Meteor.userId()) {
     return (Roles.adminCheckPasses(Meteor.userId()) ? trueValue : falseValue);
-  } else {
-    return falseValue;
   }
-});
-
-Template.registerHelper('isDebugColors', (trueValue = '', falseValue = '') => {
-  return (projekt.debugColors.get() && Roles.adminCheckPasses(Meteor.userId()) ? trueValue : falseValue);
+  return falseValue;
 });
 
 Template.registerHelper('isQuickMessage', (trueValue = '', falseValue = '') => {
-  return (projekt.quickMessage.get()) ?  trueValue : falseValue;
+  return (projekt.quickMessage.get()) ? trueValue : falseValue;
+});
+
+Template.registerHelper('debugColor', (seed = '', luminosity = '', hue = '', opacity = '') => {
+  if (projekt.debugColors.get() && Roles.adminCheckPasses(Meteor.userId())) {
+    return randomColor({
+      seed,
+      luminosity,
+      hue,
+      opacity,
+    });
+  }
+  return false;
+});
+
+Template.registerHelper('isDebugColors', () => {
+  return projekt.debugColors.get();
 });
