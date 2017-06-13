@@ -13,6 +13,7 @@ import { Tasks } from '/imports/api/collections/tasks.js';
 // templates
 import '/imports/ui/projekt.less'; // global styles
 import './projects.less';
+import './projectInfo_Tabs.html';
 import './projectInfo.html';
 
 // i use these to share info between templates
@@ -66,6 +67,7 @@ Template.taskDetailCompact.helpers({
 // project details
 Template.projectDetails.onCreated(function onCreatedProjectDetails() {
   this.autorun(() => { // keeps track of subscription readiness
+    // TODO: validate data contenxt
     this.subscribe('tasks.public');
   });
 });

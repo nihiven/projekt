@@ -2,20 +2,20 @@
 	{{#if isInRole "banned"}}
 		You are banned from this site.
 	{{else}}
-		<div class="ui container pusher" id="content">
+		<div class="ui container" id="content">
 			{{> Template.dynamic template=nav}}
 
-			<div class="ui padded clearing segment">
+			<div class="ui clearing segment">
   			{{> Template.dynamic template=content}}
 		  </div>
 
 			<div class="ui one column centered grid">
 				<div class="column centered row footer">
 					<div class="ui fitted divider"></div>
-					{{projectNameStylized}} _ {{projectVersion}}
+					{{projectNameStylized}} // v{{projectVersion}}
 				</div>
 			</div>
-			
+
 		</div>
 	{{/if}}
 </template>

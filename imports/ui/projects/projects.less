@@ -28,16 +28,21 @@
 div .no-padding-bottom {
   padding-bottom: 0 !important;
 }
-
+.dashed-outline:hover {
+  outline-width: 1px;
+  outline-style: dashed;
+  outline-color: blue;
+}
+.comment-container {
+  display: none;
+}
 [class~=comment-delete]:hover {
   color: red !important;
 }
-
 [class~=root-comment-toggle]:hover {
   color: @emphasisColor;
   cursor: pointer;
 }
-
 [class~=root-comment-form] {
   display: none;
 }
