@@ -9,6 +9,7 @@ import '/imports/ui/projekt.less';
 // sub components
 import '/imports/ui/dashboard/dashboard.js';
 import '/imports/ui/projects/projectList.js';
+import '/imports/ui/projects/projectListNew.js'; // NEW AND IMPROVED
 import '/imports/ui/projects/projectInfo.js';
 import '/imports/ui/users/userProfile.js';
 import '/imports/ui/users/userLogin.js';
@@ -40,6 +41,17 @@ FlowRouter.route('/projects', {
       'mainLayout', {
         nav: 'nav',
         content: 'projectList',
+      });
+  },
+});
+
+FlowRouter.route('/projectsNew', {
+  name: 'projectsNew',
+  action() {
+    BlazeLayout.render(
+      'mainLayout', {
+        nav: 'nav',
+        content: 'projectListNew',
       });
   },
 });

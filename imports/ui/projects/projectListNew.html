@@ -1,0 +1,80 @@
+<template name="projectListNew">
+	{{#if currentUser}}
+		{{#if Template.subscriptionsReady}}
+			<div class="ui grid">
+				<div class="row">
+					<div class="four wide column">
+						{{> mainProjectListing}}
+					</div>
+					<div class="twelve wide column">
+						{{> mainProjectInfo}}
+					</div>
+				</div>
+			</div>
+		{{else}}
+			<div class="ui active centered inline loader"></div>
+		{{/if}}
+	{{else}}
+  	<p>{{errMessage "notLoggedInView"}}</p>
+	{{/if}}
+</template>
+
+<template name='mainProjectInfo'>
+	<form class="ui form">
+		{{#if Template.subscriptionsReady}}
+		<div class="required field">
+	      <label>Display Name</label>
+	      <input placeholder="Display Name" name="displayName" type="text" value="{{this.name}}">
+	  </div>
+	  <div class="required field">
+				<label>Public Email</label>
+	      <input placeholder="user@ccbh.com" name="publicEmail" type="text" value="{{this.email}}">
+		</div>
+		<div class="required field">
+			<label>Office Phone</label>
+	    <input placeholder="444-555-000" name="officePhone" type="text" value="{{this.officePhone}}">
+	  </div>
+	  <div class="required field">
+			<label>Project Phase</label>
+	    <input name="officeLocation" type="text" value="{{this.officeLocation}}">
+	  </div>
+		{{else}}
+			<div class="ui active centered inline loader"></div>
+		{{/if}}
+	</form>
+</template>
+
+<template name="mainProjectListing">
+  <div class="ui vertical menu">
+    <div class="item">
+      <div class="header">Active Projects</div>
+      <div class="menu">
+        {{#each listAllProjects 'active'}}
+					{{> mainProjectListingItem}}
+				{{/each}}
+      </div>
+    </div>
+    {{#if isInRole "admin,project-mgr"}}
+    <div class="item">
+      <div class="header">Proposed Projects</div>
+      <div class="menu">
+				{{#each listAllProjects 'proposed'}}
+					{{> mainProjectListingItem}}
+				{{/each}}
+      </div>
+    </div>
+    {{/if}}
+    {{#if isInRole "admin"}}
+      <div class="item">
+        <div class="header">Admin</div>
+        <div class="menu">
+          <a class="item">Add Project</a>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</template>
+
+<template name="mainProjectListingItem">
+	<a class="item" hrefe="/projectsNew/{_id}">{{name}}</a>
+</template>

@@ -91,6 +91,7 @@ const loadTestData = () => {
       faker.fake('{{name.findName}}'),
       faker.fake('{{name.findName}}'),
     ],
+    phase: 'proposed',
     project_manager: faker.fake('{{name.findName}}'),
     is_regulatory: false,
   });
