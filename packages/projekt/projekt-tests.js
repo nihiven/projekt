@@ -6,6 +6,6 @@ import { name as packageName } from 'meteor/nihiven:projekt';
 
 // Write your tests here!
 // Here is an example.
-Tinytest.add('projekt - example', function (test) {
+Tinytest.add('projekt - example', (test) => {
   test.equal(packageName, 'projekt');
 });

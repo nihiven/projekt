@@ -10,13 +10,13 @@ Package.describe({
   documentation: 'README.md',
 });
 
-Package.onUse(function(api) {
+Package.onUse((api) => {
   api.versionsFrom('1.4.4.2');
   api.use('ecmascript');
   api.mainModule('projekt.js');
 });
 
-Package.onTest(function(api) {
+Package.onTest((api) => {
   api.use('ecmascript');
   api.use('tinytest');
   api.use('nihiven:projekt');

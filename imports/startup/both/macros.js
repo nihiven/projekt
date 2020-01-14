@@ -18,6 +18,12 @@ Roles.roleCheckPasses = (userId, roles) => {
 };
 
 // return true if role check fails
-Roles.roleCheckFails = (user, roles, errorType) => !Roles.roleCheckPasses(user, roles, errorType);
-Roles.adminCheckPasses = userId => Roles.roleCheckPasses(userId, ['admin']);
-Roles.adminCheckFails = userId => !Roles.roleCheckPasses(userId, ['admin']);
+Roles.roleCheckFails = (user, roles, errorType) => {
+  return !Roles.roleCheckPasses(user, roles, errorType);
+};
+Roles.adminCheckPasses = (userId) => {
+  return Roles.roleCheckPasses(userId, ['admin']);
+};
+Roles.adminCheckFails = (userId) => {
+  return !Roles.roleCheckPasses(userId, ['admin']);
+};
